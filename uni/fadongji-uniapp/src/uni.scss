@@ -1,0 +1,207 @@
+//黄色主题色
+$color-primary-yellow: #FF5319;
+$color-clicked-yellow: #FF7A4D;
+$color-disabled-yellow: #F6F7F8;
+$color-text-disabled-yellow: #D3D4DB;
+$color-shadow-yellow: rgba(34, 40, 75, 0.15);
+//蓝色主题色
+// $color-primary-yellow: #22284b;
+// $color-clicked-yellow: #4e536f;
+// $color-disabled-yellow: #f6f7f8;
+// $color-text-disabled-yellow: #d3d4db;
+// $color-shadow-yellow: rgba(34, 40, 75, 0.15);
+//红色主题色
+$color-primary-red: #e50012;
+$color-clicked-red: #ec404d;
+$color-disabled-red: #fdf2f3;
+$color-text-disabled-red: #FACCD0;
+
+//辅助衍生色
+//主色一级加重
+$v-light-weight-one: #FF3F00;
+//主色二级加重
+$v-light-weight-two: #FF4A0D;
+//主色三级加重
+$v-light-weight-three: #FF571F;
+//主色一级变浅
+$v-light-one: #FF8C66;
+//主色二级变浅
+$v-light-two: #FFA98C;
+//辅助色
+$v-light-color: #FF9B05;
+//辅助色
+$v-light-five: #FDCA72;
+//辅助渐变色
+//主色渐变一
+$v-gradient-one: linear-gradient(89.96deg, #FF8640 0.04%, #FF5622 99.96%);
+//主色渐变二
+$v-gradient-two: linear-gradient(89.96deg, #FFCA72 0.04%, #FF7321 99.96%);
+//主色渐变三
+$v-gradient-three: linear-gradient(89.96deg, #FFDDA6 0.04%, #FF833B 95.76%);
+//中性色
+//重/按钮描边
+$v-btn-weight: #373A4E;
+//深/次级按钮描边
+$v-btn-deep: #5F616D;
+//一般/文字禁用
+$v-text-disabled: #D3D4DB;
+//浅/模块背景 分割线
+$v-bg-light: #F7F7F8;
+//浅/禁用按钮描边 填充按钮
+$v-btn-disabled: #F6F7F8;
+//白色/背景
+$v-bg-white: #ffffff;
+//文字
+//强调/正文标题
+$v-c0-85: rgba(0, 0, 0, 0.85);
+//次强调/次级标题
+$v-c0-65: rgba(0, 0, 0, 0.65);
+//次强调/次级标题
+$v-c0-08: rgba(0, 0, 0, 0.08);
+//次要信息/非主要信息引导
+$v-c0-45: rgba(0, 0, 0, 0.45);
+//置灰信息
+$v-c0-25: rgba(0, 0, 0, 0.25);
+//特殊信息/特殊不可点击
+$v-c0-15: rgba(0, 0, 0, 0.15);
+//辅助
+$v-c0-8: rgba(0, 0, 0, 0.08);
+//深色背景下/强调
+$v-cf-85: rgba(255, 255, 255, 0.85);
+//深色背景下/次强调
+$v-cf-65: rgba(255, 255, 255, 0.65);
+//深色背景下/次要信息
+$v-cf-45: rgba(255, 255, 255, 0.45);
+//深色背景下/置灰
+$v-cf-25: rgba(255, 255, 255, 0.25);
+//深色背景下/特殊不可点
+$v-cf-15: rgba(255, 255, 255, 0.15);
+//深色背景下/辅助
+$v-cf-8: rgba(255, 255, 255, 0.08);
+//主色标签
+//常规文字
+$v-tags: #FF5319;
+//辅助一
+$v-tags-one: #FF6633;
+//辅助二
+$v-tags-two: #FF8C66;
+//文字禁用
+$v-tags-disabled: #FFB299;
+//辅助三
+$v-tags-three: #FFD9CC;
+//背景/描边禁用按钮
+$v-tags-btn-disabled: #FFECE5;
+//成功 Success
+//常规文字
+$v-success: #00B259;
+//辅助一
+$v-success-light-one: #1DC26F;
+//辅助二
+$v-success-light-two: #8fe3b7;
+//文字禁用
+$v-success-disabled: #47CC8A;
+//辅助三
+$v-success-light-three: #7BE0AE;
+//背景/描边禁用按钮
+$v-success-btn-disabled: #B2EDD0;
+//提示 Warning
+//常规文字
+$v-warning: #FF9B05;
+//辅助一
+$v-warning-light-one: #FFAD33;
+//辅助二
+$v-warning-light-two: #FFB952;
+//文字禁用
+$v-warning-disabled: #FFCE85;
+//辅助三
+$v-warning-light-three: #FFE2B8;
+//背景/描边禁用按钮
+$v-warning-btn-disabled: #FFF5E5;
+//错误 Error
+//常规文字
+$v-error: #F20014;
+//辅助一
+$v-error-light-one: #FA3243;
+//辅助二
+$v-error-light-two: #FF5265;
+//文字禁用
+$v-error-disabled: #FF858F;
+//辅助三
+$v-error-light-three: #FFB8BE;
+//背景/描边禁用按钮
+$v-error-btn-disabled: #FFEBEC;
+//补充提示 Added tips
+//常规文字
+$v-tip: #0D66FF;
+//辅助一
+$v-tip-light-one: #2676FF;
+//辅助二
+$v-tip-light-two: #5996FF;
+//文字禁用
+$v-tip-disabled: #8CB6FF;
+//辅助三
+$v-tip-light-three: #BFD7FF;
+//背景/描边禁用按钮
+$v-tip-btn-disabled: #E5EFFF;
+//绿色标签 Green tags
+//常规
+$v-green-tag: #26bf26;
+//辅助一
+$v-green-tag-one: #27c530;
+//辅助二
+$v-green-tag-two: #28cf3f;
+//辅助三
+$v-green-tag-three: #29d446;
+//绿色渐变
+$v-green-tag-gradient: linear-gradient(96.72deg, #00B259 -13.61%, #29D446 104.67%);
+//橙色标签 Orange tags
+//常规
+$v-orange-tag: #ff9e0d;
+//辅助一
+$v-orange-tag-one: #ff9e0d;
+//辅助二
+$v-orange-tag-two: #ffb60d;
+//辅助三
+$v-orange-tag-three: #ffbe0d;
+//橙色渐变
+$v-orange-tag-gradient: linear-gradient(96.72deg, #FF9B05 -13.61%, #FFBE0D 104.67%);
+//红色标签 Red tags
+//常规
+$v-red-tag: #fa2c19;
+//辅助一
+$v-red-tag-one: #fa3f19;
+//辅助二
+$v-red-tag-two: #fa5919;
+//辅助三
+$v-red-tag-three: #fa6419;
+//红色渐变
+$v-red-tag-gradient: linear-gradient(96.72deg, #F20014 -13.61%, #FA6419 104.67%);
+//蓝色标签 Blue tags
+//常规
+$v-blue-tag: #405ef4;
+//辅助一
+$v-blue-tag-one: #506ff6;
+//辅助二
+$v-blue-tag-two: #5573ff;
+//辅助三
+$v-blue-tag-three: #498ff2;
+//蓝色渐变
+$v-blue-tag-gradient: linear-gradient(96.72deg, #0D66FF -13.61%, #498FF2 104.67%);
+// scss混入，为了少写几行#ifndef
+@mixin flex($direction: row) {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+  flex-direction: $direction;
+}
+
+@mixin black-size-color($size: 25, $opacity: 1) {
+  font-size: $size + rpx;
+  color: rgba(0, 0, 0, $opacity);
+}
+
+@mixin black-color($opacity: 1) {
+  color: rgba(0, 0, 0, $opacity);
+}
+
+@import '~@vocen/uview-ui/theme.scss';

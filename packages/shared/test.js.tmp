@@ -1,0 +1,90 @@
+/**
+ * 通用工具类方法征集模板
+ * 工具类类型包含：
+ * 正则校验类： 常用正则、常用正则校验
+ * 字符串类： 字符串转成驼峰字符串、替换等
+ * 数字精度类： 主要是涉及精度计算， 加减乘除 计算函数等，引入decimal.js
+ * 对象类： 判断对象是否有某个属性等
+ * 函数类：通用函数类 比如xml和json互转等
+ * 数组类： 查询、删除、递归、树形。等
+ * 时间类： 日期处理、返回当前时间、等
+ * web类： 设备检测、router参数、本地储存 localStorage（宿主函数 单文件形式）， cookie 等 。可引入 store.js js-coolie 导出通用类
+ */
+
+// 重要说明： 方法体不用实现，需要根据模板，填写自己所需要的工具类方法即可
+
+/**
+ * 方法名称：test
+ * 方法描述： 测试方法、根据传入xx参数格式，返回xx字符串类型
+ * 所属类型： 时间类
+ * 参数数量： 2
+ * 参数描述： 传入xx类型，根据xx业务、想要xx类型
+ * 参数说明如下：
+ * @param params1 string
+ * @param params2 string
+ * ...
+ * 返回结果说明： 返回一个xx格式的字符串
+ * @returns {string}
+ * 示例说明：
+ * 执行 test(1, 1)
+ * 结果 2
+ */
+export function test(params1, params2) {
+  return params1 + params2
+}
+
+/**
+ * 方法名称：test
+ * 方法描述： 传入时间戳，返回格式化后的字符串
+ * 所属类型： 时间类
+ * 参数数量：
+ * 参数描述：
+ * 参数说明如下：
+ * @param params1 number
+ * ...
+ * 返回结果说明： 返回一个xx格式的字符串
+ *
+ * 一小时以内显示几分钟前；
+ * 24小时内显示几小时前；
+ * 超过24小时三天内（含三天）显示几天前；
+ * 3天以上显示具体日期，到天即可。
+ * 超过一年显示年份，年内不显示年份
+ * @returns {string}
+ * 示例说明：
+ * 执行 formatTime(1647824582)
+ * 结果 10秒前
+ * 执行 formatTime(1644824582)
+ * 结果 2月14
+ * 执行 formatTime(1637824582)
+ * 结果 2021-11-25
+ */
+export function formatTime(params1) {
+  return params1 + params2
+}
+
+/**
+ * 方法名称：checkIsEmpty
+ * 方法描述： 返回一个变量是否为空
+ * 所属类型： 工具类
+ * 参数数量：
+ * 参数描述：
+ * 参数说明如下：
+ * @param params1 *
+ * ...
+ * 返回结果说明： Boolean
+ *
+ * 一小时以内显示几分钟前；
+ * 24小时内显示几小时前；
+ * 超过24小时三天内（含三天）显示几天前；
+ * 3天以上显示具体日期，到天即可。
+ * 超过一年显示年份，年内不显示年份
+ * @returns {string}
+ * 示例说明：
+ * 执行 checkIsEmpty('undefined')
+ * 结果 true
+ * 执行 checkIsEmpty('  ')
+ * 结果 trie
+ * 执行 checkIsEmpty(0)
+ * 结果 true
+ */
+export function checkIsEmpty(params1) {}

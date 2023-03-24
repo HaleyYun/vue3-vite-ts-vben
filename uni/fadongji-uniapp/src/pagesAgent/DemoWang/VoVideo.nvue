@@ -1,0 +1,498 @@
+<template>
+	<view class="wrap flex flex-column">
+		<vocen-video ref="video" class="flex1" style="width: 750rpx;" :style="{height: height}"
+			@voVideoComment="voVideoComment" @voVideoShare="voVideoShare" @voVideoBack="voVideoBack"
+			@voVideoCollect="voVideoCollect" @voVideoLike="voVideoLike" @voVideoUser="voVideoUser" @voVideoListMore="voVideoListMore" />
+		<CommentPop ref="commentPop" @close="CommentPopClose"></CommentPop>
+		<VideoShare ref="videoShare" :isEdit="isEdit" @shareFn="shareFn"></VideoShare>
+	</view>
+</template>
+
+<script>
+	import CommentPop from "@/pagesAgent/CreatedCenter/Components/CommentPop.nvue";
+	import VideoShare from "@/pagesAgent/CreatedCenter/CreatedVideoList/components/VideoShare.nvue";
+	import devConf from '@/common/env'
+	export default {
+		components: {
+			CommentPop,
+			VideoShare
+		},
+		data() {
+			return {
+
+				pageNo: 1,
+				pageSize: 1,
+				refresh: false,
+				total: 0,
+				infoList: [],
+				current: 0,
+				contentId: '',
+				height: 0,
+				videoDetail: '',
+				isEdit: false,
+				videoList: [],
+			}
+		},
+		onLoad(options) {
+			console.log(options, 'ss')
+			this.columnId = options.columnId || ''
+			this.pageNo = options.pageNo
+			this.pageSize = options.pageSize
+			this.current = options.index
+			this.isEdit = JSON.parse(options.isEdit) || false
+			const sys = uni.$u.sys()
+			console.log(sys.windowHeight, 'ss')
+			this.height = sys.windowHeight + 'px'
+			console.log('3333333333',options.disableTouch)
+			if(!Number(options.disableTouch)) {
+				console.log('111111111111')
+				this.getData('0')
+				return
+			}
+			console.log('22222222222')
+			this.getVideoDetail(options.id)
+			return
+
+		},
+		methods: {
+			//处理fileUrl
+			regroupFileData(item, key) {
+			  if (item[key]) {
+			    let dataArr = item[key].split('|')
+
+			    let image = []
+			    let video = []
+			    let audio = []
+			    dataArr.map((it) => {
+			      let file = it.substring(it.length - 3, it.length)
+			      if (file === 'MP4' || file === 'mp4') {
+			        video.push(it)
+			      } else if (file === 'MP3' || file === 'mp3') {
+			        audio.push(it)
+			      } else {
+			        image.push(it)
+			      }
+			    })
+			    video.length > 0 ? (item.video = video) : ''
+			    audio.length > 0 ? (item.audio = audio) : ''
+			    image.length > 0 ? (item.image = image) : ''
+			  }
+			},
+			voVideoShare(res) {
+				// uni.showToast({
+				// 	title: res.detail.title
+				// })
+				this.videoDetail = res.detail
+				this.regroupFileData(this.videoDetail, 'fileUrl')
+				console.log('this.videoDetail',this.videoDetail)
+				this.$refs.videoShare.showShare(res.detail)
+			},
+			shareFn(type) {
+				this.$refs.videoShare.cancle()
+				//http://devm.fdjcyl.com
+				uni.share({
+					provider: "weixin",
+					scene: type,
+					type: 0,
+					// href: devConf.apiBaseUrl + '/#/pagesAgent/DemoWang/VoVideo' +
+					href: devConf.shareBaseUrl + '/pagesAgent/CreatedCenter/CreatedVideoList/VideoSwiper' +
+						'?index=' +
+						this.current +
+						'&pageSize=' +
+						this.pageSize +
+						'&pageNo=' +
+						this.pageNo,
+					title: this.videoDetail.title,
+					summary: "",
+					imageUrl: this.videoDetail.image ? this.videoDetail.image[0] : '',
+					success: function (res) {
+						console.log("sharesuccess:" + JSON.stringify(res));
+					},
+					fail: function (err) {
+						console.log("sharefail:" + JSON.stringify(err));
+					}
+				});
+				// shareWeixin({
+				// 	scene: type,
+				// 	title: this.videoDetail.title,
+				// 	path: 'http://devm.fdjcyl.com/#/pagesAgent/DemoWang/VoVideo' +
+				// 		'?index=' +
+				// 		this.current +
+				// 		'&pageSize=' +
+				// 		this.pageSize +
+				// 		'&pageNo=' +
+				// 		this.pageNo,
+				// 	imageUrl: '',
+				// 	desc: '',
+				// }).then(res => {
+				// 	console.log('res分享', res)
+				// }).catch(err => {
+				// 	console.log('shareWeixinErr', err)
+				// })
+			},
+			voVideoBack() {
+				uni.navigateBack({
+					delta: 1,
+				})
+			},
+			voVideoComment(res) {
+
+				this.contentId = res.detail.id
+				this.$refs.video.voVideoColseScroll()
+				this.$refs.commentPop.init(res.detail)
+			},
+			//下拉获取
+			voVideoListMore(res) {
+
+				this.pageNo = res.detail.pageNo
+				this.pageSize = res.detail.pageSize
+				this.getData('1')
+
+			},
+			getData(e) {
+
+				if (this.refresh) {
+					this.videoList = []
+					this.pageNo = 1
+				}
+				let params = {
+					pageNo: e === '0' ? '1' : this.pageNo,
+					pageSize: e === '0' ? (Number(this.pageSize) * Number(this.pageNo)).toString() : this.pageSize,
+					businessType: '2',
+				}
+				if (this.columnId) {
+					params['columnId'] = this.columnId
+				}
+				console.log('params', params)
+				getApp().$VoHttp
+					.apiCreateQuestionsQuestionList(params)
+					.then((res) => {
+
+						let reslutData = {}
+						console.log('后端返回结果', res)
+						if (res.code === '20001') {
+							console.log('videoList 前', this.videoList )
+							this.videoList = res.data.records
+							console.log('videoList 后', this.videoList )
+							this.total = res.data.total
+							let current = 0
+							console.log('this.current',this.current)
+							if (this.current > 9) {
+								current = this.current - (this.pageNo * this.pageSize - 10)
+							} else {
+								current = this.current
+							}
+							//0.初始值 1.上拉加载更多
+							reslutData = {
+								type: "VideoListType",
+								pageNo: this.pageNo,
+								pageSize: this.pageSize,
+								total: this.total,
+								current: e === '0' ? Number(current) + Number(this.pageSize) * (Number(this.pageNo)-1) : current,
+								data: this.videoList,
+								moreType: e,
+								code: res.code,
+							}
+
+							this.triggered = false
+							this.refresh = false
+							this.loadingStatus = false
+
+						} else {
+							uni.$u.toast(res.message)
+							reslutData = {
+								type: "VideoListType",
+								data: data,
+								code: res.code,
+							}
+						}
+
+						this.pageNativeData(reslutData)
+					})
+					.catch((err) => {
+						console.log('err', err)
+						uni.$u.toast(err.message || '请检查网络')
+
+						let reslutData = {}
+						reslutData = {
+							type: "VideoListType",
+							data: err,
+						}
+						this.pageNativeData(reslutData)
+					})
+			},
+			//获取视频详情
+			getVideoDetail(id) {
+			        let param={
+                      id: id,
+                    }
+                    console.log('11111111111111111122221', getApp().userInfo)
+                    if(getApp().userInfo&&getApp().userInfo.id){
+                      param.userId=getApp().userInfo.id
+                    }
+			        getApp().$VoHttp
+			          .apiCreateQuestionsQuestion$Id(param)
+			          .then((res) => {
+			            console.log('this.info===', res.data)
+			            let data = res.data
+			            console.log('11111111111111111111122221', data)
+						let reslutData = {
+								type: "voVideoLookDetailType",
+								data: [data],
+							}
+						this.pageNativeData(reslutData)
+			          })
+			      },
+			//组件点赞
+			voVideoLike(res) {
+				console.log('11111111111111111122221', res)
+				if (res.detail.like) {
+
+					//点赞
+					this.giveLike(res.detail.id)
+
+				} else {
+
+					//取消点赞
+					this.giveLikeCancel(res.detail.id, res.detail.userId)
+				}
+
+			},
+			//组件收藏
+			voVideoCollect(res) {
+				if (res.detail.collect) {
+
+					//收藏
+					this.giveCollect(res.detail.id)
+
+				} else {
+
+					//取消收藏
+					this.giveCollectCancel(res.detail.id, res.detail.userId)
+				}
+
+			},
+			//点击用户头像
+			voVideoUser(res) {
+			uni.navigateTo({
+            					url: '/pagesAgent/PersonalHomepage/PersonalHomepage?userId=' +
+            						res.detail.userId +
+            					'&platformCode=' +
+            					res.detail.platformCode,
+            				})
+			},
+			//点赞
+			giveLike(contentId) {
+				let reslutData = {}
+				console.log('1111111111111111111', contentId)
+				getApp().$VoHttp
+					.apiCreateQuestionsQuestionLike({
+						businessType: '2',
+						contentId: contentId,
+					})
+					.then((res) => {
+
+						if (res.code === '20001') {
+
+							uni.$u.toast('点赞成功')
+							reslutData = {
+								type: "VideoLikeType",
+								data: {
+									contentId: contentId
+								},
+								code: res.code
+							}
+
+						} else {
+							uni.$u.toast(res.message)
+							reslutData = {
+								type: "VideoLikeType",
+								data: {},
+								code: res.code
+							}
+						}
+
+						this.pageNativeData(reslutData)
+					})
+					.catch((err) => {
+						console.log('err', err)
+						uni.$u.toast('点赞失败')
+						reslutData = {
+							type: "VideoLikeType",
+							data: {
+								contentId: contentId
+							},
+							code: err.code
+						}
+						this.pageNativeData(reslutData)
+					})
+			},
+			//取消点赞
+			giveLikeCancel(contentId, userId) {
+				let reslutData = {}
+				console.log('1111111111111111111', contentId)
+				console.log('1111111111111111111', userId)
+				getApp().$VoHttp
+					.apiCreateQuestionsQuestionCancelLike({
+						businessType: '2',
+						contentId: contentId,
+						userId: userId,
+					})
+					.then((res) => {
+						if (res.code === '20001') {
+							uni.$u.toast('取消成功')
+							reslutData = {
+								type: "VideoCancelLikeType",
+								data: {
+									contentId: contentId
+								},
+								code: res.code
+							}
+							this.isGiveLike = false
+							this.likeNum = this.likeNum - 1
+						} else {
+							uni.$u.toast(res.message)
+
+							reslutData = {
+								type: "VideoCancelLikeType",
+								data: {
+									contentId: contentId
+								},
+								code: res.code
+							}
+						}
+						this.pageNativeData(reslutData)
+					})
+					.catch((err) => {
+						console.log('err', err)
+						uni.$u.toast('取消失败')
+						reslutData = {
+							type: "VideoCancelLikeType",
+							data: {
+								contentId: contentId
+							},
+							code: err.code
+						}
+					})
+				this.pageNativeData(reslutData)
+			},
+			//收藏
+			giveCollect(contentId) {
+				let reslutData = {}
+				getApp().$VoHttp
+					.apiCreateQuestionsQuestionCollect({
+						businessType: '2',
+						contentId: contentId,
+					})
+					.then((res) => {
+
+						if (+res.code === 20001) {
+							uni.$u.toast('收藏成功')
+
+							reslutData = {
+								type: "VideoCollectType",
+								data: {
+									contentId: contentId
+								},
+								code: res.code
+							}
+
+						} else {
+							uni.$u.toast(res.message)
+							reslutData = {
+								type: "VideoCollectType",
+								data: {},
+								code: res.code
+							}
+						}
+
+						this.pageNativeData(reslutData)
+					})
+					.catch((err) => {
+						console.log('err', err)
+						uni.$u.toast(err.message || '收藏失败')
+						reslutData = {
+							type: "VideoCollectType",
+							data: {
+								contentId: contentId
+							},
+							code: err.code
+						}
+						this.pageNativeData(reslutData)
+					})
+			},
+			//取消收藏
+			giveCollectCancel(contentId, userId) {
+				let reslutData = {}
+				getApp().$VoHttp
+					.apiCreateQuestionsQuestionCancelCollect({
+						businessType: '2',
+						contentId: contentId,
+						userId: userId,
+					})
+					.then((res) => {
+						if (res.code === '20001') {
+							uni.$u.toast('取消成功')
+							reslutData = {
+								type: "VideoCancelCollectType",
+								data: {
+									contentId: contentId
+								},
+								code: res.code
+							}
+							this.isGiveLike = false
+							this.likeNum = this.likeNum - 1
+						} else {
+							uni.$u.toast(res.message)
+
+							reslutData = {
+								type: "VideoCancelCollectType",
+								data: {
+									contentId: contentId
+								},
+								code: res.code
+							}
+						}
+						this.pageNativeData(reslutData)
+					})
+					.catch((err) => {
+						console.log('err', err)
+						uni.$u.toast('取消失败')
+						reslutData = {
+							type: "VideoCancelCollectType",
+							data: {
+								contentId: contentId
+							},
+							code: err.code
+						}
+					})
+				this.pageNativeData(reslutData)
+			},
+			//评论弹框关闭，传出评论数量
+			CommentPopClose(commentNum) {
+				this.$refs.video.voVideoOpenScroll()
+				let reslutData = {
+					type: "VideoCommentType",
+					data: {
+						contentId: this.contentId,
+						commentNum: commentNum,
+					},
+					code: '20001'
+				}
+				this.pageNativeData(reslutData)
+			},
+			//向原生传值
+			pageNativeData(data) {
+				console.log('向原生传值',data)
+				this.$refs.video.voVideoJsData(JSON.stringify(data))
+			},
+
+		}
+	}
+</script>
+
+<style>
+	.wrap {
+		position: relative;
+	}
+</style>

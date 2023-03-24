@@ -1,0 +1,4638 @@
+{
+  "easycom": {
+    // npm安装的方式不需要前面的"@/"，下载安装的方式需要"@/"
+    // npm安装方式
+    "^u-(.*)": "@vocen/uview-ui/components/u-$1/u-$1.vue",
+    "^Era(.*)": "@/uni_modules/era-ui/components/Era$1/Era$1.vue"
+    // 下载安装方式
+    // "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+  },
+  "pages": [
+    // #ifdef APP-PLUS
+       // {
+       //   "path": "pages/PageStart/AdGuide",
+       //   "style": {
+       //     "navigationStyle": "custom"
+       //   }
+       // },
+       {
+         "path": "pages/PageStart/PageStart",
+         "style": {
+           "navigationStyle": "custom",
+		   "app-plus": {
+		     "titleView": false,
+		     "bounce": "none"
+		   }
+         }
+       },
+    // #endif
+    {
+      "path": "pages/CommonLogin/UserLogin",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/CommonLogin/VoVoiceDemo",
+      "style": {
+        "navigationBarTitleText": "实时语音测试",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/CommonLogin/ReplenishInfo",
+      "style": {
+        "navigationBarTitleText": "补充信息",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/CommonLogin/VoScanCode",
+      "style": {
+        "navigationBarTitleText": "扫码",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/SelectRole/SelectRole",
+      "style": {
+        "navigationBarTitleText": "选择角色"
+      }
+    },
+    {
+      "path": "pages/SupplierCenter/SupplierTabbar",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#035db3",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/ShareRegister",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false,
+        "app-plus":{
+          "bounce":"none"
+        }
+      }
+    },
+    {
+      "path": "pages/AgentCenter/AgentTabbar",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#035db3",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/GarageCenter/GarageCenter",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#035db3",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/LeaseCenter/LeaseTabbar",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#035db3",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/ChannelCenter/ChannelTabbar",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#035db3",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/OldBuyerCenter/OldBuyerTabbar",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#035db3",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/EngineerCenter/EngineerTabbar",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#035db3",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/RecoveryCenter/RecoveryTabbar",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#035db3",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/CommonLogin/PwdChange",
+      "style": {
+        "navigationBarTitleText": "设置密码"
+      }
+    },
+    {
+      "path": "pages/CommonLogin/CompleteInfo",
+      "style": {
+        "navigationBarTitleText": "完善信息"
+      }
+    },
+    {
+      "path": "pages/RegistrationPages/OperationInvitation",
+      "style": {
+        "navigationBarTitleText": "运营邀请注册"
+      }
+    },
+    {
+      "path": "pages/RegistrationPages/UserFission",
+      "style": {
+        "navigationBarTitleText": "用户裂变注册"
+      }
+    },
+    {
+      "path": "pages/RegistrationPages/DownloadApp",
+      "style": {
+        "navigationBarTitleText": "邀请注册-下载App"
+      }
+    },
+    {
+      "path": "pages/CommonLogin/BindOtherNumber",
+      "style": {
+        "navigationBarTitleText": "绑定手机号"
+      }
+    },
+    {
+      "path": "pages/AuthenticationInformation/FirstStepDefault",
+      "style": {
+        "navigationBarTitleText": "认证企业信息页",
+        "app-plus": {
+          "titleView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/AuthenticationInformation/AccountSuccess",
+      "style": {
+        "navigationBarTitleText": "认证完成"
+      }
+    },
+    {
+      "path": "pages/AuthenticationInformation/AgentAccount",
+      "style": {
+        "navigationBarTitleText": "服务商个人认证"
+      }
+    },
+    {
+      "path": "pages/AuthenticationInformation/BrandModule/BrandSetting",
+      "style": {
+        "navigationBarTitleText": "选择品类品牌信息"
+      }
+    },
+    {
+      "path": "pages/AuthenticationInformation/BrandModule/BrandSelect",
+      "style": {
+        "navigationBarTitleText": "选择主营品牌"
+      }
+    },
+    {
+      "path": "pages/AuthenticationInformation/BrandModule/CateSelect",
+      "style": {
+        "navigationBarTitleText": "选择经营品类"
+      }
+    },
+    {
+      "path": "pages/AuthenticationInformation/PublicAccounts",
+      "style": {
+        "navigationBarTitleText": "选择经营品类"
+      }
+    },
+    {
+      "path": "pages/AuthenticationInformation/GarageAccounts",
+      "style": {
+        "navigationBarTitleText": "汽修厂认证"
+      }
+    },
+    {
+      "path": "pages/CommonWeb/WebView",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "default"
+      }
+    },
+    {
+      "path": "pages/CommonWeb/PrivacyPolicy",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "隐私政策"
+      }
+    },
+    {
+      "path": "pages/CommonWeb/InstallPolicy",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "发动机安装服务协议"
+      }
+    },
+    {
+      "path": "pages/CommonWeb/UserPolicy",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "用户协议"
+
+      }
+    },
+    {
+      "path": "pages/CommonWeb/InvoicingNotice",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "开票须知"
+
+      }
+    },
+    {
+      "path": "pages/CommonWeb/DiscoverPolicy",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "社区管理制度"
+      }
+    },
+    {
+      "path": "pages/LeaseCenter/LeaseTabbar",
+      "style": {
+        "navigationBarTitleText": "招商经理"
+      }
+    },
+    {
+      "path": "pages/ChannelCenter/ChannelTabbar",
+      "style": {
+        "navigationBarTitleText": "渠道经理"
+      }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "pagesAgent",
+      "pages": [
+        {
+          "path": "VinTell/VinTell",
+          "style": {
+            "navigationBarTitleText": "查询结果",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "VinTell/VinApplicationTell",
+          "style": {
+            "navigationBarTitleText": "查询结果",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "VinTell/UpdateVin",
+          "style": {
+            "navigationBarTitleText": "修改VIN码",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GlobalSearch/QueryResult",
+          "style": {
+            "navigationBarTitleText": "查询结果页面",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GlobalSearch/QueryApplicationResult",
+          "style": {
+            "navigationBarTitleText": "查询结果页面",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GlobalSearch/UpdateVin",
+          "style": {
+            "navigationBarTitleText": "修改VIN码",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "WarehouseCost/WarehouseSetup",
+          "style": {
+            "navigationBarTitleText": "仓库设置",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "StoreDetail/TransferRecord",
+          "style": {
+            "navigationBarTitleText": "调拨记录",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "PublishProduct/demo",
+          "style": {
+            "navigationBarTitleText": "服务商发布商品路由展示文件",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "PublishProduct/ScanToAddGoods",
+          "style": {
+            "navigationBarTitleText": "商家仓扫码补货",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "PublishProduct/ShopInfo",
+          "style": {
+            "navigationBarTitleText": "店铺主页",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "PublishProduct/SetGoodsInfo",
+          "style": {
+            "navigationBarTitleText": "设置商品信息",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "PublishProduct/SelectProduct",
+          "style": {
+            "navigationBarTitleText": "选择商品发布",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "PublishProduct/IdentificationCode",
+          "style": {
+            "navigationBarTitleText": "商品识别码",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PublishProduct/ScanResult",
+          "style": {
+            "navigationBarTitleText": "识别结果",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PublishProduct/GoodsDetail",
+          "style": {
+            "navigationBarTitleText": "商品详情",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "WarehouseCost/WarehouseCost",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "GoodsManage/MyGoods",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "GoodsManage/ShopServiceCost",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "GoodsManage/ProjectServiceCost",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "GoodsList/GoodsList",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "PutSuccess/PutSuccess",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "GoodsList/GoodsDetail",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "SubmitOrder/SubmitOrder",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "SubmitOrder/RemarksPage",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "DemoView",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "DemoList",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "app-plus": {
+              "softinputMode": "adjustResize",
+              "popGesture": "none"
+            }
+          }
+        },
+        {
+          "path": "DemoMap",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedQuestion/QuestionDetail",
+          "style": {
+            "navigationBarTitleText": "问答详情"
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedQuestion/PostQuestion",
+          "style": {
+            "navigationBarTitleText": "发布问题"
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedQuestion/SuccessPage",
+          "style": {
+            "navigationBarTitleText": "发布成功"
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedQuestion/AllAnswer",
+          "style": {
+            "navigationBarTitleText": "全部回答"
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedQuestion/ToAnswer",
+          "style": {
+            "navigationBarTitleText": "写回答",
+            "app-plus": {
+              "softinputMode": "adjustResize",
+              "popGesture": "none"
+            }
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedVideoList/VideoSwiper",
+          "style": {
+            "navigationBarTitleText": "视频详情",
+            "app-plus": {
+              "softinputMode": "adjustResize",
+              "popGesture": "none"
+            }
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedVideoList/VideoDetail",
+          "style": {
+            "navigationBarTitleText": "视频详情",
+            "app-plus": {
+              "subNVues": [
+                {
+                  "id": "VideoContent",
+                  "path": "CreatedCenter/CreatedVideoList/subNVue/VideoContent",
+                  "style": {
+                    "position": "absolute",
+                    "top": "0",
+                    "width": "750rpx",
+                    "height": "100%",
+                    "background": "transparent"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedTicket/TicketSetting",
+          "style": {
+            "navigationBarTitleText": "交换优惠券设置"
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedTicket/TicketExchange",
+          "style": {
+            "navigationBarTitleText": "交换设置"
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedTicket/TicketList",
+          "style": {
+            "navigationBarTitleText": "优惠券列表"
+          }
+        },
+        {
+          "path": "CreatedCenter/CreatedTicket/TicketExchangeList",
+          "style": {
+            "navigationBarTitleText": "交换列表"
+          }
+        },
+        {
+          "path": "ImCenter/ImMessage/AddressBook",
+          "style": {
+            "navigationBarTitleText": "通讯录"
+          }
+        },
+        {
+          "path": "ImCenter/ImMessage/ChatPage",
+          "style": {
+            "navigationBarTitleText": "聊天页面"
+          }
+        },
+        {
+          "path": "ImCenter/ImMessage/InteractionPage",
+          "style": {
+            "navigationBarTitleText": "互动消息"
+          }
+        },
+        {
+          "path": "ImCenter/ImMessage/StrangerMessage",
+          "style": {
+            "navigationBarTitleText": "陌生人消息"
+          }
+        },
+        {
+          "path": "ImCenter/ImMessage/goDemo",
+          "style": {
+            "navigationBarTitleText": "组件试用演示"
+          }
+        },
+        {
+          "path": "ImCenter/ImMessage/FriendDetails",
+          "style": {
+            "navigationBarTitleText": "好友详情"
+          }
+        },
+        {
+          "path": "ImCenter/ImMessage/SetPermissions",
+          "style": {
+            "navigationBarTitleText": "设置权限"
+          }
+        },
+        {
+          "path": "ImCenter/ImNotice/ServiceNotification",
+          "style": {
+            "navigationBarTitleText": "服务通知"
+          }
+        },
+        {
+          "path": "ImCenter/ImNotice/SetUp",
+          "style": {
+            "navigationBarTitleText": "消息设置"
+          }
+        },
+        {
+          "path": "ImCenter/ImNotice/TransactionPage",
+          "style": {
+            "navigationBarTitleText": "交易物流"
+          }
+        },
+        {
+          "path": "ImCenter/ImSearch/SearchPage",
+          "style": {
+            "navigationBarTitleText": "搜索"
+          }
+        },
+        {
+          "path": "ImCenter/ImSearch/SearchResult",
+          "style": {
+            "navigationBarTitleText": "搜索结果"
+          }
+        },
+        {
+          "path": "DemoWang/DemoWang",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "DemoWang/DemoSwipeAction",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "DemoWang/DemoScreen",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "DemoWang/DemoCell",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "DemoWang/DemoFormRadio",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "DemoWang/DemoForm",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "DemoWang/VoVideo",
+          "style": {
+            "navigationBarTextStyle": "white",
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "CreatedCenter/AnswerAll/NonAuthorAnswer",
+          "style": {
+            "navigationBarStyle": "custom",
+            "navigationBarTitleText": "全部回答"
+          }
+        },
+        {
+          "path": "DemoWang/DemoCircleDetail",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "CreatedCenter/CircleDetail/CircleDetail",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "softinputMode": "adjustResize"
+            }
+          }
+        },
+        {
+          "path": "CreatedCenter/CircleDetail/AnswerDetail",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "softinputMode": "adjustResize"
+            }
+          }
+        },
+        {
+          "path": "CreatedCenter/AnswerAll/AuthorAnswer",
+          "style": {
+            "navigationBarTitleText": "全部回答交互-作者"
+          }
+        },
+        {
+          "path": "CreatedCenter/AnswerAll/MyAnswer",
+          "style": {
+            "navigationBarTitleText": "我的回答"
+          }
+        },
+        {
+          "path": "CreatedCenter/ReleaseCircle/ReleaseIdea",
+          "style": {
+            "navigationBarTitleText": "发想法"
+          }
+        },
+        {
+          "path": "CreatedCenter/ReleaseCircle/IdeaChooseGood",
+          "style": {
+            "navigationBarTitleText": "选择商品"
+          }
+        },
+        {
+          "path": "CreatedCenter/ReleaseCircle/ReleaseQuestion",
+          "style": {
+            "navigationBarTitleText": "发问题"
+          }
+        },
+        {
+          "path": "CreatedCenter/AnswerAll/CircleReport",
+          "style": {
+            "navigationBarTitleText": "举报"
+          }
+        },
+        {
+          "path": "CreatedCenter/ReleaseCircle/ReseaseVideo",
+          "style": {
+            "navigationBarTitleText": "发视频"
+          }
+        },
+        {
+          "path": "Home/SearchPage",
+          "style": {
+            "navigationBarTitleText": "搜索",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "PersonalHomepage/PersonalHomepage",
+          "style": {
+            "navigationBarTitleText": "个人主页",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "PersonalHomepage/AttentionList",
+          "style": {
+            "navigationBarTitleText": "关注"
+          }
+        },
+        {
+          "path": "PersonalHomepage/CollectList",
+          "style": {
+            "navigationBarTitleText": "收藏"
+          }
+        },
+        {
+          "path": "PersonalHomepage/EditInfo",
+          "style": {
+            "navigationBarTitleText": "编辑资料"
+          }
+        },
+        {
+          "path": "PersonalHomepage/EditInfoInput",
+          "style": {
+            "navigationBarTitleText": "编辑资料"
+          }
+        },
+        {
+          "path": "InvestmentList/InvestmentList",
+          "style": {
+            "navigationBarTitleText": "批发-到我家"
+          }
+        },
+        {
+          "path": "InvestmentList/ScoringRules",
+          "style": {
+            "navigationBarTitleText": "评分规则"
+          }
+        },
+        {
+          "path": "InvestmentList/InvestmentSimilarOrder",
+          "style": {
+            "navigationBarTitleText": "相似项目"
+          }
+        },
+        {
+          "path": "InvestmentList/InvestmentShop",
+          "style": {
+            "navigationBarTitleText": "店铺"
+          }
+        },
+        {
+          "path": "InvestmentList/ShopDetails",
+          "style": {
+            "navigationBarTitleText": "店铺详情"
+          }
+        },
+        {
+          "path": "InvestmentList/BrandList",
+          "style": {
+            "navigationBarTitleText": "品牌"
+          }
+        },
+        {
+          "path": "InvestmentList/VehicleType",
+          "style": {
+            "navigationBarTitleText": "适配车型",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InvestmentList/ProductSize",
+          "style": {
+            "navigationBarTitleText": "型号"
+          }
+        },
+        {
+          "path": "InvestmentList/ProjectDetails",
+          "style": {
+            "navigationBarTitleText": "项目详情"
+          }
+        },
+        {
+          "path": "InvestmentList/SubmitOrders",
+          "style": {
+            "navigationBarTitleText": "提交订单"
+          }
+        },
+        {
+          "path": "InvestmentList/SubmitOrdersCountry",
+          "style": {
+            "navigationBarTitleText": "提交订单"
+          }
+        },
+        {
+          "path": "InvestmentList/InvestmentCheckList",
+          "style": {
+            "navigationBarTitleText": "投资清单",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "InvestmentList/AddressHome",
+          "style": {
+            "navigationBarTitleText": "发货地址",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "Order/DistributionOrder/DistributionOrderList",
+          "style": {
+            "navigationBarTitleText": "寄售订单",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/DistributionOrder/DistributionOrderDetail",
+          "style": {
+            "navigationBarTitleText": "寄售订单详情",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/MarketOrder/MarkerOrderList",
+          "style": {
+            "navigationBarTitleText": "销售订单",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/InvestOrder/InvestOrderList",
+          "style": {
+            "navigationBarTitleText": "投资订单",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/PromoteOrder/PromoteOrderList",
+          "style": {
+            "navigationBarTitleText": "推广订单",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/OrderDetail",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/TurnInvestDetail",
+          "style": {
+            "navigationBarTitleText": "转投资订单详情",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/InvestDetail",
+          "style": {
+            "navigationBarTitleText": "投资订单详情",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderSearch/OrderSearch",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderSearch/OrderSearchResult",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderSearch/OrderRemark",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/DeliveryMessage",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/DeliverGoods/DeliverGoods",
+          "style": {
+            "navigationBarTitleText": "发货",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/DeliverGoods/DeliverMoreGoodsvue",
+          "style": {
+            "navigationBarTitleText": "发货",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/StatementOrder/StatementList",
+          "style": {
+            "navigationBarTitleText": "结算单",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/StatementOrder/StatementDetail",
+          "style": {
+            "navigationBarTitleText": "结算单详情",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SubstituteOrder/SubstituteOrder",
+          "style": {
+            "navigationBarTitleText": "代客下单",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "MyInvest/MyInvest",
+          "style": {
+            "navigationBarTitleText": "我的投资",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "MyInvest/CheckInvestmentInfo",
+          "style": {
+            "navigationBarTitleText": "进行中",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "MyInvest/Investment/Investing",
+          "style": {
+            "navigationBarTitleText": "进行中",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "UserCenter/MyAccount/MyAccount",
+          "style": {
+            "navigationBarTitleText": "我的账户",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "UserCenter/MyAccount/PaymentRecord",
+          "style": {
+            "navigationBarTitleText": "还款记录",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "UserCenter/MyAccount/PaymentRecordDetail",
+          "style": {
+            "navigationBarTitleText": "还款记录详情",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/ReturnExchange",
+          "style": {
+            "navigationBarTitleText": "退货/退款"
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/InitiateRefund",
+          "style": {
+            "navigationBarTitleText": "发起退款"
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/RefundDetails",
+          "style": {
+            "navigationBarTitleText": "退款/退货"
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/ReturnRefundDetails",
+          "style": {
+            "navigationBarTitleText": "退款/退货"
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/SearchPage",
+          "style": {
+            "navigationBarTitleText": "搜索"
+          }
+        },
+        {
+          "path": "StoreDetail/MyGoods",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "navigationBarTitleText": "库存明细"
+          }
+        },
+        {
+          "path": "StoreDetail/InventoryDetails",
+          "style": {
+            "navigationBarTitleText": "商品库存详情"
+          }
+        },
+        {
+          "path": "UserCenter/GoodsCollection/GoodsCollection",
+          "style": {
+            "navigationBarTitleText": "我的收藏"
+          }
+        },
+        {
+          "path": "StoreDetail/StoreChange",
+          "style": {
+            "navigationBarTitleText": "库存变更记录"
+          }
+        },
+        {
+          "path": "TokerDistrict/RegisterPage",
+          "style": {
+            "navigationBarTitleText": "发动集"
+          }
+        },
+        {
+          "path": "TokerDistrict/RegisterMobilePage",
+          "style": {
+            "navigationBarTitleText": "发动集"
+          }
+        },
+        {
+          "path": "TokerDistrict/GoLoginDownload",
+          "style": {
+            "navigationBarTitleText": "已绑定和下载APP"
+          }
+        },
+        {
+          "path": "TokerDistrict/MyGarage",
+          "style": {
+            "navigationBarTitleText": "我的修理厂"
+          }
+        },
+        {
+          "path": "TokerDistrict/GarageDetails",
+          "style": {
+            "navigationBarTitleText": "修理厂详情"
+          }
+        },
+        {
+          "path": "TokerDistrict/NewGarage",
+          "style": {
+            "navigationBarTitleText": "新增修理厂"
+          }
+        },
+        {
+          "path": "Statisticals/CommodityPopularityList",
+          "style": {
+            "navigationBarTitleText": "商品人气榜"
+          }
+        },
+        {
+          "path": "Statisticals/PaymentDetails",
+          "style": {
+            "navigationBarTitleText": "订单支付明细"
+          }
+        },
+        {
+          "path": "Statisticals/SalesStatistics",
+          "style": {
+            "navigationBarTitleText": "销售统计"
+          }
+        },
+        {
+          "path": "Statisticals/provincialSales",
+          "style": {
+            "navigationBarTitleText": "同省销量排名"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pagesProduct",
+      "pages": [
+        {
+          "path": "PutProduct/PutProduct",
+          "style": {
+            "navigationBarTitleText": "上货",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PutProduct/EditProduct",
+          "style": {
+            "navigationBarTitleText": "申请上架",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PriceGuide/PriceGuide",
+          "style": {
+            "navigationBarTitleText": "价格指导",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ChooseTemplate/ChooseTemplate",
+          "style": {
+            "navigationBarTitleText": "模板",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ChooseTemplate/TemplateDetail",
+          "style": {
+            "navigationBarTitleText": "商品介绍",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "CommodityModel/CommodityModel",
+          "style": {
+            "navigationBarTitleText": "商品型号",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "CommodityParameter/CommodityParameter",
+          "style": {
+            "navigationBarTitleText": "商品参数",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SaleArea/SaleArea",
+          "style": {
+            "navigationBarTitleText": "销售区域",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ApplicationCar/ApplicationCar",
+          "style": {
+            "navigationBarTitleText": "适配车型",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ApplicableModel/ApplicableModel",
+          "style": {
+            "navigationBarTitleText": "适配车型",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ApplicableModel/AddCarModel",
+          "style": {
+            "navigationBarTitleText": "添加车型",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ApplicationCar/ApplicationCarNew",
+          "style": {
+            "navigationBarTitleText": "选择品牌",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Brand/Brand",
+          "style": {
+            "navigationBarTitleText": "商品品牌",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "BrandCertification/BrandCertification",
+          "style": {
+            "navigationBarTitleText": "认证品牌",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PutSuccess/PutSuccess",
+          "style": {
+            "navigationBarTitleText": "上货",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "root": "pagesSupplier",
+      "pages": [
+        {
+          "path": "HomeStatic/OperationSupport",
+          "style": {
+            "navigationBarTitleText": "运营支持",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomeStatic/AfterHosting",
+          "style": {
+            "navigationBarTitleText": "售后托管",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MapList/ChinaGarage",
+          "style": {
+            "navigationBarTitleText": "全国修理厂",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MapList/ChinaGarageApp",
+          "style": {
+            "navigationBarTitleText": "全国修理厂",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MapList/ChinaAgent",
+          "style": {
+            "navigationBarTitleText": "全国服务商",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MapList/ChinaWarehouse",
+          "style": {
+            "navigationBarTitleText": "全国仓库",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/DistributionOrder/DistributionOrderList",
+          "style": {
+            "navigationBarTitleText": "寄售订单",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/DistributionOrder/DistributionOrderDetail",
+          "style": {
+            "navigationBarTitleText": "寄售订单详情",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderList/OrderList",
+          "style": {
+            "navigationBarTitleText": "订单列表",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/OrderDetail",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/InvestDetail",
+          "style": {
+            "navigationBarTitleText": "投资订单详情",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InvestmentInfo/InvestmentInfo",
+          "style": {
+            "navigationBarTitleText": "投资信息",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SendInvestmentInfo/SendInvestmentInfo",
+          "style": {
+            "navigationBarTitleText": "发布投资项目",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SendInvestmentInfo/EditInvestmentInfo",
+          "style": {
+            "navigationBarTitleText": "修改投资项目",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SendInvestmentInfo/CheckInvestmentInfo",
+          "style": {
+            "navigationBarTitleText": "修改投资项目",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InvestmentArea/InvestmentArea",
+          "style": {
+            "navigationBarTitleText": "可投资区域",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseList",
+          "style": {
+            "navigationBarTitleText": "仓储",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/AddWarehouse",
+          "style": {
+            "navigationBarTitleText": "新建仓库",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseDetail",
+          "style": {
+            "navigationBarTitleText": "仓库详情",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseMySelfDetail",
+          "style": {
+            "navigationBarTitleText": "仓库详情",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseRecordList",
+          "style": {
+            "navigationBarTitleText": "出入库记录",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseRepairPro",
+          "style": {
+            "navigationBarTitleText": "补货",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseSelectPro",
+          "style": {
+            "navigationBarTitleText": "选择商品",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseRepairRecordList",
+          "style": {
+            "navigationBarTitleText": "补货记录",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseAllotPro",
+          "style": {
+            "navigationBarTitleText": "调拨",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseAllotRecordList",
+          "style": {
+            "navigationBarTitleText": "调拨记录",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/SelectWarehouse",
+          "style": {
+            "navigationBarTitleText": "选择仓库",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseReturnReceipt",
+          "style": {
+            "navigationBarTitleText": "退货入库单",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseOperationRecord",
+          "style": {
+            "navigationBarTitleText": "库存操作记录",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/WarehouseProDetail",
+          "style": {
+            "navigationBarTitleText": "商品编码详情",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/RepairProduct/ReplenishGoodsList",
+          "style": {
+            "navigationBarTitleText": "补货",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/RepairProduct/InventoryDetails",
+          "style": {
+            "navigationBarTitleText": "商品库存详情",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/RepairProduct/ShipmentWarehouse",
+          "style": {
+            "navigationBarTitleText": "出货仓库",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/RepairProduct/ReplenishRecord",
+          "style": {
+            "navigationBarTitleText": "补货记录",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/SetDeliveryTimeliness",
+          "style": {
+            "navigationBarTitleText": "设置发货时效",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/NewDeliveryTimeliness",
+          "style": {
+            "navigationBarTitleText": "新增发货时效",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/SetArrivalTimeliness",
+          "style": {
+            "navigationBarTitleText": "设置到货时效",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Warehouse/WarehouseList/ArrivalTimeliness",
+          "style": {
+            "navigationBarTitleText": "新增到货时效",
+            "navigationBarStyle": "custom"
+          }
+        },
+        {
+          "path": "Order/OrderList/OrderSearch",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderList/OrderSearchResult",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderList/OrderRemark",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/DeliveryMessage",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/DeliverGoods/DeliverGoods",
+          "style": {
+            "navigationBarTitleText": "发货",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/DeliverGoods/DeliverMoreGoodsvue",
+          "style": {
+            "navigationBarTitleText": "发货",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/ScanCodeDelivery",
+          "style": {
+            "navigationBarTitleText": "扫码发货",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ImMessage/MyConcern",
+          "style": {
+            "navigationBarTitleText": "我的关注",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/Setting",
+          "style": {
+            "navigationBarTitleText": "设置",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/SetPassword",
+          "style": {
+            "navigationBarTitleText": "设置密码",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/ChangeMobile",
+          "style": {
+            "navigationBarTitleText": "修改手机号",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/BindMobile",
+          "style": {
+            "navigationBarTitleText": "修改手机号",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/WorkbenchSeting",
+          "style": {
+            "navigationBarTitleText": "工作台设置",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/SetingWeb",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/AboutUS",
+          "style": {
+            "navigationBarTitleText": "关于我们",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/LogoutSupplier",
+          "style": {
+            "navigationBarTitleText": "注销供应商",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/SupplierHistoryApplyFor",
+          "style": {
+            "navigationBarTitleText": "历史申请",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/LogoutSupplierDetail",
+          "style": {
+            "navigationBarTitleText": "注销供应商详情",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/AddressHome",
+          "style": {
+            "navigationBarTitleText": "发货地址",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/AddAddress",
+          "style": {
+            "navigationBarTitleText": "添加地址",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "BusinessUniversity/BusinessUniversity",
+          "style": {
+            "navigationBarTitleText": "商家大学"
+          }
+        },
+        {
+          "path": "BusinessUniversity/SeriesCourse",
+          "style": {
+            "navigationBarTitleText": "系列课程"
+          }
+        },
+        {
+          "path": "BusinessUniversity/CourseDetail",
+          "style": {
+            "navigationBarTitleText": "课程详情"
+          }
+        },
+        {
+          "path": "ImMessage/AttentionToMy",
+          "style": {
+            "navigationBarTitleText": "关注我的"
+          }
+        },
+        {
+          "path": "ImMessage/GroupChat",
+          "style": {
+            "navigationBarTitleText": "群聊"
+          }
+        },
+        {
+          "path": "ImMessage/PersonalChat",
+          "style": {
+            "navigationBarTitleText": "消息-个人聊天",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ImMessage/SelectOrder",
+          "style": {
+            "navigationBarTitleText": "选择订单"
+          }
+        },
+        {
+          "path": "ImMessage/ChatSettings",
+          "style": {
+            "navigationBarTitleText": "消息-聊天设置"
+          }
+        },
+        {
+          "path": "BusinessUniversity/CourseList",
+          "style": {
+            "navigationBarTitleText": "最近在学"
+          }
+        },
+        {
+          "path": "BusinessUniversity/SearchResult",
+          "style": {
+            "navigationBarTitleText": "搜索结果"
+          }
+        },
+        {
+          "path": "BusinessUniversity/MyCollect",
+          "style": {
+            "navigationBarTitleText": "我的收藏"
+          }
+        },
+        {
+          "path": "ImMessage/ReportingUsers",
+          "style": {
+            "navigationBarTitleText": "消息-举报"
+          }
+        },
+        {
+          "path": "InvestmentInfo/InvestmentDetail",
+          "style": {
+            "navigationBarTitleText": "投资详情",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InvestmentInfo/InvestCarModel",
+          "style": {
+            "navigationBarTitleText": "设配车型",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InvestmentInfo/InvestEvaluate",
+          "style": {
+            "navigationBarTitleText": "全部评价",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InvestmentInfo/InvestProductParams",
+          "style": {
+            "navigationBarTitleText": "产品参数",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ImMessage/NotificationSettings",
+          "style": {
+            "navigationBarTitleText": "通知设置"
+          }
+        },
+        {
+          "path": "ImMessage/BlackList",
+          "style": {
+            "navigationBarTitleText": "黑名单"
+          }
+        },
+        {
+          "path": "ImMessage/ShopSettings",
+          "style": {
+            "navigationBarTitleText": "店铺详情"
+          }
+        },
+        {
+          "path": "ImMessage/FriendSettings",
+          "style": {
+            "navigationBarTitleText": "好友详情"
+          }
+        },
+        {
+          "path": "ImMessage/ModifyRemarks",
+          "style": {
+            "navigationBarTitleText": "修改备注"
+          }
+        },
+        {
+          "path": "ImMessage/SearchPage",
+          "style": {
+            "navigationBarTitleText": "通讯录-搜索"
+          }
+        },
+        {
+          "path": "ImMessage/SearchResult",
+          "style": {
+            "navigationBarTitleText": "通讯录-搜索结果"
+          }
+        },
+        {
+          "path": "ImMessage/SearchMore",
+          "style": {
+            "navigationBarTitleText": "通讯录-搜索更多"
+          }
+        },
+        {
+          "path": "GoodsManage/MyGoods",
+          "style": {
+            "navigationBarTitleText": "商品管理"
+          }
+        },
+        {
+          "path": "GoodsManage/GoodsDetail",
+          "style": {
+            "navigationBarTitleText": "商品详情"
+          }
+        },
+        {
+          "path": "GoodsManage/MasterTalkList",
+          "style": {
+            "navigationBarTitleText": "大咖说"
+          }
+        },
+        {
+          "path": "GoodsManage/GoodsEvaluateList",
+          "style": {
+            "navigationBarTitleText": "全部评价"
+          }
+        },
+        {
+          "path": "SendInvestmentInfo/SelectWarehouse",
+          "style": {
+            "navigationBarTitleText": "选择仓库",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/ReturnExchange",
+          "style": {
+            "navigationBarTitleText": "退货/退款"
+          }
+        },
+        {
+          "path": "InvestmentInfo/InvestChooseGood",
+          "style": {
+            "navigationBarTitleText": "选择商品",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/SearchPage",
+          "style": {
+            "navigationBarTitleText": "供应商-退换货-搜索页"
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/ReturnRefundDetails",
+          "style": {
+            "navigationBarTitleText": "退货/退款详情"
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/RefundDetails",
+          "style": {
+            "navigationBarTitleText": "退货/退款详情"
+          }
+        },
+        {
+          "path": "UserCenter/UserCenter",
+          "style": {
+            "navigationBarTitleText": "账号信息"
+          }
+        },
+        {
+          "path": "UserCenter/AccountName",
+          "style": {
+            "navigationBarTitleText": "账户名称"
+          }
+        },
+        {
+          "path": "UserCenter/MyBankCard",
+          "style": {
+            "navigationBarTitleText": "我的银行卡"
+          }
+        },
+        {
+          "path": "UserCenter/AddBankCard",
+          "style": {
+            "navigationBarTitleText": "新增银行卡"
+          }
+        },
+        {
+          "path": "UserCenter/CancelSupplier",
+          "style": {
+            "navigationBarTitleText": "注销供应商"
+          }
+        },
+        {
+          "path": "UserCenter/CancelSupplierDetails",
+          "style": {
+            "navigationBarTitleText": "注销供应商(详情)"
+          }
+        },
+        {
+          "path": "UserCenter/HistoryApply",
+          "style": {
+            "navigationBarTitleText": "历史申请"
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/CreateInvoice",
+          "style": {
+            "navigationBarTitleText": "开票",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/InvoiceList",
+          "style": {
+            "navigationBarTitleText": "开发票",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/ApplyInvoice",
+          "style": {
+            "navigationBarTitleText": "申请发票",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/ApplyForm",
+          "style": {
+            "navigationBarTitleText": "填写发票信息",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/ApplyNotice",
+          "style": {
+            "navigationBarTitleText": "开票须知",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/InvoiceDetail",
+          "style": {
+            "navigationBarTitleText": "发票详情",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/InvoiceOrderInfo",
+          "style": {
+            "navigationBarTitleText": "订单记录",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/InvoiceHistory",
+          "style": {
+            "navigationBarTitleText": "开票记录",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/HistoryInvoiceDetail",
+          "style": {
+            "navigationBarTitleText": "开票记录详情",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/AccountReceivable",
+          "style": {
+            "navigationBarTitleText": "应收账款",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/PaymentOrder",
+          "style": {
+            "navigationBarTitleText": "还款订单",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/PaymentSuccess",
+          "style": {
+            "navigationBarTitleText": "还款成功",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/Invoice/AccountBill",
+          "style": {
+            "navigationBarTitleText": "账户明细",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/MyAccount/MyAccount",
+          "style": {
+            "navigationBarTitleText": "我的账户",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "UserCenter/MyAccount/GoWithdrawal",
+          "style": {
+            "navigationBarTitleText": "提现",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "UserCenter/MyAccount/WithdrawalRecord",
+          "style": {
+            "navigationBarTitleText": "提现记录",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "UserCenter/MyAccount/AmountSettled",
+          "style": {
+            "navigationBarTitleText": "待结算金额",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "NationalDistribution/NationalDistribution",
+          "style": {
+            "navigationBarTitleText": "全国修理厂分布",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PostSaleOrder/ApplyPostSaleList",
+          "style": {
+            "navigationBarTitleText": "售后专区",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "PostSaleOrder/ApplyPostSaleDetail",
+          "style": {
+            "navigationBarTitleText": "售后详情",
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pagesCommon",
+      "pages": [
+        {
+          "path": "CarTypeSearch/ChooseCarBrand",
+          "style": {
+            "navigationBarTitleText": "选择品牌",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "CarTypeSearch/ChooseCarSeries",
+          "style": {
+            "navigationBarTitleText": "选择车系",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "CarTypeSearch/ChooseCardDisplacement",
+          "style": {
+            "navigationBarTitleText": "选择排量",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "CarTypeSearch/ChooseCarYear",
+          "style": {
+            "navigationBarTitleText": "选择年份",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "CarTypeSearch/ChooseCarEngine",
+          "style": {
+            "navigationBarTitleText": "选择发动",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "CarTypeSearch/ChooseCarResult",
+          "style": {
+            "navigationBarTitleText": "选择结果",
+            "navigationBarStyle": "custom",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SharePoste/SharePoste",
+          "style": {
+            "navigationBarTitleText": "我要推广",
+            "navigationStyle": "custom",
+            "enablePullDownRefresh": false,
+            "disableScroll": true
+          }
+        },
+        {
+          "path": "serviceMessagePage/MessageNotification",
+          "style": {
+            "navigationBarTitleText": "消息",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "serviceMessagePage/InteractionPage",
+          "style": {
+            "navigationBarTitleText": "互动消息",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "serviceMessagePage/TransactionPage",
+          "style": {
+            "navigationBarTitleText": "交易物流",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "serviceMessagePage/ServiceNotification",
+          "style": {
+            "navigationBarTitleText": "服务消息",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "serviceMessagePage/announcementPage",
+          "style": {
+            "navigationBarTitleText": "系统公告",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+            "path": "serviceMessagePage/Setting",
+            "style": {
+              "navigationBarTitleText": "设置"
+            }
+        },
+        {
+          "path": "serviceMessagePage/SetUp",
+          "style": {
+            "navigationBarTitleText": "消息设置",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "AuthorityManagement/BindTonlyPhone",
+          "style": {
+            "navigationBarTitleText": "绑定通联支付",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "MapMarkers/MapMarkers",
+          "style": {
+            "navigationBarTitleText": "修理厂地图",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "MapMarkers/MapMarkersApp",
+          "style": {
+            "navigationBarTitleText": "修理厂地图",
+            "enablePullDownRefresh": false
+          }
+        },
+
+        {
+          "path": "LightUp/MapMarkers",
+          "style": {
+            "navigationBarTitleText": "点亮修理厂",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "LightUp/ChooseArea",
+          "style": {
+            "navigationBarTitleText": "选择城市",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "LightUp/MapMarkersApp",
+          "style": {
+            "navigationBarTitleText": "点亮修理厂",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "MapDrag/MapDrag",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "MapDrag/MapDragApp",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "MapMarkers/InviteGarage",
+          "style": {
+            "navigationBarTitleText": "邀请修理厂",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "CreateSearchPage/CreateSearchPage",
+          "style": {
+            "navigationBarTitleText": "共创圈搜索",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "AuthorityManagement/AuthorityManagement",
+          "style": {
+            "navigationBarTitleText": "权限管理",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "AuthorityManagement/RoleManagement",
+          "style": {
+            "navigationBarTitleText": "角色管理",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "AuthorityManagement/AuthoritySetting",
+          "style": {
+            "navigationBarTitleText": "权限配置",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "AuthorityManagement/AccountAdd",
+          "style": {
+            "navigationBarTitleText": "新增子账号",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "AddressList/AddressList",
+          "style": {
+            "navigationBarTitleText": "地址列表",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "SettingCenter/SettingCenter",
+          "style": {
+            "navigationBarTitleText": "设置",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "HelperContent/HelperContentList",
+          "style": {
+            "navigationBarTitleText": "帮助中心",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "HelperContent/HelperContentDetail",
+          "style": {
+            "navigationBarTitleText": "详情",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "ComplaintPage/ComplaintForm",
+          "style": {
+            "navigationBarTitleText": "我要投诉",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "ComplaintPage/ComplaintRecord",
+          "style": {
+            "navigationBarTitleText": "投诉记录",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "ComplaintPage/RecordDetail",
+          "style": {
+            "navigationBarTitleText": "投诉详情",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "ComplaintPage/ComplaintEvaluate",
+          "style": {
+            "navigationBarTitleText": "服务评价",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "StoreInfo/StoreInfo",
+          "style": {
+            "navigationBarTitleText": "店铺信息",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "StoreInfo/ApproveInfo",
+          "style": {
+            "navigationBarTitleText": "认证信息",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "StoreInfo/BusinessCategory",
+          "style": {
+            "navigationBarTitleText": "经营品类",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "StoreInfo/CertifiedCategory",
+          "style": {
+            "navigationBarTitleText": "认证新品类",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "StoreInfo/AgainApprove",
+          "style": {
+            "navigationBarTitleText": "重新认证",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "StoreInfo/CustomEdit",
+          "style": {
+            "navigationBarTitleText": "绑定通联支付",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "StoreInfo/OperateBrand",
+          "style": {
+            "navigationBarTitleText": "经营品牌",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "StoreInfo/ApplyRecord",
+          "style": {
+            "navigationBarTitleText": "申请记录(经营品类)"
+          }
+        },
+        {
+          "path": "StoreInfo/AuditResult",
+          "style": {
+            "navigationBarTitleText": "审核结果（通过、审核中、审核不通过）"
+          }
+        },
+        {
+          "path": "StoreInfo/AuditBrandResult",
+          "style": {
+            "navigationBarTitleText": "审核结果（通过、审核中、审核不通过）"
+          }
+        },
+        {
+          "path": "PayResult/PayResult",
+          "style": {
+            "navigationBarTitleText": "服务商-投资订单支付页面"
+          }
+        },
+        {
+          "path": "QiMoService/QiMoService",
+          "style": {
+            "navigationBarTitleText": "客服"
+          }
+        },
+        {
+          "path": "StoreInfo/ApplyRecordBrand",
+          "style": {
+            "navigationBarTitleText": "申请记录(经营品牌)"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pagesGarage",
+      "pages": [
+        {
+          "path": "UserCenter/GoodsCollection",
+          "style": {
+            "navigationBarTitleText": "我的收藏",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/AnnouncementDetail",
+          "style": {
+            "navigationBarTitleText": "公告详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SettingCenter/Setting",
+          "style": {
+            "navigationBarTitleText": "设置"
+          }
+        },
+        {
+          "path": "UserCenter/MyIntegral",
+          "style": {
+            "navigationBarTitleText": "我的积分"
+          }
+        },
+        {
+          "path": "UserCenter/MyIntegralRules",
+          "style": {
+            "navigationBarTitleText": "规则说明"
+          }
+        },
+        {
+            "path": "UserCenter/RealNameStatus",
+            "style": {
+              "navigationStyle": "custom"
+            }
+        },
+        {
+          "path": "UserCenter/RealName",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "UserCenter/UserCenter",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "ShopList/ShopList",
+          "style": {
+            "navigationBarTitleText": "商品列表",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ShopStore/ShopStore",
+          "style": {
+            "navigationBarTitleText": "店铺列表",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "StoreInfo/ApproveInfo",
+          "style": {
+            "navigationBarTitleText": "认证信息"
+          }
+        },
+        {
+          "path": "ShopList/ShopGoodsList",
+          "style": {
+            "navigationBarTitleText": "商品列表",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ShopList/SimilarPro",
+          "style": {
+            "navigationBarTitleText": "相似商品",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ShopList/GoodsDetail",
+          "style": {
+            "navigationBarTitleText": "商品详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ShopList/VehicleType",
+          "style": {
+            "navigationBarTitleText": "适配车型",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ShopList/BrandList",
+          "style": {
+            "navigationBarTitleText": "品牌"
+          }
+        },
+        {
+          "path": "ShopList/ShopBrandList",
+          "style": {
+            "navigationBarTitleText": "品牌"
+          }
+        },
+        {
+          "path": "ShopList/ProductParams",
+          "style": {
+            "navigationBarTitleText": "产品参数"
+          }
+        },
+        {
+          "path": "ShopList/ApplicationCarsList",
+          "style": {
+            "navigationBarTitleText": "适配车型"
+          }
+        },
+        {
+          "path": "ShopList/SubmitOrders",
+          "style": {
+            "navigationBarTitleText": "提交订单"
+          }
+        },
+        {
+          "path": "Order/MarketOrder/MarkerOrderList",
+          "style": {
+            "navigationBarTitleText": "销售订单",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/OrderDetail",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/MarketOrderDetail",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/CodeServiceDetail",
+          "style": {
+            "navigationBarTitleText": "定制服务详情",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/InstallServiceDetail",
+          "style": {
+            "navigationBarTitleText": "安装服务详情",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/InstallServiceCancelDetail",
+          "style": {
+            "navigationBarTitleText": "安装服务取消详情",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/InstallServiceEdit",
+          "style": {
+            "navigationBarTitleText": "修改安装订单",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/OldAndNewService",
+          "style": {
+            "navigationBarTitleText": "以旧换新服务",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/InitiateRefund",
+          "style": {
+            "navigationBarTitleText": "退款申请",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/ReturnRefundDetails",
+          "style": {
+            "navigationBarTitleText": "退款/退货",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/RefundDetails",
+          "style": {
+            "navigationBarTitleText": "退款/退货",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/RefundAfterSales",
+          "style": {
+            "navigationBarTitleText": "退货/退款",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/RefundHistory",
+          "style": {
+            "navigationBarTitleText": "退款/退货",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/ReturnExchange/AfterInfo",
+          "style": {
+            "navigationBarTitleText": "质保说明",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderSearch/OrderSearch",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderSearch/OrderSearchResult",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderSearch/OrderRemark",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/OrderDetail/DeliveryMessage",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Order/DeliverGoods/DeliverGoods",
+          "style": {
+            "navigationBarTitleText": "发货",
+            "navigationBarStyle": "custom",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MyEvaluation/MyEvaluation",
+          "style": {
+            "navigationBarTitleText": "评价",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "MyEvaluation/EvaluationRole",
+          "style": {
+            "navigationBarTitleText": "评价规则",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "MyEvaluation/EvaluationDetails",
+          "style": {
+            "navigationBarTitleText": "评价详情",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "MyEvaluation/SendEvaluation",
+          "style": {
+            "navigationBarTitleText": "发评价",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/InstallSupport",
+          "style": {
+            "navigationBarTitleText": "安装支持",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/InstallOrderList",
+          "style": {
+            "navigationBarTitleText": "订单",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/OrderDetail/OrderDetail",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/SubmitOrders",
+          "style": {
+            "navigationBarTitleText": "提交订单",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/OrderDetail/InitiateRefund",
+          "style": {
+            "navigationBarTitleText": "退货/退款",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/OrderDetail/DeliveryMessage",
+          "style": {
+            "navigationBarTitleText": "发货信息",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/SendEvaluation",
+          "style": {
+            "navigationBarTitleText": "评价",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/OrderDetail/CustomServiceDetail",
+          "style": {
+            "navigationBarTitleText": "定制服务订单详情",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/CancelProgress",
+          "style": {
+            "navigationBarTitleText": "取消进度",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrderUser/OrderList",
+          "style": {
+            "navigationBarTitleText": "安装订单",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrderUser/OrderDetail",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrderUser/EditOrder",
+          "style": {
+            "navigationBarTitleText": "修改安装订单",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "GlobalSearch/SearchPage",
+          "style": {
+            "navigationBarTitleText": "搜索页面",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GlobalSearch/SearchResult",
+          "style": {
+            "navigationBarTitleText": "搜索结果页面",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GlobalSearch/VehicleDetail",
+          "style": {
+            "navigationBarTitleText": "车型详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GlobalSearch/QueryResult",
+          "style": {
+            "navigationBarTitleText": "查询结果页面",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GlobalSearch/QueryApplicationResult",
+          "style": {
+            "navigationBarTitleText": "查询结果页面",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GlobalSearch/UpdateVin",
+          "style": {
+            "navigationBarTitleText": "修改VIN码",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GlobalSearch/AfterSalesService",
+          "style": {
+            "navigationBarTitleText": "售后服务页面",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "RecoveryOrder/RecoveryOrderDetails",
+          "style": {
+            "navigationBarTitleText": "回收订单详情",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "RecoveryOrder/RecoveryValuation",
+          "style": {
+            "navigationBarTitleText": "回收估价",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "RecoveryOrder/RecoveryOrderModify",
+          "style": {
+            "navigationBarTitleText": "修改回收订单",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "RecoveryOrder/RecoveryOrderList",
+          "style": {
+            "navigationBarTitleText": "回收订单列表",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "RecoveryOrder/CancelOrder",
+          "style": {
+            "navigationBarTitleText": "取消订单",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "RecoveryOrder/SendEvaluation",
+          "style": {
+            "navigationBarTitleText": "(回收)评价",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "TechnicalGuidance/TechnicalGuidance",
+          "style": {
+            "navigationBarTitleText": "技术指导",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+            "path": "TechnicalGuidance/moreList",
+            "style": {
+              "navigationBarTitleText": "更多",
+              "enablePullDownRefresh": false
+            }
+        },
+        {
+          "path": "TechnicalGuidance/SeriesCourse",
+          "style": {
+            "navigationBarTitleText": "系列课程",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "TechnicalGuidance/CourseList",
+          "style": {
+            "navigationBarTitleText": "课程上新",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "TechnicalGuidance/MyCollect",
+          "style": {
+            "navigationBarTitleText": "我的收藏",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "TechnicalGuidance/CourseDetail",
+          "style": {
+            "navigationBarTitleText": "课程详情",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "PostSaleService/ApplyPostSaleService",
+          "style": {
+            "navigationBarTitleText": "申请售后",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "PostSaleService/ApplyPostSaleSelectFault",
+          "style": {
+            "navigationBarTitleText": "选择故障件",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "PostSaleService/ApplyPostSaleList",
+          "style": {
+            "navigationBarTitleText": "售后专区",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "PostSaleService/ApplyPostSaleDetail",
+          "style": {
+            "navigationBarTitleText": "售后详情",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "PostSaleService/ApplyPostSaleEvaluate",
+          "style": {
+            "navigationBarTitleText": "满意度评价",
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pagesLeaseManager",
+      "pages": [
+        {
+          "path": "demo",
+          "style": {
+            "navigationBarTitleText": "路由展示文件(招商经理)",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomePage/CreateSupplier",
+          "style": {
+            "navigationBarTitleText": "创建供应商",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomePage/AuthenticationCompleted",
+          "style": {
+            "navigationBarTitleText": "认证完成",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomePage/MessageNotification",
+          "style": {
+            "navigationBarTitleText": "消息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "WorkingTable/SupplierManager",
+          "style": {
+            "navigationBarTitleText": "供应商管理",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "WorkingTable/BusinessCategory",
+          "style": {
+            "navigationBarTitleText": "经营品类",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "WorkingTable/CertifiedCategory",
+          "style": {
+            "navigationBarTitleText": "认证新品类",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "WorkingTable/OperateBrand",
+          "style": {
+            "navigationBarTitleText": "经营品牌",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "WorkingTable/GoodsDetail",
+          "style": {
+            "navigationBarTitleText": "供应商-商品详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "WorkingTable/SupplierDetail",
+          "style": {
+            "navigationBarTitleText": "供应商详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "root": "pagesChannelManager",
+      "pages": [
+        {
+          "path": "demo",
+          "style": {
+            "navigationBarTitleText": "路由展示文件(渠道经理)",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/UserCenter",
+          "style": {
+            "navigationBarTitleText": "基本信息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/Setting",
+          "style": {
+            "navigationBarTitleText": "设置",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InvestmentBook/InvestmentBook",
+          "style": {
+            "navigationBarTitleText": "招商手册",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InvestmentBook/InvestmentBookDetail",
+          "style": {
+            "navigationBarTitleText": "详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomePage/CreateService",
+          "style": {
+            "navigationBarTitleText": "创建服务商",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomePage/CreateChooseType",
+          "style": {
+            "navigationBarTitleText": "选择类型",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ServiceManager/ServiceDetails",
+          "style": {
+            "navigationBarTitleText": "服务商详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ServiceManager/ServiceManager",
+          "style": {
+            "navigationBarTitleText": "ServiceManager",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "/HomePage/CreateChooseType",
+          "style": {
+            "navigationBarTitleText": "选择主体类型",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "/HomePage/CreateService",
+          "style": {
+            "navigationBarTitleText": "创建服务商",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "/HomePage/AuthenticationCompleted",
+          "style": {
+            "navigationBarTitleText": "认证完成",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GarageModule/CreateGarage",
+          "style": {
+            "navigationBarTitleText": "创建修理厂",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GarageModule/GarageManager",
+          "style": {
+            "navigationBarTitleText": "修理厂管理",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GarageModule/GarageDetail",
+          "style": {
+            "navigationBarTitleText": "修理厂详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "/ServiceManager/GoodsDetail",
+          "style": {
+            "navigationBarTitleText": "产品详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GarageModule/CreateGarage",
+          "style": {
+            "navigationBarTitleText": "创建修理厂",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GarageModule/GarageManager",
+          "style": {
+            "navigationBarTitleText": "修理厂管理",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InvestmentManual/InvestmentManual",
+          "style": {
+            "navigationBarTitleText": "招商手册"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pagesOldBuyer",
+      "pages": [
+        {
+          "path": "demo",
+          "style": {
+            "navigationBarTitleText": "路由展示文件(旧机买家)",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomeJumpPage/GarageAccounts",
+          "style": {
+            "navigationBarTitleText": "提交认证信息"
+          }
+        },
+        {
+          "path": "CartModule/SubmitOrders",
+          "style": {
+            "navigationBarTitleText": "提交订单",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "CartModule/OrderRemark",
+          "style": {
+            "navigationBarTitleText": "订单备注",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MyOrder/DeliveryMessage",
+          "style": {
+            "navigationBarTitleText": "发货信息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomeJumpPage/SearchPage",
+          "style": {
+            "navigationBarTitleText": "搜索页面",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomeJumpPage/SearchResult",
+          "style": {
+            "navigationBarTitleText": "搜索结果页面",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "HomeJumpPage/GoodsDetails",
+          "style": {
+            "navigationBarTitleText": "商品详情页",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/UserCenter",
+          "style": {
+            "navigationBarTitleText": "账号信息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MyOrder/MarkerOrderList",
+          "style": {
+            "navigationBarTitleText": "我的订单",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MyOrder/MarkerOrderDetail",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MyOrder/CancelProgress",
+          "style": {
+            "navigationBarTitleText": "取消进度",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/Setting",
+          "style": {
+            "navigationBarTitleText": "设置",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "root": "pagesEngineer",
+      "pages": [
+        {
+          "path": "demo",
+          "style": {
+            "navigationBarTitleText": "路由展示文件(技术工)",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "DemoMap",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3"
+          }
+        },
+        {
+          "path": "SaleArea/SaleArea",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarTitleText": "服务区域"
+          }
+        },
+        {
+          "path": "AuthenticationInformation/EngineerAccounts",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarTitleText": "提交认证信息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "ServiceOrder/ServiceOrderDetail",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarTitleText": "服务单详情"
+          }
+        },
+        {
+          "path": "LogisticsInfo/UpLoadLogistics",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarTitleText": "上传物流信息"
+          }
+        },
+        {
+          "path": "RecallOrder/RecallOrderDetails",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarTitleText": "订单回收详情"
+          }
+        },
+        {
+          "path": "RecallOrder/SubmitVoucher",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarTitleText": "提交验收凭证"
+          }
+        },
+        {
+          "path": "UserCenter/UserCenter",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "Setting/Setting",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MyAccount/MyAccount",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "MyAccount/AccountDetail",
+          "style": {
+            "navigationBarTitleText": "我的收益",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "InstallOrder/InInstallation",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "navigationBarTitleText": "安装单-安装中",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InstallOrder/HasCancelled",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "navigationBarTitleText": "安装单-已取消",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InstallOrder/HasCompleted",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "navigationBarTitleText": "安装单-已完成",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "InstallOrder/SubmitInstall",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "navigationBarTitleText": "提交安装凭证",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "AfterSalesOrder/SubmitAcceptanceCertificate",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "navigationBarTitleText": "提交验收凭证",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "AfterSalesOrder/DoorStatus",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "navigationBarTitleText": "售后订单-上门中",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "OrderList/CancelOrder",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "navigationBarTitleText": "取消订单",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "OrderList/EditOrder",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarBackgroundColor": "#035db3",
+            "navigationBarTitleText": "修改订单",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "pagesQualification/QualificationHome/QualificationList",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "pagesQualification/RecyclingQualification/CourseList",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "pagesQualification/RecyclingQualification/CourseDetail",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "pagesQualification/RecyclingQualification/CourseDetailText",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "pagesQualification/LearningRecords/LearningRecords",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "Spread/SpreadHome",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "Spread/SpreadList",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "Spread/SpreadSetting",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pagesRecovery",
+      "pages": [
+        {
+          "path": "PresellActivity/PresellActivityList",
+          "style": {
+            "navigationBarTitleText": "预售活动",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PresellActivity/presellActivitySelectGoods",
+          "style": {
+            "navigationBarTitleText": "选择商品",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PresellActivity/PresellReleaseActivity",
+          "style": {
+            "navigationBarTitleText": "选择商品",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PresellActivity/presellActivitySelectGoodsDetail",
+          "style": {
+            "navigationBarTitleText": "商品详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PresellActivity/presellActivityGoodsDetail",
+          "style": {
+            "navigationBarTitleText": "商品详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "PresellActivity/presellActivityAuditFailed",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "demo",
+          "style": {
+            "navigationBarTitleText": "路由展示文件(回收公司)",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellOrder/MarketOrder/MarketOrderList",
+          "style": {
+            "navigationBarTitleText": "销售订单",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellOrder/OrderSearch/OrderSearch",
+          "style": {
+            "navigationBarTitleText": "搜索",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellOrder/OrderSearch/OrderRemark",
+          "style": {
+            "navigationBarTitleText": "备注",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellOrder/OrderDetail/OrderDetail",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellOrder/DeliverGoods/DeliverGoods",
+          "style": {
+            "navigationBarTitleText": "发货",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellOrder/OrderDetail/DeliveryMessage",
+          "style": {
+            "navigationBarTitleText": "发货信息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellOrder/OrderDetail/ScanCodeDelivery",
+          "style": {
+            "navigationBarTitleText": "扫码发货",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellOrder/ReceiveAddress/AddressList",
+          "style": {
+            "navigationBarTitleText": "收货地址",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellOrder/ReceiveAddress/LogisticsInfo",
+          "style": {
+            "navigationBarTitleText": "物流信息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellGood/GoodList/GoodList",
+          "style": {
+            "navigationBarTitleText": "销售商品",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellGood/ReleaseSellGood/ReleaseSellGood",
+          "style": {
+            "navigationBarTitleText": "发布销售商品",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellGood/DeployPreSell/DeployPreSell",
+          "style": {
+            "navigationBarTitleText": "配置预售信息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellGood/PreviewGoods/PreviewGoods",
+          "style": {
+            "navigationBarTitleText": "商品预览",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "SellGood/AuditPage/AuditPage",
+          "style": {
+            "navigationBarTitleText": "审核未通过和审核中",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsStore/GoodsStore",
+          "style": {
+            "navigationBarTitleText": "商品库存",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsStore/StoreChange",
+          "style": {
+            "navigationBarTitleText": "库存变更记录",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsStore/AddWarehouse",
+          "style": {
+            "navigationBarTitleText": "设置库存信息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsStore/SetDeliveryTimeliness",
+          "style": {
+            "navigationBarTitleText": "设置发货时效",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsStore/NewDeliveryTimeliness",
+          "style": {
+            "navigationBarTitleText": "设置发货时效",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsRecycle/GoodsRecycle",
+          "style": {
+            "navigationBarTitleText": "回收商品",
+			"navigationBarTextStyle": "white",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsRecycle/GoodsEdit",
+          "style": {
+            "navigationBarTitleText": "修改商品",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsRecycle/GoodsAdd",
+          "style": {
+            "navigationBarTitleText": "发布商品",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsRecycle/DeviceSize",
+          "style": {
+            "navigationBarTitleText": "型号列表",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsRecycle/TypeApply",
+          "style": {
+            "navigationBarTitleText": "申请型号",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsRecycle/TypeRecord",
+          "style": {
+            "navigationBarTitleText": "型号申请记录",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "GoodsRecycle/TypeRecordDetail",
+          "style": {
+            "navigationBarTitleText": "申请详情",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "RecycleOrders/RecycleOrders",
+          "style": {
+            "navigationBarTitleText": "回收订单",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "RecycleOrders/TypeRecordDetail",
+          "style": {
+            "navigationBarTitleText": "回收订单详情页",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/MyAccount/MyAccount",
+          "style": {
+            "navigationBarTitleText": "我的账户",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/MyAccount/AccountDetail",
+          "style": {
+            "navigationBarTitleText": "账户明细",
+            "enablePullDownRefresh": false,
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/UserCenter",
+          "style": {
+            "navigationBarTitleText": "个人信息",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        },
+        {
+          "path": "UserCenter/SettingUp/SettingUp",
+          "style": {
+            "navigationBarTitleText": "设置",
+            "app-plus": {
+              "titleView": false,
+              "bounce": "none"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "globalStyle": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#FFF",
+    "navigationBarTitleText": "",
+    "backgroundColor": "#f8f8f8",
+    "usingComponents": {
+      "VoTree": "/components/VoTree/VoTree"
+    }
+  },
+  "condition": {
+    //模式配置，仅开发期间生效
+    "current": 0,
+    //当前激活的模式(list 的索引项)
+    "list": [
+      {
+        "name": "",
+        //模式名称
+        "path": "",
+        //启动页面，必选
+        "query": ""
+        //启动参数，在页面的onLoad函数里面得到
+      }
+    ]
+  }
+}

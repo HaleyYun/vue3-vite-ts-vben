@@ -1,0 +1,1312 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@vocen/shared</title><meta name="description" content="Documentation for @vocen/shared"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@vocen/shared</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>@vocen/shared </h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#vocenshared工具类" id="vocenshared工具类" style="color: inherit; text-decoration: none;">
+  <h1>@vocen/shared工具类</h1>
+</a>
+<p>沃森通用工具类包 @vocen/shared，包含 lodash 工具类、decimaljs 数字精度计算类、常用业务工具类方法、常用正则，正则校验方法、通用状态类等</p>
+
+<a href="#工具类说明" id="工具类说明" style="color: inherit; text-decoration: none;">
+  <h2>工具类说明</h2>
+</a>
+
+<a href="#类型集合" id="类型集合" style="color: inherit; text-decoration: none;">
+  <h3>类型集合</h3>
+</a>
+<table>
+<thead>
+<tr>
+<th>工具类型</th>
+<th>类型说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/shared/readMe.html#pattern%E7%B1%BB">Validator</a></td>
+<td>表单校验类</td>
+</tr>
+<tr>
+<td><a href="/shared/readMe.html#pattern%E7%B1%BB">Pattern</a></td>
+<td>正则类</td>
+</tr>
+<tr>
+<td><a href="/shared/readMe.html#decimal%E7%B1%BB">Decimal</a></td>
+<td>数字精度计算</td>
+</tr>
+<tr>
+<td><a href="/shared/readMe.html#lodash%E7%B1%BB">Lodash</a></td>
+<td>通用lodash工具类</td>
+</tr>
+<tr>
+<td><a href="/shared/readMe.html#voutils%E7%B1%BB">VoUtils</a></td>
+<td>沃森业务工具类</td>
+</tr>
+<tr>
+<td><a href="/shared/readMe.html#vohttp%E7%B1%BB">VoHttp</a></td>
+<td>兼容pc和uni端的数据请求库</td>
+</tr>
+<tr>
+<td><a href="/shared/readMe.html#encrypt%E7%B1%BB">Encrypt</a></td>
+<td>非对称加密解密库</td>
+</tr>
+<tr>
+<td><a href="/shared/readMe.html#store%E7%B1%BB">Store</a></td>
+<td>通用状态管理类</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody></table>
+
+<a href="#使用方法" id="使用方法" style="color: inherit; text-decoration: none;">
+  <h3>使用方法</h3>
+</a>
+<p>1、切换内网镜像，可参考<a href="/engineering/readMe.html#%E7%AC%AC%E4%B8%89%E6%96%B9%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86">第三方依赖管理</a></p>
+<p>2、安装使用，推荐使用<a href="https://www.pnpm.cn/installation">pnpm</a></p>
+<pre><code><span class="hl-0">pnpm</span><span class="hl-1"> </span><span class="hl-0">add</span><span class="hl-1"> @</span><span class="hl-0">vocen</span><span class="hl-1">/</span><span class="hl-0">shared</span>
+</code></pre>
+<p>3、使用方式 (根据业务需求，引入相应的模块，即可使用，具体方法请参考使用文档说明)</p>
+<pre><code><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">Store</span><span class="hl-1">, </span><span class="hl-0">VoUtils</span><span class="hl-1">, </span><span class="hl-0">_</span><span class="hl-1">, </span><span class="hl-0">Pattern</span><span class="hl-1">, </span><span class="hl-0">Decimal</span><span class="hl-1">, </span><span class="hl-0">Validator</span><span class="hl-1">, </span><span class="hl-0">VoHttp</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span>
+</code></pre>
+
+<a href="#validator类" id="validator类" style="color: inherit; text-decoration: none;">
+  <h2>Validator类</h2>
+</a>
+
+<a href="#使用方式" id="使用方式" style="color: inherit; text-decoration: none;">
+  <h3>使用方式</h3>
+</a>
+<pre><code><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">Validator</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">source</span><span class="hl-1"> = {};</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">rule</span><span class="hl-1"> = {};</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">mul</span><span class="hl-1"> = </span><span class="hl-4">false</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">validator</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">Validator</span><span class="hl-1">(</span><span class="hl-0">source</span><span class="hl-1">, </span><span class="hl-0">rule</span><span class="hl-1">, </span><span class="hl-0">mul</span><span class="hl-1">);</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">result</span><span class="hl-1"> = </span><span class="hl-0">validator</span><span class="hl-1">.</span><span class="hl-6">validate</span><span class="hl-1">((</span><span class="hl-0">valid</span><span class="hl-1">, </span><span class="hl-0">errors</span><span class="hl-1">) </span><span class="hl-4">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-2">if</span><span class="hl-1">(</span><span class="hl-0">valid</span><span class="hl-1">) {</span><br/><span class="hl-1">        </span><span class="hl-7">// 校验通过执行的逻辑</span><br/><span class="hl-1">    } </span><span class="hl-2">else</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-7">// 校验不通过，可根据返回的errors进行业务端进行提示</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">})</span>
+</code></pre>
+
+<a href="#参数说明" id="参数说明" style="color: inherit; text-decoration: none;">
+  <h3>参数说明</h3>
+</a>
+<p>校验规则参见 <a href="https://github.com/yiminghe/async-validator">async-validator</a></p>
+
+<a href="#source" id="source" style="color: inherit; text-decoration: none;">
+  <h4>source</h4>
+</a>
+<pre><code><span class="hl-1">    # </span><span class="hl-0">source</span><br/><span class="hl-1">    </span><span class="hl-0">需要校验的对象</span><br/><span class="hl-1">    </span><span class="hl-0">比如</span><span class="hl-1">：</span><br/><span class="hl-1">    {</span><br/><span class="hl-1">        </span><span class="hl-8">name</span><span class="hl-1">: </span><span class="hl-3">&#39;xx&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-8">age</span><span class="hl-1">: </span><span class="hl-3">&#39;12&#39;</span><br/><span class="hl-1">    }</span>
+</code></pre>
+
+<a href="#rule" id="rule" style="color: inherit; text-decoration: none;">
+  <h4>rule</h4>
+</a>
+<pre><code><span class="hl-1"># </span><span class="hl-0">rule</span><br/><span class="hl-0">校验规则</span><br/><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-8">email</span><span class="hl-1">: [</span><br/><span class="hl-1">    { </span><span class="hl-0">type:</span><span class="hl-1"> </span><span class="hl-3">&#39;string&#39;</span><span class="hl-1">, </span><span class="hl-0">required:</span><span class="hl-1"> </span><span class="hl-4">true</span><span class="hl-1">, </span><span class="hl-0">pattern:</span><span class="hl-1"> </span><span class="hl-0">Schema</span><span class="hl-1">.</span><span class="hl-0">pattern</span><span class="hl-1">.</span><span class="hl-0">email</span><span class="hl-1"> },</span><br/><span class="hl-1">    {</span><br/><span class="hl-1">      </span><span class="hl-6">validator</span><span class="hl-1">(</span><span class="hl-0">rule</span><span class="hl-1">, </span><span class="hl-0">value</span><span class="hl-1">, </span><span class="hl-0">callback</span><span class="hl-1">, </span><span class="hl-0">source</span><span class="hl-1">, </span><span class="hl-0">options</span><span class="hl-1">) {</span><br/><span class="hl-1">        </span><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">errors</span><span class="hl-1"> = [];</span><br/><span class="hl-1">        </span><span class="hl-7">// test if email address already exists in a database</span><br/><span class="hl-1">        </span><span class="hl-7">// and add a validation error to the errors array if it does</span><br/><span class="hl-1">        </span><span class="hl-2">return</span><span class="hl-1"> </span><span class="hl-0">errors</span><span class="hl-1">;</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">  ],</span><br/><span class="hl-1">};</span>
+</code></pre>
+
+<a href="#type" id="type" style="color: inherit; text-decoration: none;">
+  <h5>Type</h5>
+</a>
+<p><code>type</code>要使用的验证器。认可的类型值为</p>
+<ul>
+<li>string: 必须是类型 string。This is the default type.</li>
+<li>number: 必须是类型 number。</li>
+<li>boolean: 必须是类型 boolean。</li>
+<li>method: 必须是类型 function。</li>
+<li>regexp: 必须是 RegExp 创建新的时不产生异常的实例或字符串 RegExp。</li>
+<li>integer: 必须是类型 number 和整数。</li>
+<li>float: 必须是类型 number 和浮点数。</li>
+<li>array: 必须是由 确定的数组 Array.isArray。</li>
+<li>object: 必须是 typeobject 而不是 Array.isArray。</li>
+<li>enum: 值必须存在于 enum.</li>
+<li>date：值必须是有效的，由 Date</li>
+<li>url: 必须是类型 url。</li>
+<li>hex: 必须是类型 hex。</li>
+<li>email: 必须是类型 email。</li>
+<li>any: 可以是任何类型。</li>
+</ul>
+
+<a href="#required" id="required" style="color: inherit; text-decoration: none;">
+  <h5>Required</h5>
+</a>
+<p><code>require</code> <code>drule</code> 属性指示该字段必须存在于正在验证的源对象上。</p>
+
+<a href="#pattern" id="pattern" style="color: inherit; text-decoration: none;">
+  <h5>Pattern</h5>
+</a>
+<p><code>pattern</code> <code>rule</code> 属性指示值必须匹配才能通过验证的正则表达式</p>
+
+<a href="#range" id="range" style="color: inherit; text-decoration: none;">
+  <h5>Range</h5>
+</a>
+<p>使用<code>min</code>和<code>max</code>属性定义范围。<code>For </code> <code>string</code> 和 <code>array</code> <code>types </code>比较针对 <code>length</code>, for <code>number</code> <code>types </code>数字不能小于<code>min</code>或大于<code>max</code>。</p>
+
+<a href="#length" id="length" style="color: inherit; text-decoration: none;">
+  <h5>Length</h5>
+</a>
+<p>要验证字段的确切长度，请指定<code>len</code>属性。对属性执行<code>string</code>和<code>array</code>类型比较，对于类型，此属性指示与 的完全匹配，即它只能严格等于。<code>length</code> <code>number</code> <code>number</code> <code>len</code></p>
+<p>如果该<code>len</code>属性与<code>min</code>和 max 范围属性结合使用，<code>len</code>则优先。</p>
+<p>Enumerable</p>
+<blockquote>
+<p>从 3.0.0 版开始，如果要验证值 0 或 false 内部 enum 类型，则必须显式包含它们。</p>
+</blockquote>
+<p>要验证可能值列表中的值，请使用具有列出字段有效值<code>enum</code>的属性的类型，例如：<code>enum</code></p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">descriptor</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-0">role:</span><span class="hl-1"> { </span><span class="hl-0">type:</span><span class="hl-1"> </span><span class="hl-3">&#39;enum&#39;</span><span class="hl-1">, </span><span class="hl-0">enum:</span><span class="hl-1"> [</span><span class="hl-3">&#39;admin&#39;</span><span class="hl-1">, </span><span class="hl-3">&#39;user&#39;</span><span class="hl-1">, </span><span class="hl-3">&#39;guest&#39;</span><span class="hl-1">] },</span><br/><span class="hl-1">};</span>
+</code></pre>
+
+<a href="#mul" id="mul" style="color: inherit; text-decoration: none;">
+  <h4>mul</h4>
+</a>
+<p>返回格式 mul = false; // 单个返回， 从上往下依次验证，如遇到输入错误，则返回报错的第一个失败信息 mul = true; // 返回所有的输入错误的信息</p>
+
+<a href="#pattern类" id="pattern类" style="color: inherit; text-decoration: none;">
+  <h2>Pattern类</h2>
+</a>
+<p>Pattern 类里面，提供了常用的正则表达式和常用的正则校验函数</p>
+
+<a href="#使用方式-1" id="使用方式-1" style="color: inherit; text-decoration: none;">
+  <h3>使用方式</h3>
+</a>
+<pre><code><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">Pattern</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><br/><br/><span class="hl-7">// 手机号正则表达式</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">phoneReg</span><span class="hl-1"> = </span><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-0">phone</span><span class="hl-1">;</span><br/><br/><br/><span class="hl-7">// 验证手机号是否正确</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">phone</span><span class="hl-1"> = </span><span class="hl-3">&#39;15565601175&#39;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">result</span><span class="hl-1"> = </span><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isPhone</span><span class="hl-1">(</span><span class="hl-0">phone</span><span class="hl-1">);</span><br/><span class="hl-7">// 返回 true</span><br/>
+</code></pre>
+
+<a href="#常用正则表达式" id="常用正则表达式" style="color: inherit; text-decoration: none;">
+  <h3>常用正则表达式</h3>
+</a>
+<hr>
+
+<a href="#phone" id="phone" style="color: inherit; text-decoration: none;">
+  <h4>phone</h4>
+</a>
+<p>手机号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">phone</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-9">1</span><span class="hl-11">[</span><span class="hl-9">3456789</span><span class="hl-11">][</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-12">{9}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#smscode" id="smscode" style="color: inherit; text-decoration: none;">
+  <h4>smsCode</h4>
+</a>
+<p>数字验证码 6 位</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">smsCode</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">1-9</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-12">{5}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#email" id="email" style="color: inherit; text-decoration: none;">
+  <h4>email</h4>
+</a>
+<p>邮箱</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">email</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">([</span><span class="hl-9">a-zA-Z0-9_-</span><span class="hl-11">])</span><span class="hl-12">+</span><span class="hl-9">@</span><span class="hl-11">([</span><span class="hl-9">a-zA-Z0-9_-</span><span class="hl-11">])</span><span class="hl-12">+</span><span class="hl-11">(</span><span class="hl-9">.</span><span class="hl-11">[</span><span class="hl-9">a-zA-Z0-9_-</span><span class="hl-11">])</span><span class="hl-12">+</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#float_number" id="float_number" style="color: inherit; text-decoration: none;">
+  <h4>float_number</h4>
+</a>
+<p>浮点数字</p>
+
+<a href="#positive_number" id="positive_number" style="color: inherit; text-decoration: none;">
+  <h4>positive_number</h4>
+</a>
+<p>正数或者大于0的数</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">float_number</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-9">-</span><span class="hl-12">?</span><span class="hl-9">\d</span><span class="hl-12">+</span><span class="hl-13">\.</span><span class="hl-12">?</span><span class="hl-9">\d</span><span class="hl-12">+</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#zero_dot" id="zero_dot" style="color: inherit; text-decoration: none;">
+  <h4>zero_dot</h4>
+</a>
+<p>0 - 1</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">zero_dot</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-10">^</span><span class="hl-11">(</span><span class="hl-9">1</span><span class="hl-10">|</span><span class="hl-9">0</span><span class="hl-11">(</span><span class="hl-13">\.</span><span class="hl-11">(</span><span class="hl-9">\d</span><span class="hl-12">?</span><span class="hl-11">)(</span><span class="hl-9">\d</span><span class="hl-12">?</span><span class="hl-11">)([</span><span class="hl-9">1-9</span><span class="hl-11">]</span><span class="hl-12">?</span><span class="hl-11">))</span><span class="hl-12">?</span><span class="hl-11">)</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#int_number" id="int_number" style="color: inherit; text-decoration: none;">
+  <h4>int_number</h4>
+</a>
+<p>整型</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">int_number</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-12">*</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#number" id="number" style="color: inherit; text-decoration: none;">
+  <h4>number</h4>
+</a>
+<p>正数、负数、和小数正则</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">number</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">(</span><span class="hl-13">\-</span><span class="hl-10">|</span><span class="hl-13">\+</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-9">\d</span><span class="hl-12">+</span><span class="hl-11">(</span><span class="hl-13">\.</span><span class="hl-9">\d</span><span class="hl-12">+</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#standard_name" id="standard_name" style="color: inherit; text-decoration: none;">
+  <h4>standard_name</h4>
+</a>
+<p>标准名字正则： 名字字符串组成规则， 只包含数字，中文（汉字），英文组合</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">standard_name</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">(?=</span><span class="hl-9">.</span><span class="hl-12">*</span><span class="hl-9">\d</span><span class="hl-11">)(?=</span><span class="hl-9">.</span><span class="hl-12">*</span><span class="hl-11">[</span><span class="hl-9">a-zA-Z</span><span class="hl-11">])(?=</span><span class="hl-9">.</span><span class="hl-12">*</span><span class="hl-11">[</span><span class="hl-4">\u4E00</span><span class="hl-9">-</span><span class="hl-4">\u9FA5</span><span class="hl-11">])[</span><span class="hl-4">\u4E00</span><span class="hl-9">-</span><span class="hl-4">\u9FA5</span><span class="hl-9">A-Za-z0-9</span><span class="hl-11">]</span><span class="hl-12">*</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#standard_password" id="standard_password" style="color: inherit; text-decoration: none;">
+  <h4>standard_password</h4>
+</a>
+<p>标准密码正则： 密码可以用字母、数字组合，不区分大小写， 密码长度需在6-16位。</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">standard_password</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">a-zA-Z0-9</span><span class="hl-11">]</span><span class="hl-12">{6,16}</span><span class="hl-10">$</span><span class="hl-9">/</span>
+</code></pre>
+
+<a href="#id_card" id="id_card" style="color: inherit; text-decoration: none;">
+  <h4>id_card</h4>
+</a>
+<p>身份证号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">id_card</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-11">(</span><span class="hl-10">^</span><span class="hl-9">\d</span><span class="hl-12">{15}</span><span class="hl-10">$</span><span class="hl-11">)</span><span class="hl-10">|</span><span class="hl-11">(</span><span class="hl-10">^</span><span class="hl-9">\d</span><span class="hl-12">{18}</span><span class="hl-10">$</span><span class="hl-11">)</span><span class="hl-10">|</span><span class="hl-11">(</span><span class="hl-10">^</span><span class="hl-9">\d</span><span class="hl-12">{17}</span><span class="hl-11">(</span><span class="hl-9">\d</span><span class="hl-10">|</span><span class="hl-9">X</span><span class="hl-10">|</span><span class="hl-9">x</span><span class="hl-11">)</span><span class="hl-10">$</span><span class="hl-11">)</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#id_card_one" id="id_card_one" style="color: inherit; text-decoration: none;">
+  <h4>id_card_one</h4>
+</a>
+<p>身份证号 一代</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">id_card_one</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-9">\d</span><span class="hl-12">{8}</span><span class="hl-11">(</span><span class="hl-9">0\d</span><span class="hl-10">|</span><span class="hl-9">10</span><span class="hl-10">|</span><span class="hl-9">11</span><span class="hl-10">|</span><span class="hl-9">12</span><span class="hl-11">)([</span><span class="hl-9">0-2</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-10">|</span><span class="hl-9">30</span><span class="hl-10">|</span><span class="hl-9">31</span><span class="hl-11">)</span><span class="hl-9">\d</span><span class="hl-12">{3}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#id_card_two" id="id_card_two" style="color: inherit; text-decoration: none;">
+  <h4>id_card_two</h4>
+</a>
+<p>身份证号 二代</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">id_card_two</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-9">\d</span><span class="hl-12">{6}</span><span class="hl-11">(</span><span class="hl-9">18</span><span class="hl-10">|</span><span class="hl-9">19</span><span class="hl-10">|</span><span class="hl-9">20</span><span class="hl-11">)</span><span class="hl-9">\d</span><span class="hl-12">{2}</span><span class="hl-11">(</span><span class="hl-9">0\d</span><span class="hl-10">|</span><span class="hl-9">10</span><span class="hl-10">|</span><span class="hl-9">11</span><span class="hl-10">|</span><span class="hl-9">12</span><span class="hl-11">)([</span><span class="hl-9">0-2</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-10">|</span><span class="hl-9">30</span><span class="hl-10">|</span><span class="hl-9">31</span><span class="hl-11">)</span><span class="hl-9">\d</span><span class="hl-12">{3}</span><span class="hl-11">(</span><span class="hl-9">\d</span><span class="hl-10">|</span><span class="hl-9">X</span><span class="hl-10">|</span><span class="hl-9">x</span><span class="hl-11">)</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#password" id="password" style="color: inherit; text-decoration: none;">
+  <h4>password</h4>
+</a>
+<p>密码(以字母开头，长度在 6~18 之间，只能包含字母、数字和下划线)</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">password</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">a-zA-Z</span><span class="hl-11">]</span><span class="hl-9">\w</span><span class="hl-12">{5,17}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#strong_password" id="strong_password" style="color: inherit; text-decoration: none;">
+  <h4>strong_password</h4>
+</a>
+<p>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)：</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">strong_password</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">(?=</span><span class="hl-9">.</span><span class="hl-12">*</span><span class="hl-9">\d</span><span class="hl-11">)(?=</span><span class="hl-9">.</span><span class="hl-12">*</span><span class="hl-11">[</span><span class="hl-9">a-z</span><span class="hl-11">])(?=</span><span class="hl-9">.</span><span class="hl-12">*</span><span class="hl-11">[</span><span class="hl-9">A-Z</span><span class="hl-11">])</span><span class="hl-9">.</span><span class="hl-12">{8,10}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#date_day" id="date_day" style="color: inherit; text-decoration: none;">
+  <h4>date_day</h4>
+</a>
+<p>日期格式 yyyy-MM-dd</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">date_day</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-9">\d</span><span class="hl-12">{4}</span><span class="hl-9">-\d</span><span class="hl-12">{1,2}</span><span class="hl-9">-\d</span><span class="hl-12">{1,2}</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#date" id="date" style="color: inherit; text-decoration: none;">
+  <h4>date</h4>
+</a>
+<p>可以被 moment 转化成功的时间 YYYYMMDD HH:mm:ss</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">date</span><span class="hl-1"> =</span><span class="hl-9">/</span><span class="hl-10">^</span><span class="hl-9">\d</span><span class="hl-12">{4}</span><span class="hl-11">([</span><span class="hl-9">/:-</span><span class="hl-13">\\</span><span class="hl-9">S</span><span class="hl-11">])(</span><span class="hl-9">1</span><span class="hl-11">[</span><span class="hl-9">0-2</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">0</span><span class="hl-12">?</span><span class="hl-11">[</span><span class="hl-9">1-9</span><span class="hl-11">])</span><span class="hl-4">\1</span><span class="hl-11">(</span><span class="hl-9">0</span><span class="hl-12">?</span><span class="hl-11">[</span><span class="hl-9">1-9</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-11">[</span><span class="hl-9">1-2</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-10">|</span><span class="hl-9">30</span><span class="hl-10">|</span><span class="hl-9">31</span><span class="hl-11">)</span><span class="hl-9"> </span><span class="hl-11">(?:[</span><span class="hl-9">01</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-10">|</span><span class="hl-9">2</span><span class="hl-11">[</span><span class="hl-9">0-3</span><span class="hl-11">])</span><span class="hl-9">:</span><span class="hl-11">[</span><span class="hl-9">0-5</span><span class="hl-11">]</span><span class="hl-9">\d:</span><span class="hl-11">[</span><span class="hl-9">0-5</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span><br/>
+</code></pre>
+
+<a href="#qq" id="qq" style="color: inherit; text-decoration: none;">
+  <h4>qq</h4>
+</a>
+<p>腾讯 qq 号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">qq</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-11">[</span><span class="hl-9">1-9</span><span class="hl-11">][</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-12">{4,}</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#zipcode-邮编地址" id="zipcode-邮编地址" style="color: inherit; text-decoration: none;">
+  <h4>zipcode 邮编地址</h4>
+</a>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">zipcode</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">(</span><span class="hl-9">0</span><span class="hl-11">[</span><span class="hl-9">1-7</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">1</span><span class="hl-11">[</span><span class="hl-9">0-356</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">2</span><span class="hl-11">[</span><span class="hl-9">0-7</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">3</span><span class="hl-11">[</span><span class="hl-9">0-6</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">4</span><span class="hl-11">[</span><span class="hl-9">0-7</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">5</span><span class="hl-11">[</span><span class="hl-9">1-7</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">6</span><span class="hl-11">[</span><span class="hl-9">1-7</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">7</span><span class="hl-11">[</span><span class="hl-9">0-5</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">8</span><span class="hl-11">[</span><span class="hl-9">013-6</span><span class="hl-11">])</span><span class="hl-9">\d</span><span class="hl-12">{4}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span><br/>
+</code></pre>
+
+<a href="#bank_card" id="bank_card" style="color: inherit; text-decoration: none;">
+  <h4>bank_card</h4>
+</a>
+<p>验证银行卡 16 位或 19 位</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">bank_card</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">([</span><span class="hl-9">1-9</span><span class="hl-11">]</span><span class="hl-12">{1}</span><span class="hl-11">)(</span><span class="hl-9">\d</span><span class="hl-12">{15}</span><span class="hl-10">|</span><span class="hl-9">\d</span><span class="hl-12">{18}</span><span class="hl-11">)</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#ipv4" id="ipv4" style="color: inherit; text-decoration: none;">
+  <h4>ipv4</h4>
+</a>
+<p>ipv4 地址</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ipv4</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-10">^</span><span class="hl-11">(?:(?:</span><span class="hl-9">25</span><span class="hl-11">[</span><span class="hl-9">0-5</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">2</span><span class="hl-11">[</span><span class="hl-9">0-4</span><span class="hl-11">][</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-11">[</span><span class="hl-9">01</span><span class="hl-11">]</span><span class="hl-12">?</span><span class="hl-11">[</span><span class="hl-9">0-9</span><span class="hl-11">][</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-12">?</span><span class="hl-11">)</span><span class="hl-13">\.</span><span class="hl-11">)</span><span class="hl-12">{3}</span><span class="hl-11">(?:</span><span class="hl-9">25</span><span class="hl-11">[</span><span class="hl-9">0-5</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">2</span><span class="hl-11">[</span><span class="hl-9">0-4</span><span class="hl-11">][</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-11">[</span><span class="hl-9">01</span><span class="hl-11">]</span><span class="hl-12">?</span><span class="hl-11">[</span><span class="hl-9">0-9</span><span class="hl-11">][</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-12">?</span><span class="hl-11">)</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span><br/>
+</code></pre>
+
+<a href="#weichat_account" id="weichat_account" style="color: inherit; text-decoration: none;">
+  <h4>weichat_account</h4>
+</a>
+<p>微信号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">weichat_account</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">a-zA-Z</span><span class="hl-11">][</span><span class="hl-9">-_a-zA-Z0-9</span><span class="hl-11">]</span><span class="hl-12">{5,19}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#passport" id="passport" style="color: inherit; text-decoration: none;">
+  <h4>passport</h4>
+</a>
+<p>护照</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">passport</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-11">(</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">EeKkGgDdSsPpHh</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-12">{8}</span><span class="hl-10">$</span><span class="hl-11">)</span><span class="hl-10">|</span><span class="hl-11">(</span><span class="hl-10">^</span><span class="hl-11">(([</span><span class="hl-9">Ee</span><span class="hl-11">][</span><span class="hl-9">a-fA-F</span><span class="hl-11">])</span><span class="hl-10">|</span><span class="hl-11">([</span><span class="hl-9">DdSsPp</span><span class="hl-11">][</span><span class="hl-9">Ee</span><span class="hl-11">])</span><span class="hl-10">|</span><span class="hl-11">([</span><span class="hl-9">Kk</span><span class="hl-11">][</span><span class="hl-9">Jj</span><span class="hl-11">])</span><span class="hl-10">|</span><span class="hl-11">([</span><span class="hl-9">Mm</span><span class="hl-11">][</span><span class="hl-9">Aa</span><span class="hl-11">])</span><span class="hl-10">|</span><span class="hl-11">(</span><span class="hl-9">1</span><span class="hl-11">[</span><span class="hl-9">45</span><span class="hl-11">]))</span><span class="hl-9">\d</span><span class="hl-12">{7}</span><span class="hl-10">$</span><span class="hl-11">)</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#car_num" id="car_num" style="color: inherit; text-decoration: none;">
+  <h4>car_num</h4>
+</a>
+<p>车牌号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">car_num</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领</span><span class="hl-11">][</span><span class="hl-9">A-HJ-NP-Z</span><span class="hl-11">][</span><span class="hl-9">A-HJ-NP-Z0-9</span><span class="hl-11">]</span><span class="hl-12">{4,5}</span><span class="hl-11">[</span><span class="hl-9">A-HJ-NP-Z0-9挂学警港澳</span><span class="hl-11">]</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span><br/>
+</code></pre>
+
+<a href="#new_energy" id="new_energy" style="color: inherit; text-decoration: none;">
+  <h4>new_energy</h4>
+</a>
+<p>新能源车牌号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">new_energy</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-11">[</span><span class="hl-9">京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领 A-Z</span><span class="hl-11">]</span><span class="hl-12">{1}</span><span class="hl-11">[</span><span class="hl-9">A-HJ-NP-Z</span><span class="hl-11">]</span><span class="hl-12">{1}</span><span class="hl-11">(([</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-12">{5}</span><span class="hl-11">[</span><span class="hl-9">DF</span><span class="hl-11">])</span><span class="hl-10">|</span><span class="hl-11">([</span><span class="hl-9">DF</span><span class="hl-11">][</span><span class="hl-9">A-HJ-NP-Z0-9</span><span class="hl-11">][</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-12">{4}</span><span class="hl-11">))</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#energy" id="energy" style="color: inherit; text-decoration: none;">
+  <h4>energy</h4>
+</a>
+<p>非新能源</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">energy</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领 A-Z</span><span class="hl-11">]</span><span class="hl-12">{1}</span><span class="hl-11">[</span><span class="hl-9">A-HJ-NP-Z</span><span class="hl-11">]</span><span class="hl-12">{1}</span><span class="hl-11">[</span><span class="hl-9">A-Z0-9</span><span class="hl-11">]</span><span class="hl-12">{4}</span><span class="hl-11">[</span><span class="hl-9">A-Z0-9挂学警港澳</span><span class="hl-11">]</span><span class="hl-12">{1}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#host" id="host" style="color: inherit; text-decoration: none;">
+  <h4>host</h4>
+</a>
+<p>域名</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">host</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-11">[</span><span class="hl-9">a-zA-Z0-9</span><span class="hl-11">][</span><span class="hl-9">-a-zA-Z0-9</span><span class="hl-11">]</span><span class="hl-12">{0,62}</span><span class="hl-11">(</span><span class="hl-13">\.</span><span class="hl-11">[</span><span class="hl-9">a-zA-Z0-9</span><span class="hl-11">][</span><span class="hl-9">-a-zA-Z0-9</span><span class="hl-11">]</span><span class="hl-12">{0,62}</span><span class="hl-11">)</span><span class="hl-12">+</span><span class="hl-13">\.</span><span class="hl-12">?</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#white" id="white" style="color: inherit; text-decoration: none;">
+  <h4>white</h4>
+</a>
+<p>空白行</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">white</span><span class="hl-1"> =</span><span class="hl-9"> /\n\s</span><span class="hl-12">*</span><span class="hl-9">\r/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#num" id="num" style="color: inherit; text-decoration: none;">
+  <h4>num</h4>
+</a>
+<p>匹配正数、负数、和小数</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">num</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">(</span><span class="hl-13">\-</span><span class="hl-10">|</span><span class="hl-13">\+</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-9">\d</span><span class="hl-12">+</span><span class="hl-11">(</span><span class="hl-13">\.</span><span class="hl-9">\d</span><span class="hl-12">+</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#url" id="url" style="color: inherit; text-decoration: none;">
+  <h4>url</h4>
+</a>
+<p>url 地址</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">url</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-10">^</span><span class="hl-11">(((</span><span class="hl-9">ht</span><span class="hl-10">|</span><span class="hl-9">f</span><span class="hl-11">)</span><span class="hl-9">tps</span><span class="hl-12">?</span><span class="hl-11">)</span><span class="hl-9">:</span><span class="hl-13">\/\/</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-11">([^</span><span class="hl-9">!@#$%^&amp;*?.\s-</span><span class="hl-11">]([^</span><span class="hl-9">!@#$%^&amp;*?.\s</span><span class="hl-11">]</span><span class="hl-12">{0,63}</span><span class="hl-11">[^</span><span class="hl-9">!@#$%^&amp;*?.\s</span><span class="hl-11">])</span><span class="hl-12">?</span><span class="hl-13">\.</span><span class="hl-11">)</span><span class="hl-12">+</span><span class="hl-11">[</span><span class="hl-9">a-z</span><span class="hl-11">]</span><span class="hl-12">{2,6}</span><span class="hl-13">\/</span><span class="hl-12">?</span><span class="hl-9">/</span><span class="hl-1">;</span><br/>
+</code></pre>
+
+<a href="#mobile" id="mobile" style="color: inherit; text-decoration: none;">
+  <h4>mobile</h4>
+</a>
+<p>国电话号码（包括移动和固定电话)</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">mobile</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-11">(</span><span class="hl-13">\(</span><span class="hl-9">\d</span><span class="hl-12">{3,4}</span><span class="hl-13">\)</span><span class="hl-10">|</span><span class="hl-9">\d</span><span class="hl-12">{3,4}</span><span class="hl-9">-</span><span class="hl-10">|</span><span class="hl-9">\s</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-9">\d</span><span class="hl-12">{7,14}</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#money_all" id="money_all" style="color: inherit; text-decoration: none;">
+  <h4>money_all</h4>
+</a>
+<p>数字/货币金额（支持负数、千分位分隔符）</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">money_all</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-9">-</span><span class="hl-12">?</span><span class="hl-9">\d</span><span class="hl-12">+</span><span class="hl-11">(</span><span class="hl-9">,\d</span><span class="hl-12">{3}</span><span class="hl-11">)</span><span class="hl-12">*</span><span class="hl-11">(</span><span class="hl-13">\.</span><span class="hl-9">\d</span><span class="hl-12">{1,2}</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#money" id="money" style="color: inherit; text-decoration: none;">
+  <h4>money</h4>
+</a>
+<p>// 数字/货币金额 (只支持正数、不支持校验千分位分隔符)</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">money</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-11">(?:</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">1-9</span><span class="hl-11">]([</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-12">+</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-11">(?:</span><span class="hl-13">\.</span><span class="hl-11">[</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-12">{1,2}</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-10">$</span><span class="hl-11">)</span><span class="hl-10">|</span><span class="hl-11">(?:</span><span class="hl-10">^</span><span class="hl-11">(?:</span><span class="hl-9">0</span><span class="hl-11">)</span><span class="hl-10">$</span><span class="hl-11">)</span><span class="hl-10">|</span><span class="hl-11">(?:</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">0-9</span><span class="hl-11">]</span><span class="hl-13">\.</span><span class="hl-11">[</span><span class="hl-9">0-9</span><span class="hl-11">](?:[</span><span class="hl-9">0-9</span><span class="hl-11">])</span><span class="hl-12">?</span><span class="hl-10">$</span><span class="hl-11">)</span><span class="hl-9">/</span><span class="hl-1">;</span><br/>
+</code></pre>
+
+<a href="#hex_color" id="hex_color" style="color: inherit; text-decoration: none;">
+  <h4>hex_color</h4>
+</a>
+<p>16 进制颜色</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">hex_color</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-9">#</span><span class="hl-12">?</span><span class="hl-11">([</span><span class="hl-9">a-fA-F0-9</span><span class="hl-11">]</span><span class="hl-12">{6}</span><span class="hl-10">|</span><span class="hl-11">[</span><span class="hl-9">a-fA-F0-9</span><span class="hl-11">]</span><span class="hl-12">{3}</span><span class="hl-11">)</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#chinese" id="chinese" style="color: inherit; text-decoration: none;">
+  <h4>chinese</h4>
+</a>
+<p>中文（汉字）</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">chinese</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">(?:[</span><span class="hl-4">\u3400</span><span class="hl-9">-</span><span class="hl-4">\u4DB5\u4E00</span><span class="hl-9">-</span><span class="hl-4">\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27</span><span class="hl-9">-</span><span class="hl-4">\uFA29</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-11">[</span><span class="hl-4">\uD840</span><span class="hl-9">-</span><span class="hl-4">\uD868\uD86A</span><span class="hl-9">-</span><span class="hl-4">\uD86C\uD86F</span><span class="hl-9">-</span><span class="hl-4">\uD872\uD874</span><span class="hl-9">-</span><span class="hl-4">\uD879</span><span class="hl-11">][</span><span class="hl-4">\uDC00</span><span class="hl-9">-</span><span class="hl-4">\uDFFF</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-4">\uD869</span><span class="hl-11">[</span><span class="hl-4">\uDC00</span><span class="hl-9">-</span><span class="hl-4">\uDED6\uDF00</span><span class="hl-9">-</span><span class="hl-4">\uDFFF</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-4">\uD86D</span><span class="hl-11">[</span><span class="hl-4">\uDC00</span><span class="hl-9">-</span><span class="hl-4">\uDF34\uDF40</span><span class="hl-9">-</span><span class="hl-4">\uDFFF</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-4">\uD86E</span><span class="hl-11">[</span><span class="hl-4">\uDC00</span><span class="hl-9">-</span><span class="hl-4">\uDC1D\uDC20</span><span class="hl-9">-</span><span class="hl-4">\uDFFF</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-4">\uD873</span><span class="hl-11">[</span><span class="hl-4">\uDC00</span><span class="hl-9">-</span><span class="hl-4">\uDEA1\uDEB0</span><span class="hl-9">-</span><span class="hl-4">\uDFFF</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-4">\uD87A</span><span class="hl-11">[</span><span class="hl-4">\uDC00</span><span class="hl-9">-</span><span class="hl-4">\uDFE0</span><span class="hl-11">])</span><span class="hl-12">+</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span><br/>
+</code></pre>
+
+<a href="#english" id="english" style="color: inherit; text-decoration: none;">
+  <h4>english</h4>
+</a>
+<p>英文（英语 English english）</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">english</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-11">(</span><span class="hl-9">1</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">a-zA-Z</span><span class="hl-11">][</span><span class="hl-9">a-zA-Z\s</span><span class="hl-11">]</span><span class="hl-12">{0,20}</span><span class="hl-11">[</span><span class="hl-9">a-zA-Z</span><span class="hl-11">]</span><span class="hl-10">$</span><span class="hl-11">)</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#time24" id="time24" style="color: inherit; text-decoration: none;">
+  <h4>time24</h4>
+</a>
+<p>// 24 小时制时间（HH:mm:ss）</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">time24</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">(?:[</span><span class="hl-9">01</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-10">|</span><span class="hl-9">2</span><span class="hl-11">[</span><span class="hl-9">0-3</span><span class="hl-11">])</span><span class="hl-9">:</span><span class="hl-11">[</span><span class="hl-9">0-5</span><span class="hl-11">]</span><span class="hl-9">\d:</span><span class="hl-11">[</span><span class="hl-9">0-5</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#time12" id="time12" style="color: inherit; text-decoration: none;">
+  <h4>time12</h4>
+</a>
+<p>// 12 小时制时间（hh:mm:ss）</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">time12</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">(?:</span><span class="hl-9">1</span><span class="hl-11">[</span><span class="hl-9">0-2</span><span class="hl-11">]</span><span class="hl-10">|</span><span class="hl-9">0</span><span class="hl-12">?</span><span class="hl-11">[</span><span class="hl-9">1-9</span><span class="hl-11">])</span><span class="hl-9">:</span><span class="hl-11">[</span><span class="hl-9">0-5</span><span class="hl-11">]</span><span class="hl-9">\d:</span><span class="hl-11">[</span><span class="hl-9">0-5</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#base64" id="base64" style="color: inherit; text-decoration: none;">
+  <h4>base64</h4>
+</a>
+<p>base64 格式</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">base64</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-10">^</span><span class="hl-9">\s</span><span class="hl-12">*</span><span class="hl-9">data:</span><span class="hl-11">(?:[</span><span class="hl-9">a-z</span><span class="hl-11">]</span><span class="hl-12">+</span><span class="hl-13">\/</span><span class="hl-11">[</span><span class="hl-9">a-z0-9-+.</span><span class="hl-11">]</span><span class="hl-12">+</span><span class="hl-11">(?:</span><span class="hl-9">;</span><span class="hl-11">[</span><span class="hl-9">a-z-</span><span class="hl-11">]</span><span class="hl-12">+</span><span class="hl-9">=</span><span class="hl-11">[</span><span class="hl-9">a-z0-9-</span><span class="hl-11">]</span><span class="hl-12">+</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-11">(?:</span><span class="hl-9">;base64</span><span class="hl-11">)</span><span class="hl-12">?</span><span class="hl-9">,</span><span class="hl-11">([</span><span class="hl-9">a-z0-9!$&amp;&#39;,()*+;=\-._~:@/?%\s</span><span class="hl-11">]</span><span class="hl-12">*?</span><span class="hl-11">)</span><span class="hl-9">\s</span><span class="hl-12">*</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span><br/>
+</code></pre>
+
+<a href="#imgurl" id="imgurl" style="color: inherit; text-decoration: none;">
+  <h4>imgUrl</h4>
+</a>
+<p>图片(image)链接地址（图片格式可按需增删）</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">imgUrl</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-10">^</span><span class="hl-9">https</span><span class="hl-12">?</span><span class="hl-9">:</span><span class="hl-13">\/\/</span><span class="hl-11">(</span><span class="hl-9">.</span><span class="hl-12">+</span><span class="hl-13">\/</span><span class="hl-11">)</span><span class="hl-12">+</span><span class="hl-9">.</span><span class="hl-12">+</span><span class="hl-11">(</span><span class="hl-13">\.</span><span class="hl-11">(</span><span class="hl-9">gif</span><span class="hl-10">|</span><span class="hl-9">png</span><span class="hl-10">|</span><span class="hl-9">jpg</span><span class="hl-10">|</span><span class="hl-9">jpeg</span><span class="hl-10">|</span><span class="hl-9">webp</span><span class="hl-10">|</span><span class="hl-9">svg</span><span class="hl-10">|</span><span class="hl-9">psd</span><span class="hl-10">|</span><span class="hl-9">bmp</span><span class="hl-10">|</span><span class="hl-9">tif</span><span class="hl-11">))</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#phone-1" id="phone-1" style="color: inherit; text-decoration: none;">
+  <h4>phone</h4>
+</a>
+<p>视频 video 连接地址（视频格式可按需增删）</p>
+<pre><code><span class="hl-0">video_url</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-10">^</span><span class="hl-9">https</span><span class="hl-12">?</span><span class="hl-9">:</span><span class="hl-13">\/\/</span><span class="hl-11">(</span><span class="hl-9">.</span><span class="hl-12">+</span><span class="hl-13">\/</span><span class="hl-11">)</span><span class="hl-12">+</span><span class="hl-9">.</span><span class="hl-12">+</span><span class="hl-11">(</span><span class="hl-13">\.</span><span class="hl-11">(</span><span class="hl-9">swf</span><span class="hl-10">|</span><span class="hl-9">avi</span><span class="hl-10">|</span><span class="hl-9">flv</span><span class="hl-10">|</span><span class="hl-9">mpg</span><span class="hl-10">|</span><span class="hl-9">rm</span><span class="hl-10">|</span><span class="hl-9">mov</span><span class="hl-10">|</span><span class="hl-9">wav</span><span class="hl-10">|</span><span class="hl-9">asf</span><span class="hl-10">|</span><span class="hl-9">3gp</span><span class="hl-10">|</span><span class="hl-9">mkv</span><span class="hl-10">|</span><span class="hl-9">rmvb</span><span class="hl-10">|</span><span class="hl-9">mp4</span><span class="hl-11">))</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span><br/>
+</code></pre>
+
+<a href="#version" id="version" style="color: inherit; text-decoration: none;">
+  <h4>version</h4>
+</a>
+<p>版本号(version)格式必须为 X.Y.Z</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">version</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-9">\d</span><span class="hl-12">+</span><span class="hl-11">(?:</span><span class="hl-13">\.</span><span class="hl-9">\d</span><span class="hl-12">+</span><span class="hl-11">)</span><span class="hl-12">{2}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#guid_uuid" id="guid_uuid" style="color: inherit; text-decoration: none;">
+  <h4>GUID_UUID</h4>
+</a>
+<p>guid 和 uuid 正则</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">GUID_UUID</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">a-f\d</span><span class="hl-11">]</span><span class="hl-12">{4}</span><span class="hl-11">(?:[</span><span class="hl-9">a-f\d</span><span class="hl-11">]</span><span class="hl-12">{4}</span><span class="hl-9">-</span><span class="hl-11">)</span><span class="hl-12">{4}</span><span class="hl-11">[</span><span class="hl-9">a-f\d</span><span class="hl-11">]</span><span class="hl-12">{12}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#md5" id="md5" style="color: inherit; text-decoration: none;">
+  <h4>md5</h4>
+</a>
+<p>md5 格式</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">md5</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">([</span><span class="hl-9">a-f\d</span><span class="hl-11">]</span><span class="hl-12">{32}</span><span class="hl-10">|</span><span class="hl-11">[</span><span class="hl-9">A-F\d</span><span class="hl-11">]</span><span class="hl-12">{32}</span><span class="hl-11">)</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#credit_code" id="credit_code" style="color: inherit; text-decoration: none;">
+  <h4>credit_code</h4>
+</a>
+<p>统一社会信用代码(宽松匹配)(15 位/18 位/20 位数字/字母)</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">credit_code</span><span class="hl-1"> = </span><span class="hl-9">/</span><span class="hl-10">^</span><span class="hl-11">(([</span><span class="hl-9">0-9A-Za-z</span><span class="hl-11">]</span><span class="hl-12">{15}</span><span class="hl-11">)</span><span class="hl-10">|</span><span class="hl-11">([</span><span class="hl-9">0-9A-Za-z</span><span class="hl-11">]</span><span class="hl-12">{18}</span><span class="hl-11">)</span><span class="hl-10">|</span><span class="hl-11">([</span><span class="hl-9">0-9A-Za-z</span><span class="hl-11">]</span><span class="hl-12">{20}</span><span class="hl-11">))</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#train_number" id="train_number" style="color: inherit; text-decoration: none;">
+  <h4>train_number</h4>
+</a>
+<p>火车车次</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">train_number</span><span class="hl-1"> =</span><span class="hl-9"> /</span><span class="hl-10">^</span><span class="hl-11">[</span><span class="hl-9">GCDZTSPKXLY1-9</span><span class="hl-11">]</span><span class="hl-9">\d</span><span class="hl-12">{1,4}</span><span class="hl-10">$</span><span class="hl-9">/</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#常用正则校验方法" id="常用正则校验方法" style="color: inherit; text-decoration: none;">
+  <h3>常用正则校验方法</h3>
+</a>
+
+<a href="#isphonestring" id="isphonestring" style="color: inherit; text-decoration: none;">
+  <h4>isPhone(string)</h4>
+</a>
+<p>校验手机号是否正确</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">phone</span><span class="hl-1"> = </span><span class="hl-3">&#39;15565601175&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isPhone</span><span class="hl-1">(</span><span class="hl-0">phone</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isemailstring" id="isemailstring" style="color: inherit; text-decoration: none;">
+  <h4>isEmail(string)</h4>
+</a>
+<p>校验邮箱是否正确</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">emain</span><span class="hl-1"> = </span><span class="hl-3">&#39;815801759@qq.com&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isEmail</span><span class="hl-1">(</span><span class="hl-0">emain</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#issmscodestring" id="issmscodestring" style="color: inherit; text-decoration: none;">
+  <h4>isSmsCode(string)</h4>
+</a>
+<p>校验验证码是否是六位数字</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">smsCode</span><span class="hl-1"> = </span><span class="hl-3">&#39;123456&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isSmsCode</span><span class="hl-1">(</span><span class="hl-0">smsCode</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isfloatnamestring" id="isfloatnamestring" style="color: inherit; text-decoration: none;">
+  <h4>isFloatName(string)</h4>
+</a>
+<p>校验是否是浮点数字</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">floatNumber</span><span class="hl-1"> = </span><span class="hl-3">&#39;1.2&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isFloatName</span><span class="hl-1">(</span><span class="hl-0">floatNumber</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#iszerodotstring" id="iszerodotstring" style="color: inherit; text-decoration: none;">
+  <h4>isZeroDot(string)</h4>
+</a>
+<p>校验数字是否是 0 - 1 之间</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">num</span><span class="hl-1"> = </span><span class="hl-3">&#39;0.1&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isZeroDot</span><span class="hl-1">(</span><span class="hl-0">num</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isintnumberstring" id="isintnumberstring" style="color: inherit; text-decoration: none;">
+  <h4>isIntNumber(string)</h4>
+</a>
+<p>校验是否是整型</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">intNum</span><span class="hl-1"> = </span><span class="hl-3">&#39;52&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isIntNumber</span><span class="hl-1">(</span><span class="hl-0">intNum</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isidcardstring" id="isidcardstring" style="color: inherit; text-decoration: none;">
+  <h4>isIdCard(string)</h4>
+</a>
+<p>校验是否是身份证号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">idCard</span><span class="hl-1"> = </span><span class="hl-3">&#39;413026199609253455&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isIdCard</span><span class="hl-1">(</span><span class="hl-0">idCard</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isidcardonestring" id="isidcardonestring" style="color: inherit; text-decoration: none;">
+  <h4>isIdCardOne(string)</h4>
+</a>
+<p>校验是否是身份证号 一代</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">idCard</span><span class="hl-1"> = </span><span class="hl-3">&#39;450111720930333&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isIdCardOne</span><span class="hl-1">(</span><span class="hl-0">idCard</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span><br/>
+</code></pre>
+
+<a href="#isidcardtwostring" id="isidcardtwostring" style="color: inherit; text-decoration: none;">
+  <h4>isIdCardTwo(string)</h4>
+</a>
+<p>校验是否是身份证号 二代</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">idCard</span><span class="hl-1"> = </span><span class="hl-3">&#39;413026199609253455&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isIdCardTwo</span><span class="hl-1">(</span><span class="hl-0">idCard</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isphonestring-1" id="isphonestring-1" style="color: inherit; text-decoration: none;">
+  <h4>isPhone(string)</h4>
+</a>
+<p>校验手机号是否正确</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">phone</span><span class="hl-1"> = </span><span class="hl-3">&#39;15565601175&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isPhone</span><span class="hl-1">(</span><span class="hl-0">phone</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#ispasswordstring" id="ispasswordstring" style="color: inherit; text-decoration: none;">
+  <h4>isPassword(string)</h4>
+</a>
+<p>校验密码 密码(以字母开头，长度在 6~18 之间，只能包含字母、数字和下划线)</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">password</span><span class="hl-1"> = </span><span class="hl-3">&#39;xx222_tt44&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isPassword</span><span class="hl-1">(</span><span class="hl-0">password</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isstrongpasswordstring" id="isstrongpasswordstring" style="color: inherit; text-decoration: none;">
+  <h4>isStrongPassword(string)</h4>
+</a>
+<p>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)：</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">password</span><span class="hl-1"> = </span><span class="hl-3">&#39;Aa8822xxa&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isStrongPassword</span><span class="hl-1">(</span><span class="hl-0">password</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isdatedaystring" id="isdatedaystring" style="color: inherit; text-decoration: none;">
+  <h4>isDateDay(string)</h4>
+</a>
+<p>校验手机号是否正确 日期格式 yyyy-MM-dd</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">date</span><span class="hl-1"> = </span><span class="hl-3">&#39;2022-10-23&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isDateDay</span><span class="hl-1">(</span><span class="hl-0">date</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isdatestring" id="isdatestring" style="color: inherit; text-decoration: none;">
+  <h4>isDate(string)</h4>
+</a>
+<p>校验日期 年-月-日 时:分:秒</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">date</span><span class="hl-1"> = </span><span class="hl-3">&#39;2022-10-12 12:12:23&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isDate</span><span class="hl-1">(</span><span class="hl-0">date</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isqqstring" id="isqqstring" style="color: inherit; text-decoration: none;">
+  <h4>isQQ(string)</h4>
+</a>
+<p>校验是否是 qq</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">qq</span><span class="hl-1"> = </span><span class="hl-3">&#39;815801759&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isQQ</span><span class="hl-1">(</span><span class="hl-0">qq</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#iszipcodestring" id="iszipcodestring" style="color: inherit; text-decoration: none;">
+  <h4>isZipCode(string)</h4>
+</a>
+<p>校验是否是邮编</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">zipCode</span><span class="hl-1"> = </span><span class="hl-3">&#39;476900&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isZipCode</span><span class="hl-1">(</span><span class="hl-0">zipCode</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isbankcardstring" id="isbankcardstring" style="color: inherit; text-decoration: none;">
+  <h4>isBankCard(string)</h4>
+</a>
+<p>校验是否是银行卡号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">bankCard</span><span class="hl-1"> = </span><span class="hl-3">&#39;6217000490000315744&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isBankCard</span><span class="hl-1">(</span><span class="hl-0">bankCard</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isipv4string" id="isipv4string" style="color: inherit; text-decoration: none;">
+  <h4>isIpv4(string)</h4>
+</a>
+<p>校验是否是 ipv4 地址</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ip</span><span class="hl-1"> = </span><span class="hl-3">&#39;120.194.6.70&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isIpv4</span><span class="hl-1">(</span><span class="hl-0">ip</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#iswechataccountstring" id="iswechataccountstring" style="color: inherit; text-decoration: none;">
+  <h4>isWechatAccount(string)</h4>
+</a>
+<p>校验是否是微信账号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">wx</span><span class="hl-1"> = </span><span class="hl-3">&#39;ww882234&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isWechatAccount</span><span class="hl-1">(</span><span class="hl-0">wx</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isphonestring-2" id="isphonestring-2" style="color: inherit; text-decoration: none;">
+  <h4>isPhone(string)</h4>
+</a>
+<p>校验手机号是否正确</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">phone</span><span class="hl-1"> = </span><span class="hl-3">&#39;15565601175&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isPhone</span><span class="hl-1">(</span><span class="hl-0">phone</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#ispassportstring" id="ispassportstring" style="color: inherit; text-decoration: none;">
+  <h4>isPassport(string)</h4>
+</a>
+<p>校验是否是护照</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">passport</span><span class="hl-1"> = </span><span class="hl-3">&#39;G59370156&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isPassport</span><span class="hl-1">(</span><span class="hl-0">passport</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isnewenergystring" id="isnewenergystring" style="color: inherit; text-decoration: none;">
+  <h4>isNewEnergy(string)</h4>
+</a>
+<p>校验是否是新能源车牌</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">energy</span><span class="hl-1"> = </span><span class="hl-3">&#39;豫AD12345&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isNewEnergy</span><span class="hl-1">(</span><span class="hl-0">energy</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isenergystring" id="isenergystring" style="color: inherit; text-decoration: none;">
+  <h4>isEnergy(string)</h4>
+</a>
+<p>校验是否是汽车车牌 非新能源</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">energy</span><span class="hl-1"> = </span><span class="hl-3">&#39;豫AS12345&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isEnergy</span><span class="hl-1">(</span><span class="hl-0">energy</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isphonestring-3" id="isphonestring-3" style="color: inherit; text-decoration: none;">
+  <h4>isPhone(string)</h4>
+</a>
+<p>校验 host 地址 即域名</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">host</span><span class="hl-1"> = </span><span class="hl-3">&#39;www.baidu.com&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isPhone</span><span class="hl-1">(</span><span class="hl-0">host</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#iswhitestring" id="iswhitestring" style="color: inherit; text-decoration: none;">
+  <h4>isWhite(string)</h4>
+</a>
+<p>校验是否是空白</p>
+
+<a href="#isnumstring" id="isnumstring" style="color: inherit; text-decoration: none;">
+  <h4>isNum(string)</h4>
+</a>
+<p>校验是否是数字</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">num</span><span class="hl-1"> = </span><span class="hl-3">&#39;12&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isNum</span><span class="hl-1">(</span><span class="hl-0">num</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isurlstring" id="isurlstring" style="color: inherit; text-decoration: none;">
+  <h4>isUrl(string)</h4>
+</a>
+<p>校验是否是 url 地址</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">url</span><span class="hl-1"> = </span><span class="hl-3">&#39;http://www.baidu.com/test.html&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isUrl</span><span class="hl-1">(</span><span class="hl-0">url</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#ismobilestring" id="ismobilestring" style="color: inherit; text-decoration: none;">
+  <h4>isMobile(string)</h4>
+</a>
+<p>校验是否是电话号码</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">mobile</span><span class="hl-1"> = </span><span class="hl-3">&#39;0511-4405222&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isMobile</span><span class="hl-1">(</span><span class="hl-0">mobile</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#ismoneystring" id="ismoneystring" style="color: inherit; text-decoration: none;">
+  <h4>isMoney(string)</h4>
+</a>
+<p>校验是否是金额</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">money</span><span class="hl-1"> = </span><span class="hl-3">&#39;12.22&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isMoney</span><span class="hl-1">(</span><span class="hl-0">money</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#iscarnumstring" id="iscarnumstring" style="color: inherit; text-decoration: none;">
+  <h4>isCarNum(string)</h4>
+</a>
+<p>校验是否是汽车车牌号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">card</span><span class="hl-1"> = </span><span class="hl-3">&#39;豫SE2834&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isCarNum</span><span class="hl-1">(</span><span class="hl-0">card</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#ishexcolorstring" id="ishexcolorstring" style="color: inherit; text-decoration: none;">
+  <h4>isHexColor(string)</h4>
+</a>
+<p>校验是否是 16 进制颜色值</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">color</span><span class="hl-1"> = </span><span class="hl-3">&#39;#FF6400&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isHexColor</span><span class="hl-1">(</span><span class="hl-0">color</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isenglishstring" id="isenglishstring" style="color: inherit; text-decoration: none;">
+  <h4>isEnglish(string)</h4>
+</a>
+<p>校验手机号是否正确</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">english</span><span class="hl-1"> = </span><span class="hl-3">&#39;English&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isEnglish</span><span class="hl-1">(</span><span class="hl-0">english</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#ischinesestring" id="ischinesestring" style="color: inherit; text-decoration: none;">
+  <h4>isChinese(string)</h4>
+</a>
+<p>校验是否是中文</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">chinese</span><span class="hl-1"> = </span><span class="hl-3">&#39;中文&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isChinese</span><span class="hl-1">(</span><span class="hl-0">chinese</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#istime24string" id="istime24string" style="color: inherit; text-decoration: none;">
+  <h4>isTime24(string)</h4>
+</a>
+<p>校验是否是 24 小时制时间</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">time</span><span class="hl-1"> = </span><span class="hl-3">&#39;23:12:12&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isTime24</span><span class="hl-1">(</span><span class="hl-0">time</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#istime12string" id="istime12string" style="color: inherit; text-decoration: none;">
+  <h4>isTime12(string)</h4>
+</a>
+<p>校验手机号是否正确</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">time</span><span class="hl-1"> = </span><span class="hl-3">&#39;8:22:35&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isTime12</span><span class="hl-1">(</span><span class="hl-0">time</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isbase64string" id="isbase64string" style="color: inherit; text-decoration: none;">
+  <h4>isBase64(string)</h4>
+</a>
+<p>校验手机号是否正确</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">base64</span><span class="hl-1"> = </span><span class="hl-3">&#39;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAAAlCAYAAACAn42BAAAMMUlEQVR4Xu2cCdSt1RzGn8eYMWMqQhFSSRqppJUSEQ1Ko4pQS5Ky0I2oiIoSRSiJSioqzRFRGtCAjEumyFRUQiWP9Ttrv9/a33vf7zvnPX3367q3/1p3rXvP2e8++93P/k/P/7+vNaYkOVPSKzoev97208ac9r7H5vEO+J7Mn+R3kp7UmuPfth9yT+adyWeTPFrS+ZLeYfsbMzz3yyU9TNIDJV1h+xczOf+8mGsS4GyO7b+N+kNJfiXpqfMr4EnuJ+lUSZtK+pekrWx/ddT3a8YleaykNW2fXX2GdXu8pPtLeqgk9u1M23/vO/9sjm8D/glJR9n+4SiLmE3Akywq6aWjrKuMeYykbSW9oHrmLkk72P5ikodLQkOnEw4MFuz1knBTb7F9JA8keY2kRQrgz5S0H+uz/eUea5z1oW3Av11M096jrGQmAE9i2xn2e0keIOlSSasPGzvk+7slvVHS5yRdImmNnvPtZ3v/JBwmTPlF5UAcJWkF21/rOd+sDp8APMkTJOGTb7C9zCirSPJrSU9pjb3T9oNHfP5lkg6S9BLbfxz2TBL85S6SnijpT5L+LOkWSQdIWlESB/a7kt6GEkraXtLvO+a9xfbVRcsBH5P9hzInpvkOSViDLuGEXpHkOZI2kvRRSfyddznA9n+Hvce9+X0N+IGS5pTFfBBNH7KwpSUdKgmz1xYAuGrI85jUD0haStIvJW1o+/pxNiMJruhNkj5ZArSvSJrnwWOSJSStLekfki6wjfWYr2UAeJInS/pxiTjvrQWjYWj6j/ouoAL8aEnnSZoVwPuuc34Yb3xo2aQNqwWRXrwHLZmHi9xD0ota898saWPbl/f53Qrw4ySdcR/gU+8egO8maRB5VnKg7Xf32fS+Y5NcJ+nZHc/dSERsmzRqLknyfMx/cTlX2r65ApwU7HRJX5CEeV28+HsOwmeaCLvvWhek8QD+G0mY9Fp2t/3xefWiSVaR9L1qfoI/4oETh/EASXaU9NnyLIEZARbRMvkwQtDUxBWA3nzOd5j7HW0T8C2UAuBs2INab79CMeerlTQNgqW3lKiaQIqU6s22b2KSJIdJequkqyUdIukU2/8Z5QdagPMIUfmSVeTOWtcsc6Htr2rNu5FtmLeFUgD8S5JeXb39Cba3K8TCSeVz0h+i9h9Mk660NxDN2rwy25jqnW2fl+TTkk4eJ2ftAHxrSeuWKJ3cGpAJ2u6wvUgSXAMECXKdbQ7zQisA/ghJ+xYmCSLiSNt3tQCfqQ3CBG9qm8BqLBkC+LGSoE4novQW4JfbJgYYS5JwcHAnxA5YqaFS6F1YwluHpW0lgH6UpNtt3zl08jEGTFk8mQJwIne0cxRZTNK1rYG3Slre9g2jTNA1Zgjgc+XhbcAlbSDpU5L6Fo4gk2DlcB8IJAv70Skl1YVngBlEkf5ZrCMB8cC1NZIEGhjuArdGMMtvENAebLuOdXCHpJ642m9JojDE2MNsn1PNt0VxlcQsuOxGLu4L+E62iXiHStGGdqR9ju2Nhz48zYAhgJNtQG1Oq+FJ9i9Wrev9SUXrdBRNm4o9O8T2R9rLTQLv/p3C/G3fZBxJYCWxQpvZhiEEwMeVsUfb/nAFGuwdVPIWdcyRhHdbvLFUSd5b3mVF2z8pczaB7RJtBnO2AT/dNpWrsWUI4IdLungY4GVT2HwqfVS3yP/ROgJI6NI9bVPvH0uSoFmrMr9tWLhamwko6RkgLmo0Fo0ExEl0bpITClexdGPiOwCHy6Dsu3lTuKn2aIEFfP1SwHh/SffG8uFJTkP7CjoXkknYhoEcWUpVjwN0EsHvsAeTMPb7tnE1kyTJ7pKOkLSe7W+WAzKh4UnoO4BzWEnSKpXVaDR8p3KgefRc23csKBpO2XQHmhwk/XwUDe8CIgm07vLVd/jU7WyfPAy4yhQvW9ZwuO09p3suCZkMv3GG7Xb6iPYDGC4As85h5DMAf56kz1OuLbWDXeo6fKXh25Q6PY9ehJXoCzinnnLgKIJv2qs1cF6Z9NcWU8wLEjf01vAkBGWYXziDRtCuvdumdgiIaB0Vt7Ntk5ZOK0k4oDfbbriDifFJ9pGE1aLsSjDXAD7w4UnIGGjEWNk2lc6BzKRJH7b+Yd+fZht/NbZM4cOp7tGoAGNIVFwDTgDWlGunTMuSEPleWS3sdkmL2Sa67iUFiK0kLWt7Unk2CYfzEttUCAEHAupg1t/49Qo4ovu7bcMzNGDWJp1yMVE8bmHdhryaScBJQzAl4wg5+F/G2cD6xzoAJ+JmXfjMbZJgGtkUaFWidsxeI9MBTjGHoK8RiCG6WnpL6aMjW8CCbltFzzRNUDcnch9E/sWsH1/YTsYO8u8kb5D0dknr2/5tF+BlHP6bYtMRtnFpM6rhI6dlvXdpxAc6AGcz2NjV4MiTYOKmirCnA5zWpDqD2GSc/rcKGKwKzRqbQKQULSTNOq6rSSIJ5n+d0oQBUYNboN3sttaBJ5Bb1Db9C43WczApKM2xfWMSavSvg+wpjSDN0HmXh4+IX+9hHYDDx5PXUoDhdNNQyEbjSyF/MJlNrHKN7ZXbP1rap/7KRpbvMMOkVAN+P8k7sWxt89x78fPBA32DtrE0PAnFGQI4Ahn4+LGly4fTlDjVhEmojAE8MhXg67WC0X1s03rVaBDmnhRrbVKbsRc/HzzYF3DoP9KEPkIrE7zziwvNh789dNzerzEAp2hDXRy5yjal2UmShAbEXcuHEDDL2MYcNoDTygQdTJ2hjgn67MN8MbYv4DO1aHhg2pl6d9TcQ8Dn8uHF+gAmPebIbrbpkWsfCqJh8l/KqxfM1EbM9jx9Ae+ThzfvQl94+0oSZpaUZVJAMsrLdwBOsDVV5oApR3ubJoguwEkTTym/TRpEejMXd56E7lS0m4YRCkAEYv930hfw3j68SpPqzSGapJLUWzoA7zNHF+BQluS55LIQGBMpUD1xEtqZqcYhB9mGFOmU0vJNUaMRUq2fldRx4mZPEthBCBe+BwsCT7p+JjpykpB20ZHblstsH1+ie27FkMJNK+T89xbgu9puNm/YOid93wE4TRrksV2CmSbmaNizSYBXZAtFC26NfL09SeGrKYvCT0OaILiiZ9TsVutwPEsSlastS30eUojCDAUVDhUZAdE/TBlgLZfkkZKOKYdvJdKrMqbhFZaz/dOO9ZHK4SLXsk2FbiBJaDaZiLeS0FY+Z0EAfOshUXodtLUBP5dYonTiDMq+SWhAQOvYyBeW2jM5NfMQvDVCObNL85ijAZxmDzpw+AyOHq6+5sUnAC9jOBC0bE1Y0spCdgJenuNwofE7V+9AaknJdNDrn+R9ki5caAFPQnWK4IvGAXrcnlvApfGgvlzBPTvYPDZwQoMKZ79Uu5mhbG4X4BAmpHqAMOgRrDW8/JsOYvj7VW1fM4qGlzFcDcOFLEl2kYSMA9aQbGhO6aThosQGCx3gpc+O+jFNCnVHa9taUlenIeEs7r4lQesvaw3icuHHOsxsA/hZ5VYNtXcCV7qBJzKAAjhUKx27pItcSoQDwPI0prkx6XANzc3UfeuDloTglOIJ6zk6CYcYS8ElSH6bGGV1uIW+gOMXmhbh9nt2/jsJdGX7RuVM+vAp5yoVMBoN8I8InDOaTYBGa3NbIFUohVLahMGbkCQwdO3rU1wPfuU0gNcmHR4CIPeyjRZPaHi5m4YfhrNYo643jGLSy1xkGoALpcofCjJkFFC2ZCLvginsCzhBw8DU9BB8Fxf9aplJwIlwuabUJTRoclGwkYEPT0L6tVb1OSaWXr1jp+pZT8IFy0GFq5JLbcNbT5IuH15A4RDdZpvYoB200X3D96fahhoeSA/AiUXotKFoQ0n32iQ0i3LYKb8OSrV9ASea7Zt/wm23+95nEnBO8VR98/xufT+8ARyfzMVJOlxpCjx/GPNXuk+5glXfrP2QbXj2oYAnoTECC3GMbfj9Lh8OKNyeoZpGJ0sfwIk7CNBuatjEqpC0pe0B1zAd4JiqduqEWRipibE6obQMta8y8d9vTJVKdapqNV/Tkdl8tMd0/WdJYMgaLb/a9mZJCNBIh3qlhknoaYeAAfTGPM91JaqAS20djcWlYGmeTi2hVLQGzyRhX6jyTdx5T4K5xw2uQ0EoCU2fgE+0P2h8LEKr9In1ZiWBtkabB7eGSumVNRAEDsqu/wM9NB1bgd4fKgAAAABJRU5ErkJggg==&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isBase64</span><span class="hl-1">(</span><span class="hl-0">base64</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#ismoneyallstring" id="ismoneyallstring" style="color: inherit; text-decoration: none;">
+  <h4>isMoneyAll(string)</h4>
+</a>
+<p>校验是否是金额 支持千分位</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">money</span><span class="hl-1"> = </span><span class="hl-3">&#39;7,654,321&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isMoneyAll</span><span class="hl-1">(</span><span class="hl-0">money</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isimgurlstring" id="isimgurlstring" style="color: inherit; text-decoration: none;">
+  <h4>isImgUrl(string)</h4>
+</a>
+<p>校验手机号是否正确</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">img</span><span class="hl-1"> = </span><span class="hl-3">&#39;http://img.aliyun.com/code/test.png&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isImgUrl</span><span class="hl-1">(</span><span class="hl-0">img</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isvideourlstring" id="isvideourlstring" style="color: inherit; text-decoration: none;">
+  <h4>isVideoUrl(string)</h4>
+</a>
+<p>isVideoUrl</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">video</span><span class="hl-1"> = </span><span class="hl-3">&#39;http://img.aliyun.com/code/test.mp4&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isVideoUrl</span><span class="hl-1">(</span><span class="hl-0">video</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isversionstring" id="isversionstring" style="color: inherit; text-decoration: none;">
+  <h4>isVersion(string)</h4>
+</a>
+<p>校验是否是版本号 x.x.x 格式</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">v</span><span class="hl-1"> = </span><span class="hl-3">&#39;1.22.33&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isVersion</span><span class="hl-1">(</span><span class="hl-0">v</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#isguidoruuidstring" id="isguidoruuidstring" style="color: inherit; text-decoration: none;">
+  <h4>isGuidOrUuid(string)</h4>
+</a>
+<p>校验是否是 guid 或者 uuid</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">uuid</span><span class="hl-1"> = </span><span class="hl-3">&#39;344fb8dc-e80c-4980-8f60-102e37ea25e4&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isGuidOrUuid</span><span class="hl-1">(</span><span class="hl-0">uuid</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#ismd5string" id="ismd5string" style="color: inherit; text-decoration: none;">
+  <h4>isMd5(string)</h4>
+</a>
+<p>校验是否是 md5 加密的字符串</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">md5</span><span class="hl-1"> = </span><span class="hl-3">&#39;dd025f2d2d1553b4ea6bc4e765a1d683&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isMd5</span><span class="hl-1">(</span><span class="hl-0">md5</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#iscreditcodestring" id="iscreditcodestring" style="color: inherit; text-decoration: none;">
+  <h4>isCreditCode(string)</h4>
+</a>
+<p>校验是否是信用代码</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">credit_code</span><span class="hl-1"> = </span><span class="hl-3">&#39;913101175821220588&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isCreditCode</span><span class="hl-1">(</span><span class="hl-0">credit_code</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#istrainnumstring" id="istrainnumstring" style="color: inherit; text-decoration: none;">
+  <h4>isTrainNum(string)</h4>
+</a>
+<p>校验是否是火车车次号</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">t</span><span class="hl-1"> = </span><span class="hl-3">&#39;D14&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isTrainNum</span><span class="hl-1">(</span><span class="hl-0">t</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#istrainnumstring-1" id="istrainnumstring-1" style="color: inherit; text-decoration: none;">
+  <h4>isTrainNum(string)</h4>
+</a>
+<p>校验是否是标准的名字-只包含中文数字数字的随意组合，不包含其他字符</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">t</span><span class="hl-1"> = </span><span class="hl-3">&#39;中国YYYDS&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isStandardName</span><span class="hl-1">(</span><span class="hl-0">t</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#function-isstandardpasswordstr-string-boolean" id="function-isstandardpasswordstr-string-boolean" style="color: inherit; text-decoration: none;">
+  <h4>function isStandardPassword(str: string): boolean</h4>
+</a>
+<p>检测是否是标准的 6- 16 位 数字和字母组合的密码</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">t</span><span class="hl-1"> = </span><span class="hl-3">&#39;123123&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isStandardPassword</span><span class="hl-1">(</span><span class="hl-0">t</span><span class="hl-1">); </span><span class="hl-7">// 返回false</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">p</span><span class="hl-1"> = </span><span class="hl-3">&#39;abcd888&#39;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isStandardPassword</span><span class="hl-1">(</span><span class="hl-0">p</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span>
+</code></pre>
+
+<a href="#function-ispositivenumberstr-string-boolean" id="function-ispositivenumberstr-string-boolean" style="color: inherit; text-decoration: none;">
+  <h4>function isPositiveNumber(str: string): boolean</h4>
+</a>
+<p>检测 是否是是大于0的数</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">t</span><span class="hl-1"> = </span><span class="hl-3">&#39;123123&#39;</span><span class="hl-1">;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isPositiveNumber</span><span class="hl-1">(</span><span class="hl-0">t</span><span class="hl-1">); </span><span class="hl-7">// 返回true</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">p</span><span class="hl-1"> = </span><span class="hl-3">&#39;-1&#39;</span><br/><span class="hl-0">Pattern</span><span class="hl-1">.</span><span class="hl-6">isPositiveNumber</span><span class="hl-1">(</span><span class="hl-0">p</span><span class="hl-1">); </span><span class="hl-7">// 返回false</span>
+</code></pre>
+
+<a href="#decimal类" id="decimal类" style="color: inherit; text-decoration: none;">
+  <h2>Decimal类</h2>
+</a>
+
+<a href="#decimal-介绍" id="decimal-介绍" style="color: inherit; text-decoration: none;">
+  <h3>Decimal 介绍</h3>
+</a>
+<p>JavaScript 的任意精度 Decimal 类型，解决 js 业务中，遇到的数字计算精度问题，比如 0.1 + 0.2 = 0.3 但是在 js 中就是 0.30000000000000004，使用 decimal
+类，此问题就会迎刃而解，不用再担心精度问题</p>
+
+<a href="#使用方式-2" id="使用方式-2" style="color: inherit; text-decoration: none;">
+  <h3>使用方式</h3>
+</a>
+<pre><code><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">Decimal</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><span class="hl-1">;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">a</span><span class="hl-1"> = </span><span class="hl-14">0.1</span><span class="hl-1">;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">b</span><span class="hl-1"> = </span><span class="hl-14">0.2</span><span class="hl-1">;</span><br/><span class="hl-7">// 求 a + b 的值</span><br/><br/><span class="hl-7">// 第一种方式</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">c</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-0">Decimal</span><span class="hl-1">.</span><span class="hl-6">add</span><span class="hl-1">(</span><span class="hl-0">a</span><span class="hl-1">, </span><span class="hl-0">b</span><span class="hl-1">).</span><span class="hl-6">toNumber</span><span class="hl-1">();</span><br/><span class="hl-7">// c = 0.3</span><br/><br/><span class="hl-7">// 第二种</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">c</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">Decimal</span><span class="hl-1">(</span><span class="hl-0">a</span><span class="hl-1">).</span><span class="hl-6">plus</span><span class="hl-1">(</span><span class="hl-0">b</span><span class="hl-1">).</span><span class="hl-6">toNumber</span><span class="hl-1">();</span><br/><span class="hl-7">// c = 0.3</span>
+</code></pre>
+
+<a href="#常用方法" id="常用方法" style="color: inherit; text-decoration: none;">
+  <h3>常用方法</h3>
+</a>
+
+<a href="#加法" id="加法" style="color: inherit; text-decoration: none;">
+  <h4>加法</h4>
+</a>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">z</span><span class="hl-1"> = </span><span class="hl-0">Decimal</span><span class="hl-1">.</span><span class="hl-6">add</span><span class="hl-1">(</span><span class="hl-0">x</span><span class="hl-1">, </span><span class="hl-0">y</span><span class="hl-1">).</span><span class="hl-6">toNumber</span><span class="hl-1">();</span>
+</code></pre>
+
+<a href="#减法" id="减法" style="color: inherit; text-decoration: none;">
+  <h4>减法</h4>
+</a>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">z</span><span class="hl-1"> = </span><span class="hl-0">Decimal</span><span class="hl-1">.</span><span class="hl-6">sub</span><span class="hl-1">(</span><span class="hl-0">x</span><span class="hl-1">, </span><span class="hl-0">y</span><span class="hl-1">).</span><span class="hl-6">toNumber</span><span class="hl-1">();</span>
+</code></pre>
+
+<a href="#乘法" id="乘法" style="color: inherit; text-decoration: none;">
+  <h4>乘法</h4>
+</a>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">z</span><span class="hl-1"> = </span><span class="hl-0">Decimal</span><span class="hl-1">.</span><span class="hl-6">mul</span><span class="hl-1">(</span><span class="hl-0">x</span><span class="hl-1">, </span><span class="hl-0">y</span><span class="hl-1">).</span><span class="hl-6">toNumber</span><span class="hl-1">();</span>
+</code></pre>
+
+<a href="#除法" id="除法" style="color: inherit; text-decoration: none;">
+  <h4>除法</h4>
+</a>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">z</span><span class="hl-1"> = </span><span class="hl-0">Decimal</span><span class="hl-1">.</span><span class="hl-6">div</span><span class="hl-1">(</span><span class="hl-0">x</span><span class="hl-1">, </span><span class="hl-0">y</span><span class="hl-1">).</span><span class="hl-6">toNumber</span><span class="hl-1">();</span>
+</code></pre>
+
+<a href="#decimal-的-api-方法大全" id="decimal-的-api-方法大全" style="color: inherit; text-decoration: none;">
+  <h3>Decimal 的 api 方法大全</h3>
+</a>
+<p>更多 Decimal 探索请参考 <a href="http://mikemcl.github.io/decimal.js/">decimal 文档</a></p>
+<p><img src="https://raw.githubusercontent.com/MikeMcl/decimal.js/gh-pages/API.png" alt="API"></p>
+
+<a href="#lodash类" id="lodash类" style="color: inherit; text-decoration: none;">
+  <h2>Lodash类</h2>
+</a>
+
+<a href="#lodash-介绍" id="lodash-介绍" style="color: inherit; text-decoration: none;">
+  <h3>lodash 介绍</h3>
+</a>
+<p>Lodash 是一个一致性、模块化、高性能的 JavaScript 实用工具库，包含了，数组、集合、函数、语言、数学、数字、对象、Seq、字符串、使用函数、Properties、Methods 等类型的工具类。</p>
+
+<a href="#lodash-使用方式" id="lodash-使用方式" style="color: inherit; text-decoration: none;">
+  <h3>lodash 使用方式</h3>
+</a>
+<pre><code><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">_</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr</span><span class="hl-1"> = </span><span class="hl-0">_</span><span class="hl-1">.</span><span class="hl-6">concat</span><span class="hl-1">([</span><span class="hl-14">1</span><span class="hl-1">,</span><span class="hl-14">3</span><span class="hl-1">], [</span><span class="hl-14">3</span><span class="hl-1">,</span><span class="hl-14">4</span><span class="hl-1">]);</span><br/><span class="hl-7">// [1, 2, 3, 4]</span>
+</code></pre>
+<p>更多使用方式请参考 <a href="https://www.lodashjs.com/">lodash 文档</a></p>
+
+<a href="#voutils-类" id="voutils-类" style="color: inherit; text-decoration: none;">
+  <h2>VoUtils 类</h2>
+</a>
+
+<a href="#介绍" id="介绍" style="color: inherit; text-decoration: none;">
+  <h3>介绍</h3>
+</a>
+<p>VoUtils 是根据具体业务需求，抽离出来的通用的工具方法，根据出来的方法特性，分为字符串类、对象类、函数类、数组类、时间类、web 类分类，可根据具体的业务使用其中提供的方法。</p>
+
+<a href="#使用方式-3" id="使用方式-3" style="color: inherit; text-decoration: none;">
+  <h3>使用方式</h3>
+</a>
+<pre><code><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">VoUtils</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><span class="hl-1">;</span><br/><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">timeStr</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">formatTime</span><span class="hl-1">(</span><span class="hl-3">&#39;1648025122&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">timeStr</span><span class="hl-1">)</span><br/><span class="hl-7">// timeStr 输出 刚刚</span>
+</code></pre>
+
+<a href="#vohttp类" id="vohttp类" style="color: inherit; text-decoration: none;">
+  <h2>VoHttp类</h2>
+</a>
+
+<a href="#使用说明" id="使用说明" style="color: inherit; text-decoration: none;">
+  <h3>使用说明</h3>
+</a>
+<p>VoHttp类是基于 uni-app端和H5端 使用的数据请求类 进行封装的 request通用数据交互类，兼容移动端、PC端、uni-app，一次配置，适配多端， 注意： 仅仅是使用方法，具体实现则以业务端进行维护.</p>
+<p>基于VoHttp类，实现分为 uni端 AppHttp类， 和 pc端 AdminHttp类，具体实现方式如下</p>
+
+<a href="#使用方式-4" id="使用方式-4" style="color: inherit; text-decoration: none;">
+  <h3>使用方式</h3>
+</a>
+<p>第一步： 引用当前端需要的http类库</p>
+<pre><code><span class="hl-7">// app端</span><br/><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">AppHttp</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><br/><br/><span class="hl-7">// admin管理后台端</span><br/><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">AdminHttp</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span>
+</code></pre>
+<p>第二步：实例化使用端的数据请求类</p>
+<pre><code><span class="hl-7">// 以app端为例</span><br/><span class="hl-7">// 假设 app端封装的 request实例为  httpRequest</span><br/><br/><span class="hl-2">import</span><span class="hl-1"> </span><span class="hl-0">httpRequest</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;xxxxx封装文件路径&#39;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">http</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">AppHttp</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-0">device:</span><span class="hl-1"> </span><span class="hl-3">&#39;UNI&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">requestInstance:</span><span class="hl-1">   </span><span class="hl-0">httpRequest</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-7">// 另外终端封装的数据请求类，必须事项以下基础数据请求方法 统一返回 request Promise对象</span><br/><br/><br/><br/><span class="hl-7">// get请求</span><br/><span class="hl-0">httpRequest</span><span class="hl-1">.</span><span class="hl-6">apiGet</span><span class="hl-1">({</span><span class="hl-0">url</span><span class="hl-1">, </span><span class="hl-0">data</span><span class="hl-1">, </span><span class="hl-0">version</span><span class="hl-1">, </span><span class="hl-0">options</span><span class="hl-1"> })</span><br/><br/><span class="hl-7">// post请求</span><br/><span class="hl-0">httpRequest</span><span class="hl-1">.</span><span class="hl-6">apiPost</span><span class="hl-1">({</span><span class="hl-0">url</span><span class="hl-1">, </span><span class="hl-0">data</span><span class="hl-1">, </span><span class="hl-0">version</span><span class="hl-1">, </span><span class="hl-0">options</span><span class="hl-1"> })</span><br/><br/><span class="hl-7">// put 请求</span><br/><span class="hl-0">httpRequest</span><span class="hl-1">.</span><span class="hl-6">apiPut</span><span class="hl-1">({</span><span class="hl-0">url</span><span class="hl-1">, </span><span class="hl-0">data</span><span class="hl-1">, </span><span class="hl-0">version</span><span class="hl-1">, </span><span class="hl-0">options</span><span class="hl-1"> })</span><br/><br/><span class="hl-7">// delete 请求</span><br/><span class="hl-0">httpRequest</span><span class="hl-1">.</span><span class="hl-6">apiDelete</span><span class="hl-1">({</span><span class="hl-0">url</span><span class="hl-1">, </span><span class="hl-0">data</span><span class="hl-1">, </span><span class="hl-0">version</span><span class="hl-1">, </span><span class="hl-0">options</span><span class="hl-1"> })</span><br/><br/><span class="hl-7">// 其他封装的数据请求方法</span><br/><span class="hl-0">http</span><span class="hl-1">.</span><span class="hl-6">test</span><span class="hl-1">({}).</span><span class="hl-6">then</span><span class="hl-1">(</span><span class="hl-0">result</span><span class="hl-1"> </span><span class="hl-4">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">result</span><span class="hl-1">)</span><br/><span class="hl-1">})</span>
+</code></pre>
+
+<a href="#方法介绍" id="方法介绍" style="color: inherit; text-decoration: none;">
+  <h3>方法介绍</h3>
+</a>
+
+<a href="#apiget--url-data---version-options---" id="apiget--url-data---version-options---" style="color: inherit; text-decoration: none;">
+  <h4>apiGet( { url, data = {}, version, options = {} })</h4>
+</a>
+
+<a href="#apipost--url-data---version-options---" id="apipost--url-data---version-options---" style="color: inherit; text-decoration: none;">
+  <h4>apiPost( { url, data = {}, version, options = {} })</h4>
+</a>
+
+<a href="#apiput--url-data---version-options---" id="apiput--url-data---version-options---" style="color: inherit; text-decoration: none;">
+  <h4>apiPut( { url, data = {}, version, options = {} })</h4>
+</a>
+
+<a href="#apidelete--url-data---version-options---" id="apidelete--url-data---version-options---" style="color: inherit; text-decoration: none;">
+  <h4>apiDelete( { url, data = {}, version, options = {} })</h4>
+</a>
+<p>get/post/put/delte 请求</p>
+
+<a href="#参数说明-1" id="参数说明-1" style="color: inherit; text-decoration: none;">
+  <h4>参数说明</h4>
+</a>
+<p>url: 请求地址 data: 请求数据 options: 额外配置 version: 接口版本 备注：</p>
+
+<a href="#实例化" id="实例化" style="color: inherit; text-decoration: none;">
+  <h3>实例化</h3>
+</a>
+<pre><code><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">AppHttp</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">http</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">AppHttp</span><span class="hl-1">(</span><span class="hl-0">options</span><span class="hl-1">)</span>
+</code></pre>
+
+<a href="#options参数说明" id="options参数说明" style="color: inherit; text-decoration: none;">
+  <h3>options参数说明</h3>
+</a>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>必选</th>
+<th>参数说明</th>
+<th>参数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>device</td>
+<td>string</td>
+<td>否</td>
+<td>设置类型（默认PC）</td>
+<td>PC/UNI</td>
+</tr>
+<tr>
+<td>requestInstance</td>
+<td>boolean</td>
+<td>是</td>
+<td>终端设别分装的实例化request请求</td>
+<td>参考各端实现</td>
+</tr>
+</tbody></table>
+
+<a href="#admin端-示例" id="admin端-示例" style="color: inherit; text-decoration: none;">
+  <h3>admin端 示例</h3>
+</a>
+<pre><code><span class="hl-7">// 假设 admin端封装的 request实例为  httpRequest</span><br/><span class="hl-2">import</span><span class="hl-1"> </span><span class="hl-0">httpRequest</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;xxxxx封装文件路径&#39;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">http</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">appHttp</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-0">device:</span><span class="hl-1"> </span><span class="hl-3">&#39;PC&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">requestInstance:</span><span class="hl-1">   </span><span class="hl-0">httpRequest</span><br/><span class="hl-1">});</span>
+</code></pre>
+
+<a href="#业务使用方法" id="业务使用方法" style="color: inherit; text-decoration: none;">
+  <h3>业务使用方法</h3>
+</a>
+
+<a href="#app端" id="app端" style="color: inherit; text-decoration: none;">
+  <h4>app端</h4>
+</a>
+<p>app端调用封装好的通用方法，方法名称和功能说明如下</p>
+
+<a href="#function-apptestlist-data-3939" id="function-apptestlist-data-3939" style="color: inherit; text-decoration: none;">
+  <h5><code>function appTestList({ data: &#39;&#39;})</code></h5>
+</a>
+<p>测试方法</p>
+
+<a href="#admin端" id="admin端" style="color: inherit; text-decoration: none;">
+  <h4>admin端</h4>
+</a>
+<p>admin端调用封装好的通用方法，方法名称和功能说明如下</p>
+
+<a href="#function-admintestlist-data-3939" id="function-admintestlist-data-3939" style="color: inherit; text-decoration: none;">
+  <h5><code>function adminTestList({ data: &#39;&#39;})</code></h5>
+</a>
+<p>测试方法</p>
+
+<a href="#encrypt类" id="encrypt类" style="color: inherit; text-decoration: none;">
+  <h2>Encrypt类</h2>
+</a>
+
+<a href="#encrypt-介绍" id="encrypt-介绍" style="color: inherit; text-decoration: none;">
+  <h3>Encrypt 介绍</h3>
+</a>
+<p>Encrypt 是非对称加密和解密的工具类</p>
+
+<a href="#encrypt-使用方式" id="encrypt-使用方式" style="color: inherit; text-decoration: none;">
+  <h3>Encrypt 使用方式</h3>
+</a>
+<pre><code><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">Encrypt</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-7">// 公钥和私钥可根据实际业务需求进行配置</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">encrypt</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">Encrypt</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-0">publicKey:</span><span class="hl-1"> </span><span class="hl-3">&#39;公钥&#39;</span><span class="hl-1"> </span><span class="hl-7">// 用公钥进行加密</span><br/><span class="hl-1">  </span><span class="hl-0">privateKey</span><span class="hl-1">: </span><span class="hl-3">&#39;私钥&#39;</span><span class="hl-1"> </span><span class="hl-7">// 用私钥进行解密</span><br/><span class="hl-1">})</span><br/><br/><span class="hl-7">// 加密  === 必须进行配置 公钥</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret1</span><span class="hl-1"> = </span><span class="hl-0">encrypt</span><span class="hl-1">.</span><span class="hl-6">encrypt</span><span class="hl-1">(</span><span class="hl-3">&#39;需要加密的字符串&#39;</span><span class="hl-1">)</span><br/><br/><br/><span class="hl-7">// 解密  === 必须进行配置 私钥</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret2</span><span class="hl-1"> = </span><span class="hl-0">encrypt</span><span class="hl-1">.</span><span class="hl-6">decrypt</span><span class="hl-1">(</span><span class="hl-3">&#39;需要解密的字符串&#39;</span><span class="hl-1">)</span>
+</code></pre>
+
+<a href="#voutils类" id="voutils类" style="color: inherit; text-decoration: none;">
+  <h2>VoUtils类</h2>
+</a>
+
+<a href="#介绍-1" id="介绍-1" style="color: inherit; text-decoration: none;">
+  <h3>介绍</h3>
+</a>
+<p>VoUtils是根据具体业务需求，抽离出来的通用的工具方法，根据出来的方法特性，分为字符串类、对象类、函数类、数组类、时间类、web类分类，可根据具体的业务使用其中提供的方法。</p>
+
+<a href="#使用方式-5" id="使用方式-5" style="color: inherit; text-decoration: none;">
+  <h3>使用方式</h3>
+</a>
+<pre><code><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">VoUtils</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><span class="hl-1">;</span><br/><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">timeStr</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">formatTime</span><span class="hl-1">(</span><span class="hl-3">&#39;1648025122&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">timeStr</span><span class="hl-1">)</span><br/><span class="hl-7">// timeStr 输出 刚刚</span>
+</code></pre>
+
+<a href="#字符串类" id="字符串类" style="color: inherit; text-decoration: none;">
+  <h3>字符串类</h3>
+</a>
+
+<a href="#tostringval-any-string" id="tostringval-any-string" style="color: inherit; text-decoration: none;">
+  <h4><code>toString(val: any): string</code></h4>
+</a>
+<p>把输入的值转换为字符串</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-14">123</span><span class="hl-1">;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">toString</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 &#39;123&#39;</span>
+</code></pre>
+
+<a href="#function-encryptphonephone-string-string-" id="function-encryptphonephone-string-string-" style="color: inherit; text-decoration: none;">
+  <h4><code>function encryptPhone(phone: string): string </code></h4>
+</a>
+<p>手机号加密 输出类似 <code>155 **** 1175</code> 的格式</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-14">15565601175</span><span class="hl-1">;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">encryptPhone</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 &#39;155 **** 1175&#39;</span>
+</code></pre>
+
+<a href="#对象类" id="对象类" style="color: inherit; text-decoration: none;">
+  <h3>对象类</h3>
+</a>
+
+<a href="#hasownobj-object--any-key-string-boolean" id="hasownobj-object--any-key-string-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>hasOwn(obj: Object | any[], key: string): boolean</code></h4>
+</a>
+<p>判断当前对象是否含有某个属性</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = { </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-3">&#39;hello&#39;</span><span class="hl-1">};</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret1</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">hasOwn</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">, </span><span class="hl-3">&#39;name&#39;</span><span class="hl-1">);</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret2</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">hasOwn</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">, </span><span class="hl-3">&#39;age&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret1</span><span class="hl-1">)</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret2</span><span class="hl-1">)</span><br/><span class="hl-7">// ret1输出 true</span><br/><span class="hl-7">// ret2输出 false</span>
+</code></pre>
+
+<a href="#isobjectobj-object-boolean" id="isobjectobj-object-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>isObject(obj: Object): boolean</code></h4>
+</a>
+<p>判断当前对象是否是对象类型</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = {</span><span class="hl-0">a:</span><span class="hl-1"> </span><span class="hl-14">1</span><span class="hl-1">};</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">isObject</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#emptyobject-" id="emptyobject-" style="color: inherit; text-decoration: none;">
+  <h4><code>emptyObject </code></h4>
+</a>
+<p>返回一个冻结的空对象、不可以修改</p>
+<pre><code><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-0">emptyObject</span><span class="hl-1">;</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 {}</span>
+</code></pre>
+
+<a href="#函数类" id="函数类" style="color: inherit; text-decoration: none;">
+  <h3>函数类</h3>
+</a>
+
+<a href="#checkisemptyparam-any-boolean" id="checkisemptyparam-any-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>checkIsEmpty(param: any): boolean</code></h4>
+</a>
+<p>返回一个变量是否为空 <code>undefined</code> <code>0</code> <code>空</code> 返回为 true</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-4">undefined</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">checkIsEmpty</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#tonumberval-string-number--string" id="tonumberval-string-number--string" style="color: inherit; text-decoration: none;">
+  <h4><code>toNumber(val: string): number | string</code></h4>
+</a>
+<p>将输入值转换为数字，如果转换失败，则返回原字符串</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-3">&#39;20&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">toNumber</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 20</span>
+</code></pre>
+
+<a href="#ispromiseval-any-boolean" id="ispromiseval-any-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>isPromise(val: any): boolean</code></h4>
+</a>
+<p>判断当前实例是否是 Promise 对象</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-15">Promise</span><span class="hl-1">(() </span><span class="hl-4">=&gt;</span><span class="hl-1"> {});</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">isPromise</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#-torawtypevalue-any-string" id="-torawtypevalue-any-string" style="color: inherit; text-decoration: none;">
+  <h4><code> toRawType(value: any): string</code></h4>
+</a>
+<p>获取值得原始类型字符串原始类型 <code>String</code> <code>Number</code> <code>Array</code> <code>Null</code> <code>RegExp</code> <code>Undefined</code> <code>Boolean</code> <code>Object</code> <code>Function</code> <code>Symbol</code></p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-3">&#39;20&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">toRawType</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 String</span>
+</code></pre>
+
+<a href="#isregexpv-any-boolean" id="isregexpv-any-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>isRegExp(v: any): boolean</code></h4>
+</a>
+<p>判断当前对象是否是正则实例化对象</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> =</span><span class="hl-9"> /\d/</span><span class="hl-4">g</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">isRegExp</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#isundefv-any-boolean" id="isundefv-any-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>isUndef(v: any): boolean</code></h4>
+</a>
+<p>判断变量是否 非 undefined</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-3">&#39;20&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">isUndef</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#isdefv-any-boolean" id="isdefv-any-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>isDef(v: any): boolean</code></h4>
+</a>
+<p>判断变量是否 是 undefined</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-4">undefined</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">isDef</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#istruev-any-boolean" id="istruev-any-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>isTrue(v: any): boolean</code></h4>
+</a>
+<p>判断变量是否是 假值</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-4">true</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">isTrue</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#isfalsev-any-boolean-" id="isfalsev-any-boolean-" style="color: inherit; text-decoration: none;">
+  <h4><code>isFalse(v: any): boolean </code></h4>
+</a>
+<p>判断变量是否是 假值</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1"> = </span><span class="hl-4">false</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">isFalse</span><span class="hl-1">(</span><span class="hl-0">test</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#getrandomcolor-string-" id="getrandomcolor-string-" style="color: inherit; text-decoration: none;">
+  <h4><code>getRandomColor(): string </code></h4>
+</a>
+<p>获取随机css颜色值， 返回 <code>rgb</code> 颜色字符串</p>
+<pre><code><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">getRandomColor</span><span class="hl-1">();</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 rgb(123, 234, 133)</span>
+</code></pre>
+
+<a href="#function-transformurlurl-string-string" id="function-transformurlurl-string-string" style="color: inherit; text-decoration: none;">
+  <h4><code>function transformUrl(url: string): string</code></h4>
+</a>
+<p>获取静态资源 url地址，如果是全路径则原样返回</p>
+<pre><code><span class="hl-0">设置</span><span class="hl-1">： </span><span class="hl-5">CDN</span><span class="hl-1"> </span><span class="hl-0">地址为</span><span class="hl-1">： </span><span class="hl-0">www</span><span class="hl-1">.</span><span class="hl-0">test</span><span class="hl-1">.</span><span class="hl-0">com</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">transformUrl</span><span class="hl-1">(‘/</span><span class="hl-0">test</span><span class="hl-1">/</span><span class="hl-0">a</span><span class="hl-1">.</span><span class="hl-0">png</span><span class="hl-1">’);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 http://www.test.com/test/a.png</span>
+</code></pre>
+
+<a href="#function-transformdatebytypenum-number-type-string-string" id="function-transformdatebytypenum-number-type-string-string" style="color: inherit; text-decoration: none;">
+  <h4><code>function transformDateByType(num: number, type: string): string[]</code></h4>
+</a>
+<p>获取月份或者年份的开始时间和结束时间</p>
+<pre><code><span class="hl-0">例如</span><span class="hl-1"> </span><span class="hl-6">transformDateByType</span><span class="hl-1">(</span><span class="hl-14">1</span><span class="hl-1">, </span><span class="hl-3">&#39;month&#39;</span><span class="hl-1">)  </span><span class="hl-7">// 获取近一个月的开始时间和结束时间</span><br/><span class="hl-0">结果</span><span class="hl-1">：[</span><span class="hl-3">&#39;2022-07-04 14:15:33&#39;</span><span class="hl-1">, </span><span class="hl-3">&#39;2022-08-04 14:15:33&#39;</span><span class="hl-1">]</span><br/><br/><span class="hl-0">例如</span><span class="hl-1"> </span><span class="hl-6">transformDateByType</span><span class="hl-1">(</span><span class="hl-14">2022</span><span class="hl-1">, </span><span class="hl-3">&#39;year&#39;</span><span class="hl-1">)  </span><span class="hl-7">// 获取2022年的开始时间和结束时间</span><br/><span class="hl-0">结果</span><span class="hl-1">：[</span><span class="hl-3">&#39;2022-01-01 00:00:00&#39;</span><span class="hl-1">, </span><span class="hl-3">&#39;2023-01-01 00:00:00&#39;</span><span class="hl-1">]</span>
+</code></pre>
+
+<a href="#数组类" id="数组类" style="color: inherit; text-decoration: none;">
+  <h3>数组类</h3>
+</a>
+
+<a href="#removearr-arrayltanygt-item-any" id="removearr-arrayltanygt-item-any" style="color: inherit; text-decoration: none;">
+  <h4><code>remove(arr: Array&lt;any&gt;, item: any)</code></h4>
+</a>
+<p>删除数组元素中的一个值 仅支持一维数组如果传入的非数组，则无返回值</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr</span><span class="hl-1"> = [</span><span class="hl-14">1</span><span class="hl-1">, </span><span class="hl-14">2</span><span class="hl-1">, </span><span class="hl-14">3</span><span class="hl-1">, </span><span class="hl-14">4</span><span class="hl-1">];</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">remove</span><span class="hl-1">(</span><span class="hl-0">arr</span><span class="hl-1">, </span><span class="hl-14">2</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 [1, 3, 4]</span>
+</code></pre>
+
+<a href="#isvalidarrayindexval-any-boolean" id="isvalidarrayindexval-any-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>isValidArrayIndex(val: any): boolean</code></h4>
+</a>
+<p>检测是否是有效的数组索引</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr</span><span class="hl-1"> = [</span><span class="hl-14">1</span><span class="hl-1">, </span><span class="hl-14">2</span><span class="hl-1">, </span><span class="hl-14">3</span><span class="hl-1">, </span><span class="hl-14">4</span><span class="hl-1">];</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">isValidArrayIndex</span><span class="hl-1">(</span><span class="hl-0">arr</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#ensurearray--arr-any-any" id="ensurearray--arr-any-any" style="color: inherit; text-decoration: none;">
+  <h4><code>ensureArray = (arr: any): any[]</code></h4>
+</a>
+<p>确保一个变量返回的事一个数组类型,如果传入的非数组类型，则返回一个空数组</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr1</span><span class="hl-1"> = [</span><span class="hl-14">1</span><span class="hl-1">, </span><span class="hl-14">2</span><span class="hl-1">, </span><span class="hl-14">3</span><span class="hl-1">, </span><span class="hl-14">4</span><span class="hl-1">];</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr2</span><span class="hl-1"> = </span><span class="hl-14">123123</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret1</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">ensureArray</span><span class="hl-1">(</span><span class="hl-0">arr1</span><span class="hl-1">);</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret2</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">ensureArray</span><span class="hl-1">(</span><span class="hl-0">arr2</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret1</span><span class="hl-1">)</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret2</span><span class="hl-1">)</span><br/><span class="hl-7">// ret1 输出 [1, 2, 3, 4]</span><br/><span class="hl-7">// ret2 输出 []</span>
+</code></pre>
+
+<a href="#isarrayarr-any-boolean" id="isarrayarr-any-boolean" style="color: inherit; text-decoration: none;">
+  <h4><code>isArray(arr: any): boolean</code></h4>
+</a>
+<p>判断传入的参数变量是否是数组</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr</span><span class="hl-1"> = [</span><span class="hl-14">1</span><span class="hl-1">, </span><span class="hl-14">2</span><span class="hl-1">, </span><span class="hl-14">3</span><span class="hl-1">, </span><span class="hl-14">4</span><span class="hl-1">];</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">isArray</span><span class="hl-1">(</span><span class="hl-0">arr</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 true</span>
+</code></pre>
+
+<a href="#orderbydescarr-arrayltanygt-arrayltanygt" id="orderbydescarr-arrayltanygt-arrayltanygt" style="color: inherit; text-decoration: none;">
+  <h4><code>orderByDesc(arr: Array&lt;any&gt;): Array&lt;any&gt;</code></h4>
+</a>
+<p>一维数组降序排序</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr</span><span class="hl-1"> = [</span><span class="hl-14">1</span><span class="hl-1">, </span><span class="hl-14">2</span><span class="hl-1">, </span><span class="hl-14">3</span><span class="hl-1">, </span><span class="hl-14">4</span><span class="hl-1">];</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">orderByDesc</span><span class="hl-1">(</span><span class="hl-0">arr</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 [4,3,2,1]</span>
+</code></pre>
+
+<a href="#function-orderbyascarr-arrayltanygt-arrayltanygt" id="function-orderbyascarr-arrayltanygt-arrayltanygt" style="color: inherit; text-decoration: none;">
+  <h4><code>function orderByAsc(arr: Array&lt;any&gt;): Array&lt;any&gt;</code></h4>
+</a>
+<p>一维数组升序排序</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr</span><span class="hl-1"> = [</span><span class="hl-14">4</span><span class="hl-1">,</span><span class="hl-14">3</span><span class="hl-1">,</span><span class="hl-14">2</span><span class="hl-1">,</span><span class="hl-14">1</span><span class="hl-1">];</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">orderByAsc</span><span class="hl-1">(</span><span class="hl-0">arr</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 [1, 2, 3, 4]</span>
+</code></pre>
+
+<a href="#function-orderpropertybydescarr-arrayltobjectgt-property-string-arrayltobjectgt" id="function-orderpropertybydescarr-arrayltobjectgt-property-string-arrayltobjectgt" style="color: inherit; text-decoration: none;">
+  <h4><code>function orderPropertyByDesc(arr: Array&lt;object&gt;, property: string): Array&lt;object&gt;</code></h4>
+</a>
+<p>对象一维数组 降序排列</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr</span><span class="hl-1"> = [{ </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-3">&#39;zs1&#39;</span><span class="hl-1">, </span><span class="hl-0">age:</span><span class="hl-1"> </span><span class="hl-14">1</span><span class="hl-1"> }, { </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-3">&#39;zs2&#39;</span><span class="hl-1">, </span><span class="hl-0">age:</span><span class="hl-1"> </span><span class="hl-14">2</span><span class="hl-1"> }, { </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-3">&#39;zs2&#39;</span><span class="hl-1">, </span><span class="hl-0">age:</span><span class="hl-1"> </span><span class="hl-14">3</span><span class="hl-1"> }];</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">orderPropertyByDesc</span><span class="hl-1">(</span><span class="hl-3">&#39;age&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 [ { name: &#39;zs2&#39;, age: 3 },{ name: &#39;zs2&#39;, age: 2 },{ name: &#39;zs1&#39;, age: 1 }]</span>
+</code></pre>
+
+<a href="#function-orderpropertybyascarr-arrayltobjectgt-property-string-arrayltobjectgt" id="function-orderpropertybyascarr-arrayltobjectgt-property-string-arrayltobjectgt" style="color: inherit; text-decoration: none;">
+  <h4><code>function orderPropertyByAsc(arr: Array&lt;object&gt;, property: string): Array&lt;object&gt;</code></h4>
+</a>
+<p>对象一维数组 升序排列</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">arr</span><span class="hl-1"> = [ { </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-3">&#39;zs2&#39;</span><span class="hl-1">, </span><span class="hl-0">age:</span><span class="hl-1"> </span><span class="hl-14">3</span><span class="hl-1"> },{ </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-3">&#39;zs2&#39;</span><span class="hl-1">, </span><span class="hl-0">age:</span><span class="hl-1"> </span><span class="hl-14">2</span><span class="hl-1"> },{ </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-3">&#39;zs1&#39;</span><span class="hl-1">, </span><span class="hl-0">age:</span><span class="hl-1"> </span><span class="hl-14">1</span><span class="hl-1"> }];</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">orderPropertyByAsc</span><span class="hl-1">(</span><span class="hl-3">&#39;age&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 [{ name: &#39;zs1&#39;, age: 1 }, { name: &#39;zs2&#39;, age: 2 }, { name: &#39;zs2&#39;, age: 3 }]</span>
+</code></pre>
+
+<a href="#时间类" id="时间类" style="color: inherit; text-decoration: none;">
+  <h3>时间类</h3>
+</a>
+
+<a href="#timeformatdatetime-any-formatstr--39yyyy-mm-dd-hhmmss39-string" id="timeformatdatetime-any-formatstr--39yyyy-mm-dd-hhmmss39-string" style="color: inherit; text-decoration: none;">
+  <h4><code>timeFormat(dateTime: any, formatStr = &#39;yyyy-mm-dd hh:MM:ss&#39;): string</code></h4>
+</a>
+<p>传入时间戳后，返回格式化后的时间 返回格式可进行配置默认返回 yyyy-mm-dd hh:MM:ss 格式</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">timestamp</span><span class="hl-1"> = </span><span class="hl-14">1648098884</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">timeFormat</span><span class="hl-1">(</span><span class="hl-0">timestamp</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 2022-03-24 13:14:44</span>
+</code></pre>
+
+<a href="#timetransfertimestamp-any-format--39yyyy-mm-dd39-string" id="timetransfertimestamp-any-format--39yyyy-mm-dd39-string" style="color: inherit; text-decoration: none;">
+  <h4><code>timeTransfer(timestamp: any, format = &#39;yyyy-mm-dd&#39;): string</code></h4>
+</a>
+<p>时间处理函数五分钟以内显示刚刚；一小时以内显示几分钟前； 24 小时内显示几小时前；超过 24 小时三天内（含三天）显示几天前； 3 天以上显示具体日期，到天具体某一天。超过一年显示年份，显示年份</p>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">timestamp</span><span class="hl-1"> = (</span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-15">Date</span><span class="hl-1">().</span><span class="hl-6">getTime</span><span class="hl-1">()/</span><span class="hl-14">1000</span><span class="hl-1">).</span><span class="hl-6">toFixed</span><span class="hl-1">(</span><span class="hl-14">0</span><span class="hl-1">);</span><br/><span class="hl-0">支持</span><span class="hl-1"> </span><span class="hl-0">时间戳格式</span><span class="hl-1">  </span><span class="hl-0">和</span><span class="hl-1"> </span><span class="hl-5">YYYY</span><span class="hl-1">-</span><span class="hl-5">MM</span><span class="hl-1">-</span><span class="hl-5">DD</span><span class="hl-1"> </span><span class="hl-8">HH</span><span class="hl-1">:</span><span class="hl-8">mm</span><span class="hl-1">:</span><span class="hl-0">ss</span><span class="hl-1">  </span><span class="hl-0">和</span><span class="hl-1"> </span><span class="hl-5">YYYY</span><span class="hl-1">-</span><span class="hl-5">MM</span><span class="hl-1">-</span><span class="hl-5">DD</span><span class="hl-1"> </span><span class="hl-0">三种格式</span><span class="hl-1"> </span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">ret</span><span class="hl-1"> = </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">timeTransfer</span><span class="hl-1">(</span><span class="hl-0">timestamp</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-0">ret</span><span class="hl-1">)</span><br/><span class="hl-7">// ret 输出 刚刚</span>
+</code></pre>
+
+<a href="#vostorage-类" id="vostorage-类" style="color: inherit; text-decoration: none;">
+  <h2>VoStorage 类</h2>
+</a>
+
+<a href="#使用说明-1" id="使用说明-1" style="color: inherit; text-decoration: none;">
+  <h3>使用说明</h3>
+</a>
+<p>VoStorage类是兼容 PC端 移动端 uni-app 三端的本地存储 stoarge的封装，使用前必须进行实例化该类，传入device参数，说明是哪一端，默认是 device： &#39;PC&#39; pc 和 移动端，
+如果要在uni-app中使用，则进行使用 device：‘UNI’,当前类挂在在VoUtils工具类方法中，使用方式如下</p>
+<p>使用方式</p>
+<pre><code><br/><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">VoUtils</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@vocen/shared&#39;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">storage</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-0">VoUtils</span><span class="hl-1">.</span><span class="hl-6">VoStorage</span><span class="hl-1">({ </span><span class="hl-0">device:</span><span class="hl-1"> </span><span class="hl-3">&#39;PC&#39;</span><span class="hl-1"> })</span><br/><br/><span class="hl-0">storage</span><span class="hl-1">.</span><span class="hl-6">get</span><span class="hl-1">(</span><span class="hl-0">key</span><span class="hl-1">)</span><br/><br/><span class="hl-0">storage</span><span class="hl-1">.</span><span class="hl-6">set</span><span class="hl-1">(</span><span class="hl-0">key</span><span class="hl-1">, </span><span class="hl-0">val</span><span class="hl-1">)</span><br/><br/><span class="hl-0">storage</span><span class="hl-1">.</span><span class="hl-6">remove</span><span class="hl-1">(</span><span class="hl-0">key</span><span class="hl-1">)</span><br/><br/><span class="hl-0">storage</span><span class="hl-1">.</span><span class="hl-6">clear</span><span class="hl-1">()</span><br/>
+</code></pre>
+
+<a href="#方法说明" id="方法说明" style="color: inherit; text-decoration: none;">
+  <h3>方法说明</h3>
+</a>
+<p>创建实例</p>
+<p>创建<code>const store = new VoUtils.VoStorage({ device: &#39;PC&#39;&#39;})</code>实例，<code>store</code>提供的 API 如下</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>return</th>
+<th>调用方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>has</td>
+<td>判断本地存储的数据是否失效</td>
+<td>boolean</td>
+<td>store.has(&#39;id&#39;)</td>
+</tr>
+<tr>
+<td>get</td>
+<td>获取本地存储的数据</td>
+<td>string</td>
+<td>store.get(key)</td>
+</tr>
+<tr>
+<td>set</td>
+<td>设置本地数据</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>remove</td>
+<td>删除本地数据</td>
+<td>boolean</td>
+<td>store.delete()</td>
+</tr>
+<tr>
+<td>clear</td>
+<td>清除全部本地数据</td>
+<td></td>
+<td>store.clear()</td>
+</tr>
+</tbody></table>
+
+<a href="#store类" id="store类" style="color: inherit; text-decoration: none;">
+  <h2>Store类</h2>
+</a>
+<p>...待补充</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li><li class="label tsd-is-external"><span>Internals</span></li><li class=" tsd-kind-namespace"><a href="modules/Pattern.html">Pattern</a></li><li class=" tsd-kind-namespace"><a href="modules/VoUtils.html">Vo<wbr/>Utils</a></li><li class="label tsd-is-external"><span>Externals</span></li><li class=" tsd-kind-namespace tsd-is-external"><a href="modules/Decimal.html">Decimal</a></li><li class=" tsd-kind-namespace tsd-is-external"><a href="modules/_.html">_</a></li><li class=" tsd-kind-namespace tsd-is-external"><a href="modules/dayjs.html">dayjs</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-class"><a href="classes/AdminHttp.html" class="tsd-kind-icon">Admin<wbr/>Http</a></li><li class="tsd-kind-class"><a href="classes/AppHttp.html" class="tsd-kind-icon">App<wbr/>Http</a></li><li class="tsd-kind-class tsd-is-external"><a href="classes/Decimal.html" class="tsd-kind-icon">Decimal</a></li><li class="tsd-kind-class"><a href="classes/Encrypt.html" class="tsd-kind-icon">Encrypt</a></li><li class="tsd-kind-class"><a href="classes/Validator.html" class="tsd-kind-icon">Validator</a></li><li class="tsd-kind-variable tsd-is-external"><a href="modules.html#_" class="tsd-kind-icon">_</a></li><li class="tsd-kind-variable"><a href="modules.html#restObj" class="tsd-kind-icon">rest<wbr/>Obj</a></li><li class="tsd-kind-function tsd-is-external"><a href="modules.html#dayjs" class="tsd-kind-icon">dayjs</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>

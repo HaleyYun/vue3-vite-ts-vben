@@ -1,0 +1,25 @@
+{
+  "packages": [
+    {
+      "packageName": "@vocen/shared",
+      "projectFolder": "packages/shared",
+      "type": "tools",
+      "isPublishNpm": true,
+      "isBuild": true
+    },
+    {
+      "packageName": "@vocen/ui-pc-web",
+      "projectFolder": "packages/ui-pc-web",
+      "type": "libraries",
+      "isPublishNpm": true,
+      "isBuild": true
+    },
+    {
+      "packageName": "@vocen/fadongji-pc",
+      "projectFolder": "packages/fadongji-pc",
+      "type": "production",
+      "isPublishNpm": false,
+      "isBuild": true
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+<template>
+	<view>
+		<!-- <view>
+			<view style="
+	        position: fixed;
+	        z-index: 1;
+	        bottom: 40px;
+	        right: 0;">
+			<image @click="testlist" src="../../static/location.png" style="width: 40px;height: 40px;"></image>
+
+				<image @click="test" src="../../static/location.png" style="width: 40px;height: 40px;"></image>
+				<image @click="location" src="../../static/location.png" style="width: 40px;height: 40px;"></image>
+			</view>
+		</view> -->
+		<map
+			id="map"
+			ref="map"
+			:style="{ height: sys.windowHeight + 'px', width: '750rpx' }"
+			:scale="13"
+			:latitude="latitude"
+			:longitude="longitude"
+			@callouttap="de" @markertap="de"
+		>
+		<view class="nav-title row flex-justify-between align-c bg-w" :style="{'height': sys.safeAreaInsets.top + 44 + 'px', 'padding-top': sys.safeAreaInsets.top + 'px' }">
+            <view class="icon-left" @click="backFn"><image class="icon-48" src='/static/common/map/arror-left.png'></image></view>
+            <text class="nav-title-word f-s-36 f-c-85">全国服务商</text>
+        </view>
+		</map>
+	</view>
+</template>
+
+<script>
+	import img from '@/static/common/map/marker-orange.png'
+	export default {
+		name: 'ChinaAgent',
+		data() {
+			return {
+			    longitude: 113.808754,
+			    latitude: 34.795326,
+				sys: {},
+				markers:[],
+				img: img,
+			}
+		},
+		methods: {
+			de(i) {
+				console.log(i)
+				console.log(this.markers)
+				console.log(this.markers[i])
+			},
+			backFn() {
+				getApp().$backFn()
+			},
+			async initFn() {
+				await getApp().$VoHttp
+					.apiCompanyInfoMapAllStatistical({
+						pageNo: 1,
+						pageSize: 999999999,
+						platformCode: 'agent',
+					}, { noLoading: true })
+					.then((res) => {
+						console.log(res)
+						let arr = []
+						res.data.records.forEach((item, index) => {
+							if(item.latitude) {
+								arr.push({
+									// iconPath: this.img,
+									// 测试数据
+									// latitude: +(34.795326 + 0.000001 * index).toFixed(6),
+									// longitude: +(113.808754 + 0.000001 * index).toFixed(6),
+									latitude: item.latitude,
+									longitude: item.longitude,
+									// width: 50,
+									// height: 50,
+									// title: item.companyName,
+									joinCluster: true,
+									id: index + 1,
+									// label: {
+									// 	width: 50,
+									// 	height: 30,
+									// 	borderWidth: 1,
+									// 	borderRadius: 10,
+									// 	bgColor: '#ffffff'
+									// },
+									// zIndex: 99999,
+									// anchor: {
+									// 	x: .5,
+									// 	y: 1
+									// }
+								})
+							}
+
+						})
+						this.markers = arr
+					})
+			},
+		},
+		async onLoad() {
+			const res = uni.getSystemInfoSync()
+			this.sys = res
+			// uni.showLoading({
+			// 	title: '加载中',
+			// })
+			await this.initFn()
+			console.log(this.sys)
+			console.log(this.mapContext)
+			// uni.hideLoading()
+			console.log(this.markers)
+			// 添加聚合簇
+			this.mapContext.addMarkers({
+				markers: this.markers,
+				clear: true, //是否先清空地图上所有的marker
+				success: (res) => {
+					console.log(res, '成功了')
+				},
+				fail: (rec) => {
+					console.log(res, '失败了')
+				},
+			})
+		},
+		onReady() {
+			console.log(this.markers)
+			// 创建地图上下文
+			this.mapContext = uni.createMapContext('map', this);
+			console.log(this.mapContext)
+			this.mapContext.initMarkerCluster({ // 初始化点聚合的配置
+				enableDefaultStyle: false, // 是否使用默认样式
+				zoomOnClick: true,
+				gridSize: 60,
+				complete(res) {
+					console.log('initMarkerCluster', res)
+				}
+			})
+			this.mapContext.on("markerClusterCreate", (e) => {
+			        console.log("markerClusterCreate", e);
+			      });
+			// 新的聚合簇产生时触发
+			this.mapContext.on("markerClusterCreate", (e) => {
+				console.log(e)
+				let clusterMarkers = []
+				const clusters = e.clusters // 新产生的聚合簇
+				clusters.forEach((cluster, index) => {
+					const {
+						center, // 聚合点的经纬度数组
+						clusterId, // 聚合簇id
+						markerIds // 已经聚合了的标记点id数组
+					} = cluster
+					let clusterObj = {
+						clusterId, //必须
+						...center,
+						width: 0,
+						height: 0,
+						iconPath: '',
+						label: { // 定制聚合簇样式
+							content: markerIds.length + '',
+							fontSize: 16,
+							color: '#fff',
+							width: 50,
+							height: 50,
+							bgColor: '#419afcD9',
+							borderRadius: 25,
+							textAlign: 'center',
+							anchorX: -10,
+							anchorY: -35,
+
+						}
+					}
+					clusterMarkers.push(clusterObj)
+				})
+				// 添加聚合簇
+				this.mapContext.addMarkers({
+					markers: clusterMarkers,
+					clear: false, //是否先清空地图上所有的marker
+				})
+			})
+			console.log('123')
+			// this.markers =
+			// 添加聚合簇
+			// this.mapContext.addMarkers({
+			// 	markers: this.markers,
+			// 	clear: true, //是否先清空地图上所有的marker
+			// 	success: (res) => {
+			// 		console.log(res, '成功了')
+			// 	},
+			// 	fail: (rec) => {
+			// 		console.log(res, '失败了')
+			// 	},
+			// })
+		},
+	}
+</script>
+
+<style scoped>
+	/* 固定定位 */
+    	.fixed {
+    		position: fixed;
+    	}
+
+    	.icon-24 {
+    		width: 24rpx;
+    		height: 24rpx;
+    	}
+
+    	.icon-28 {
+    		width: 28rpx;
+    		height: 28rpx;
+    	}
+
+    	.icon-32 {
+    		width: 32rpx;
+    		height: 32rpx;
+    	}
+    	.icon-48 {
+            width: 48rpx;
+            height: 48rpx;
+        }
+
+    	.icon-sign {
+    		width: 104rpx;
+    		height: 36rpx;
+    	}
+
+    	.full-w {
+    		width: 750rpx;
+    	}
+
+    	.bg-w {
+    		background-color: #ffffff;
+    	}
+
+    	.flex-justify-between {
+    		justify-content: space-between;
+    	}
+
+    	.align-c {
+    		align-items: center;
+    	}
+
+    	.shrink {
+    		flex-shrink: 0;
+    	}
+
+    	.row {
+    		flex-direction: row;
+    	}
+
+    	.f-s-24 {
+    		font-size: 24rpx;
+    	}
+
+    	.f-s-28 {
+    		font-size: 28rpx;
+    	}
+
+    	.f-s-32 {
+    		font-size: 32rpx;
+    	}
+
+    	.f-s-36 {
+    		font-size: 36rpx;
+    	}
+
+    	.f-c-25 {
+    		color: rgba(0, 0, 0, 0.25)
+    	}
+
+    	.f-c-45 {
+    		color: rgba(0, 0, 0, 0.45)
+    	}
+
+    	.f-c-65 {
+    		color: rgba(0, 0, 0, 0.65)
+    	}
+
+    	.f-c-85 {
+    		color: rgba(0, 0, 0, 0.85)
+    	}
+
+	.nav-title,
+    	.func-bar {
+    		height: 88rpx;
+    	}
+
+    	.nav-title {
+    		position: relative;
+    		padding-right: 36rpx;
+        }
+        .icon-left {
+            height: 88rpx;
+            padding-left: 36rpx;
+            align-items: center;
+            justify-content: center;
+        }
+
+    	.nav-title-word {
+    		position: absolute;
+    		left: 286rpx;
+    		font-weight: 500;
+    		font-size: 36rpx;
+    	}
+
+    	.icon-more {
+    		margin-left: 36rpx;
+    	}
+
+    	.map {
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    		width: 750rpx;
+    		z-index: 10;
+    	}
+</style>

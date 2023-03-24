@@ -1,0 +1,11 @@
+import { VoCenRequest } from '../../types';
+export declare const $prefix = "";
+export declare const $v1Prefix = "/v1/";
+export declare const $prefixUser = "/v1/api";
+export declare const device: string[];
+export declare const version: string[];
+export declare const defaultVersion = "v1";
+export declare function transformConfig(config: VoCenRequest): VoCenRequest;
+export declare function mix(...mixins: any[]): any;
+export declare function copyProperties(target: any, source: any): void;
+export declare function getTreeConfig(obj: any, keyArr: any): any;

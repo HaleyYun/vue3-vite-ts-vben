@@ -1,0 +1,930 @@
+<template>
+	<view>
+		<view id="title" class="title" @click="clickMarker" :style="{'padding-top': sys.statusBarHeight !== 0 ? `${sys.statusBarHeight+10}px` : '20rpx'}">
+			<image
+				src="/static/common/map/arror-left.png"
+				style="width: 38rpx;height: 38rpx;"
+				@click="backFn"
+			></image>
+			<view class="row align-c" >
+				<image v-if="hideIcon" class="m-r-16" src="/static/common/clock.jpg" style="width: 56rpx;height: 56rpx;"></image>
+				<text class="f-s-36 f-c-85">{{title}}</text>
+			</view>
+			<view></view>
+		</view>
+		<map
+			id="map" :scale="options.scale" enable-rotate enable-overlooking enable-poi :show-location="false"
+			:style="{height: sys.windowHeight + 'px', width: sys.windowWidth+'px' }"
+			:markers="options.marker" :latitude="options.latitude" :longitude="options.longitude"
+		>
+		</map>
+
+
+		<view
+			:class="isend ? 'fixedbox2' : 'fixedbox'"
+			:style="{
+				height: sys.windowHeight + 'px',
+				width: sys.windowWidth + 'px',
+				top: fixboxtop + 'px',
+			}"
+			@touchmove="getstart($event)"
+			@tap="tap"
+			@touchend="getend"
+			ref="fixbox"
+		>
+			<view class="content" :style="{ height: windowHeight + 'px' }">
+				<view>
+					<view id="drag_card" class="card full-w">
+						<view class="whiteBox flex1 bg-w">
+							<view class="cardTitle row flex1 flex-justify-between align-c">
+								<text class="f-s-32 f-c-85 f-w-500">{{ cardInfo.storeName }}</text>
+								<image style="width: 120rpx;height: 48rpx;" src="/static/common/navigation.png" @click="openGPSApp"></image>
+							</view>
+							<text class="address f-w-400">{{ cardInfo.address }}</text>
+							<view class="btnFnBar row align-c flex-justify-between">
+								<view class="row align-c flex-justify-center flex1 border-r" @click="callPhone">
+									<image class="m-r-16 icon-24" src="/static/common/phone.png"></image>
+									<text class="f-s-24 f-c-65 f-w-400">拨打电话</text>
+								</view>
+								<view class="row align-c flex-justify-center flex1" @click="goImUrl">
+									<image class="m-r-16 icon-24" src="/static/common/talk.png"></image>
+									<text class="f-s-24 f-c-65 f-w-400">发消息</text>
+								</view>
+							</view>
+						</view>
+					</view>
+					<scroll-view
+						:style="{'height':scrollViewHeight - 64 +'px'}"
+						scroll-y="true"
+						class="card orderDetail"
+					>
+						<list class="detailGroup flex1 bg-w">
+							<!-- 服务项目 -->
+							<cell class="orderInfo p-t-0" v-if="contentInfo.serviceInfo.type">
+								<text class="f-s-32 f-c-85 f-w-500 infoTitle">服务项目</text>
+								<view class="cell row" v-if="contentInfo.serviceInfo.type">
+									<template v-if="contentInfo.serviceInfo.type === 1">
+										<image class="wordSign" src="/static/common/install.png"></image>
+									</template>
+									<template v-else-if="contentInfo.serviceInfo.type === 2">
+										<image class="wordSign" src="/static/common/recovery.png"></image>
+									</template>
+									<template v-else-if="contentInfo.serviceInfo.type === 3">
+										<image class="wordSign" src="/static/common/postSale.png"></image>
+									</template>
+
+									<text class="f-s-28 f-c-85 f-w-500">{{ contentInfo.serviceInfo.name }}</text>
+								</view>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">服务金额：</text>
+									<view class="cellValue row">
+										<text class="f-s-28" style="color:#EE0A24;">{{ contentInfo.serviceInfo.price }}元</text>
+									</view>
+								</view>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">上门时间：</text>
+									<view class="cellValue row">
+										<text class="f-s-28 f-c-45 f-w-400 m-r-24">{{ contentInfo.serviceInfo.time }}</text>
+										<text class="f-s-28 f-c-65">修改</text>
+									</view>
+								</view>
+								<view class="cell row flex-justify-between" v-if="contentInfo.serviceInfo.type === 3">
+									<text class="f-c-85 f-w-500 f-s-28">上门指导：</text>
+									<view class="cellValue row">
+										<text class="f-s-28 f-c-45 f-w-400 m-r-24">{{ contentInfo.serviceInfo.tips }}</text>
+									</view>
+								</view>
+							</cell>
+
+							<!-- 故障信息 -->
+							<cell class="orderInfo" v-if="contentInfo.brokenInfo.picList.length">
+								<text class="f-s-32 f-c-85 f-w-500 infoTitle">故障信息</text>
+								<view class="cell">
+									<text class="f-c-85 f-w-500 f-s-28" style="margin-bottom: 16rpx;">故障描述：</text>
+									<!-- TODO: 语音长度 -->
+									<!-- <image
+										v-if="contentInfo.brokenInfo.descVioce.audio"
+										@click="choseAudio"
+										style="width: 520rpx;height: 80rpx;"
+										src="/static/common/audio.png"
+									/>
+									<text class="f-s-28 line-10" v-else>
+										{{ contentInfo.brokenInfo.desc }}
+									</text> -->
+									<view class="voiceBox" elevation="8px">
+										<image class="voiceIcon" src="/static/icons/voice.png"></image>
+										<text class="f-s-28 line-10">120s</text>
+									</view>
+								</view>
+								<view class="cell">
+									<text class="f-c-85 f-w-500 f-s-28">故障图片：</text>
+									<view class="imgBox row">
+										<!--两个和5个的时候渲染空view展位-->
+										<view
+											v-for="(item, index) in contentInfo.brokenInfo.picList"
+											:key="index + '1'"
+											class="imgItemBox"
+											@click="choseImg(index, contentInfo.brokenInfo.picList)"
+										>
+											<image class="imgItem" :src="item" />
+										</view>
+										<view
+											v-for="(item, index) in contentInfo.brokenInfo.videoList"
+											:key="index + '2'"
+											class="video-box"
+											@click="choseVideo(item)"
+										>
+											<image class="videoPoster" :src="item.poster" />
+											<image class="play" src="/static/common/play.png" />
+										</view>
+										<template
+											v-if="contentInfo.brokenInfo.picList.length
+											+ contentInfo.brokenInfo.videoList.length === 2
+											|| contentInfo.brokenInfo.picList
+											+ contentInfo.brokenInfo.videoList.length === 5"
+										>
+											<view></view>
+										</template>
+
+										<!-- <image class="imgItem" src="/static/demo/IMG_3839.JPG" @click="choseImg()"></image>
+										<image class="imgItem" src="/static/demo/IMG_3839.JPG" @click="choseImg()"></image>
+										<image class="imgItem" src="/static/demo/IMG_3839.JPG" @click="choseImg()"></image> -->
+									</view>
+								</view>
+							</cell>
+
+							<!-- 旧机信息 -->
+							<cell class="orderInfo" v-if="contentInfo.oldInfo.length">
+								<text class="f-s-32 f-c-85 f-w-500 infoTitle">旧机信息</text>
+								<view>
+									<view class="bigImgBox" @click="choseImg(0, [contentInfo.oldInfo[0]])">
+										<image class="bigImg" :src="contentInfo.oldInfo[0]"></image>
+										<text class="f-s-28 f-c-45" style="text-align: center;">缸体号</text>
+									</view>
+									<view class="normalImgGroup">
+										<view class="normalImgBox" @click="choseImg(1, [contentInfo.oldInfo[1]])">
+											<image class="normalImg" :src="contentInfo.oldInfo[1]"></image>
+											<text class="f-s-28 f-c-45" style="text-align: center;">进气端</text>
+										</view>
+										<view class="normalImgBox" @click="choseImg(2, [contentInfo.oldInfo[2]])">
+											<image class="normalImg" :src="contentInfo.oldInfo[2]"></image>
+											<text class="f-s-28 f-c-45" style="text-align: center;">排气端</text>
+										</view>
+										<view class="normalImgBox" @click="choseImg(3, [contentInfo.oldInfo[3]])">
+											<image class="normalImg" :src="contentInfo.oldInfo[3]"></image>
+											<text class="f-s-28 f-c-45" style="text-align: center;">正时端</text>
+										</view>
+										<view class="normalImgBox" @click="choseImg(4, [contentInfo.oldInfo[4]])">
+											<image class="normalImg" :src="contentInfo.oldInfo[4]"></image>
+											<text class="f-s-28 f-c-45" style="text-align: center;">曲后端</text>
+										</view>
+									</view>
+								</view>
+							</cell>
+
+							<!-- 订单信息 -->
+							<cell class="orderInfo" v-if="contentInfo.orderInfo.orderNo">
+								<text class="f-s-32 f-c-85 f-w-500 infoTitle">订单信息</text>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">订单编号：</text>
+									<view class="cellValue row">
+										<text class="f-s-28 f-c-45 f-w-400 m-r-24">{{ contentInfo.orderInfo.orderNo }}</text>
+										<text class="f-s-28" style="color: #0D66FF;" @click="copyThis(contentInfo.orderInfo.orderNo)">复制</text>
+									</view>
+								</view>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">下单时间：</text>
+									<view class="cellValue row">
+										<text class="f-s-28 f-c-45 f-w-400">{{ contentInfo.orderInfo.createTime }}</text>
+									</view>
+								</view>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">接单时间：</text>
+									<view class="cellValue row">
+										<text class="f-s-28 f-c-45 f-w-400">{{ contentInfo.orderInfo.uodateTime }}</text>
+									</view>
+								</view>
+							</cell>
+						</list>
+					</scroll-view>
+				</view>
+
+				<!-- <EraMapDragBox
+					:minHeight="dragCardParams.height"
+					:maxHeight="dragCintentParams.height"
+					:touchHeight="124"
+					@currentHeight="setScrollHeight"
+					@maxtHeight="setScrollViewHeight"
+				>
+
+				</EraMapDragBox> -->
+			</view>
+		</view>
+		<view id="footer" class="footer" >
+		    <view v-if="origin === 1" class="footerBtnBar">
+                <text class="footerItem m-r-32 f-s-24">取消接单</text>
+                <text class="footerItem footerItemAct f-s-24">开始安装</text>
+            </view>
+		    <view v-if="origin === 2" class="footerBtnBar">
+                <text class="footerItem f-s-24">取消接单</text>
+            </view>
+		    <view v-if="origin === 3" class="footerBtnBar">
+                <text class="footerItem m-r-32 f-s-24">取消接单</text>
+                <text class="footerItem footerItemAct f-s-24">提交上门结果</text>
+            </view>
+			<view class="safearea-box" :style="{ 'height': sys.safeAreaInsets.bottom + 'px' }"/>
+		</view>
+		<EraPreviewVideo ref="EraPreviewVideo" :videoSrc="videoSrc" :poster="poster" />
+	</view>
+</template>
+<script>
+export default {
+	name: "demo",
+	data() {
+		return {
+			title: '待安装',
+			hideIcon: false, // 是否隐藏title的icon
+            origin: 1, // 来源 安装订单；回收订单；售后订单；位置轨迹
+			// 地图参数
+			options: {
+				// 地图属性参数
+				latitude: 23.106574, //纬度
+				longitude: 113.324587,//经度
+				scale: 13,//缩放级别
+				// 标记点属性
+				marker: [
+					{
+						state: 1,
+						id: 0,
+						latitude: 23.13065,//纬度
+						longitude: 113.3274,//经度
+						iconPath: '/static/common/map/map_icon_0.png',    //显示的图标
+						rotate: 0,   // 旋转度数
+						width: 20,   //宽
+						height: 20,   //高
+						alpha: 1,   //透明度
+					},
+					{
+						id: 1234597,
+						latitude: 23.106574,//纬度
+						longitude: 113.324587,//经度
+						iconPath: '/static/common/map/map_icon_1.png',    //显示的图标
+						rotate: 0,   // 旋转度数
+						width: 20,   //宽
+						height: 20,   //高
+						//  title:'我在这里',//标注点名
+						alpha: 1,   //透明度
+						label:{//为标记点旁边增加标签   //因背景颜色H5不支持
+							color:'red',//文本颜色
+						},
+						callout: {//自定义标记点上方的气泡窗口 点击有效
+							content: '广州塔',//文本
+							color: '#ffffff',//文字颜色
+							fontSize: 14,//文本大小
+							borderRadius: 15,//边框圆角
+							borderWidth: '10',
+							bgColor: '#e51860',//背景颜色
+							display: 'ALWAYS',//常显
+						},
+					},
+					{
+						id: 2,
+						latitude: 23.1338,//纬度
+						longitude: 113.33052,//经度
+						iconPath: '/static/common/map/map_icon_2.png',    //显示的图标
+						rotate: 0,   // 旋转度数
+						width: 20,   //宽
+						height: 20,   //高
+						alpha: 1,   //透明度
+					},
+				]
+			},
+			map: null,
+			sys: {},
+			touchHeight: 124,
+			firsttop: 0, // 默认高度
+			fixboxtop: 0, // 实际高度
+			phonetop: 200, // 默认滑动分界线 - 后面计算为最低与最高的一半
+			isend: false, // 触摸结束
+			isfirst: true, // 手指第一次触摸
+			tapboxtop: 0, // 手指距离顶部距离
+			currentHeight: 0, // 滑动组件当前高度
+			scrollViewHeight: 0, //用于计算滚动区域高
+
+			latitude: 39.909,
+			longitude: 116.39742,
+
+			dragCintentParams: {
+				height: 0
+			},
+			dragCardParams: {
+				height: 0,
+				Cheight: 0
+			},
+			footerHeight: 0,
+			videoSrc: '',
+			poster: '/static/demo/IMG_3839.JPG',
+			audio: '',
+			audioPlay: false,
+			// 拖拽卡片数据
+			cardInfo: {
+				storeName: '汽修厂名字',
+				phone: 110, // 汽修厂电话,
+				imData: {
+					// 聊天室数据
+					shopUserId: '',
+					type: 0,
+					note: 'shopName',
+					platformCode: 'platformCode',
+				},
+				address:'郑州市-金水区-龙子湖街道正商木华广场A座正商木华3号楼A座7楼郑州市-金水区-龙子湖街道正商木华广场A座正商木华3号楼A座7楼',
+			},
+			// 拖拽显示内容数据
+			contentInfo: {
+				// 服务项目
+				serviceInfo: {
+					type: 1, //服务类型 暗转、回收、售后
+					price: 100, // 服务金额
+					time: '2022-06-10  09:00-12:00', // 上门时间
+					tips: '需要上传发动机、水泵图片', // 上门指导
+					name: '江陵动力发动机-B15售后', // 服务名称
+				},
+				// 故障信息
+				brokenInfo: {
+					desc: '发动机漏水，打不着火了发动机漏水，打不着火了发动机漏水，打不着火了发动机漏水，打不着火了发动机漏水，打不着火了', // 故障描述
+					descVioce: {
+						// 语音信息
+						duration: 120,
+						audio: [
+						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
+						],
+					},
+					// 故障图片
+					picList: [
+						'/static/demo/IMG_3839.JPG',
+						'/static/demo/IMG_3839.JPG',
+						'/static/demo/IMG_3839.JPG',
+					],
+					// 故障视频
+					videoList: [
+						{
+							type: 'video',
+							src: 'https://uufefile.uupt.com/FileLib/unote/study/lagou/mp4/01%E7%BB%84%E4%BB%B6%E6%B8%B2%E6%9F%93vnode%E5%88%B0%E7%9C%9F%E5%AE%9EDOM%E6%98%AF%E5%A6%82%E4%BD%95%E8%BD%AC%E5%8F%98%E7%9A%84.mp4',
+							poster: '/static/demo/IMG_3839.JPG',
+						},
+					],
+				},
+				// 旧机信息
+				oldInfo: [
+					'/static/demo/IMG_3839.JPG',
+					'/static/demo/IMG_3839.JPG',
+					'/static/demo/IMG_3839.JPG',
+					'/static/demo/IMG_3839.JPG',
+					'/static/demo/IMG_3839.JPG',
+				],
+				// 订单信息
+				orderInfo: {
+					orderNo: '20221243455666666777', // 订单编号
+					createTime: '2022-06-09  18:00:00', // 下单时间
+					uodateTime: '2022-06-09  18:00:00', // 接单时间
+				},
+			},
+			orderImgList: [
+				'/static/demo/IMG_3839.JPG',
+				'/static/demo/IMG_3839.JPG',
+				'/static/demo/IMG_3839.JPG',
+				'/static/demo/IMG_3839.JPG',
+			]
+		}
+	},
+	methods: {
+	    openGPSApp() {
+			uni.openLocation({
+				latitude: 23.1338, //纬度
+				longitude: 113.33052, //经度
+				success: (res) => {
+					console.log(res);
+				},
+			})
+		},
+		/**
+		 * 预览图片
+		 */
+		choseImg(index, list) {
+			uni.previewImage({
+				current: index,
+				urls: list,
+				indicator: 'none'
+			})
+		},
+		/**
+        * 预览视频
+        */
+        choseVideo(data) {
+            this.videoSrc = data.src
+            this.poster = data.poster
+            this.$refs.EraPreviewVideo.show(data.src)
+        },
+		/**
+		 * 音频播放
+		 */
+		choseAudio(data) {
+			if(this.audio) {
+				if(this.audioPlay) {
+					this.audio.pause()
+					this.audioPlay = false
+				} else {
+					this.audio.play()
+					this.audioPlay = true
+				}
+			} else {
+				const innerAudioContext = uni.createInnerAudioContext();
+				innerAudioContext.autoplay = true;
+				innerAudioContext.src = data
+				this.audio = innerAudioContext
+				this.audioPlay = true
+				innerAudioContext.onEnded(() => {
+					innerAudioContext.destroy()
+					this.audio = ''
+				})
+			}
+		},
+		// 跳转聊天页面
+		goImUrl() {
+			const info = {
+				targetId: this.cardInfo.imData.shopUserId,
+				type: 0,
+				note: this.cardInfo.imData.shopName,
+				platformCode: this.cardInfo.imData.platformCode,
+			}
+			this.$storage.set('temp_im_room_info', info)
+			this.$linkToEasy('/pagesSupplier/ImMessage/PersonalChat')
+		},
+		/**
+		 * 复制
+		 */
+		copyThis(data){
+			uni.setClipboardData({
+			    data: data,
+			})
+		},
+		/**
+		 * 拨打电话
+		 */
+		callPhone() {
+			const phone = this.cardInfo.phone
+			uni.makePhoneCall({
+				phoneNumber: String(phone),
+			})
+		},
+		backFn(){
+		    uni.navigateBack()
+		},
+		/**
+		 * 设置拖动高度
+		 * @param {Object} val
+		 */
+		setScrollHeight(val) { // 实时返回的滑动组件高度
+			this.currentHeight = val
+		},
+		/**
+		 * 设置可见滚动区域高度
+		 * @param {Object} val
+		 */
+		setScrollViewHeight(val) { //最大高度
+		console.log(val, this.footerHeight)
+			this.scrollViewHeight = val - this.dragCardParams.Cheight / 2
+			- (this.sys.safeAreaInsets.bottom + this.footerHeight)
+		},
+		tap(e) {
+			// console.log(e)
+		},
+		getstart(e) {
+			var screenY
+			//#ifdef MP-WEIXIN
+				screenY = e.touches[0].clientY
+			//#endif
+			//#ifndef MP-WEIXIN
+				screenY = e.touches[0].screenY
+			//#endif
+			// console.log(screenY)
+			// 这里特殊处理 解决：在滑动框内如果存在滚动元素，则会出现滑动时滑动框和内部滚动同时滑的问题
+			if (this.touchHeight !== 0) {
+				if (screenY - this.fixboxtop > this.touchHeight) {
+					return false
+				}
+			}
+			this.isend = false
+			if (this.isfirst) {
+				this.isfirst = false
+				this.tapboxtop = screenY - this.fixboxtop
+			}
+			this.fixboxtop = screenY - this.tapboxtop
+			if (this.fixboxtop > this.firsttop) {
+				// 往下滑 不允许
+				this.fixboxtop = this.firsttop
+			} else {
+				// 往上滑
+				if (this.fixboxtop <= this.sys.windowHeight * (1 - this.dragCintentParams.height)) {
+					this.fixboxtop = this.sys.windowHeight * (1 - this.dragCintentParams.height)
+				}
+			}
+			this.setScrollHeight(this.sys.windowHeight - this.fixboxtop)
+
+		},
+		getend() {
+			this.isend = true
+			this.isfirst = true
+			if (this.firsttop - this.fixboxtop <= this.phonetop) {
+				this.fixboxtop = this.firsttop
+			} else {
+			this.fixboxtop = this.sys.windowHeight * (1 - this.dragCintentParams.height)
+			}
+			this.setScrollHeight(this.sys.windowHeight - this.fixboxtop)
+		},
+	},
+	//监听页面加载，其参数为上个页面传递的数据，参数类型为 Object
+	onLoad(options) {
+		this.userInfo = this.$store.state['user'].userInfo || {}
+		const sys = uni.getSystemInfoSync()
+		console.log(sys);
+		this.sys=sys
+		let _this = this
+		this.title = options.title
+        this.hideIcon = options.hideIcon || false
+        this.origin = options.origin
+		// uni.getLocation({
+		// 	type: 'gcj02',
+		// 	isHighAccuracy: true, //高精度
+		// 	geocode: true, //将位置解析成地址
+		// 	success: function(res) {
+		// 		_this.options.latitude = res.latitude
+		// 		_this.options.longitude = res.longitude
+		// 	},
+		// 	fail: function(res) {
+		// 		reject()
+		// 	},
+		// })
+	},
+	mounted() {
+		this.$nextTick(()=>{
+			const query = uni.createSelectorQuery().in(this)
+			setTimeout(()=>{
+				query.select('#drag_card').boundingClientRect((data) => {
+					console.log(data)
+					this.dragCardParams.Cheight = data.height
+					// this.dragCintentParams.height = 1
+					// 	- (this.sys.statusBarHeight + this.sys.safeAreaInsets.bottom + 24)
+					// 	/ this.sys.windowHeight
+					this.dragCintentParams.height = 0.9
+						- (this.sys.statusBarHeight + this.sys.safeAreaInsets.bottom + 24)
+						/ this.sys.windowHeight
+					console.log(this.dragCintentParams.height)
+				}).exec()
+				query.select('#footer').boundingClientRect(data=>{
+					this.footerHeight = data.height
+					this.dragCardParams.height = (this.dragCardParams.Cheight + data.height) / this.sys.windowHeight
+				}).exec()
+				// query.select('#drag_content').boundingClientRect(data=>{
+				// 	console.log(data)
+				// 	this.sys.windowHeight -
+				//   this.dragContentParam.height = data.height
+				//   this.dragContentParam.offsetHeight = data.height / 2
+				// }).exec()
+			},100)
+			setTimeout(() => {
+				var defaultHeight = this.sys.windowHeight * (1 - this.dragCardParams.height)
+				this.firsttop = defaultHeight
+				this.phonetop =
+					(this.sys.windowHeight * this.dragCardParams.height - this.sys.windowHeight * this.dragCardParams.height) / 2
+				this.fixboxtop = defaultHeight
+				this.setScrollHeight(this.sys.windowHeight - this.fixboxtop)
+				console.log(this.dragCintentParams.height)
+				this.setScrollViewHeight(this.sys.windowHeight * this.dragCintentParams.height)
+			},200)
+		})
+	},
+	//监听页面初次渲染完成。注意如果渲染速度快，会在页面进入动画完成前触发
+	onReady() {
+		this.map = plus.maps.create('map', {});
+	},
+	//监听页面隐藏
+	onHide() {
+	},
+	//监听页面卸载
+	onUnload() {
+	},
+	//监听用户下拉动作，一般用于下拉刷新
+	onPullDownRefresh() {
+	},
+	//页面滚动到底部的事件（不是scroll-view滚到底）
+	onReachBottom() {
+	},
+}
+</script>
+<style scoped>
+.line-10 {
+	lines: 10;
+	text-overflow: ellipsis;
+}
+.videoWarp {
+	position: absolute;
+	left: 0;
+	top: 450rpx;
+	width: 750rpx;
+}
+/* 固定定位 */
+.fixed {
+	position: fixed;
+}
+.icon-24 {
+	width: 24rpx;
+	height: 24rpx;
+}
+.icon-28 {
+	width: 28rpx;
+	height: 28rpx;
+}
+.icon-32 {
+	width: 32rpx;
+	height: 32rpx;
+}
+.icon-sign {
+	width: 104rpx;
+	height: 36rpx;
+}
+.full-w {
+	width: 750rpx;
+}
+.bg-w {
+	background-color: #ffffff;
+}
+.flex-justify-between{
+	justify-content: space-between;
+}
+.flex-justify-center{
+	justify-content: center;
+}
+.align-c {
+	align-items: center;
+}
+.shrink {
+	flex-shrink: 0;
+}
+.row{
+	flex-direction: row;
+}
+.f-s-24 {
+	font-size: 24rpx;
+}
+.f-s-28 {
+	font-size: 28rpx;
+}
+.f-s-32 {
+	font-size: 32rpx;
+}
+.f-s-36 {
+	font-size: 36rpx;
+}
+.f-c-25 {
+	color: rgba(0, 0, 0, 0.25)
+}
+.f-c-45 {
+	color: rgba(0, 0, 0, 0.45)
+}
+.f-c-65 {
+	color: rgba(0, 0, 0, 0.65)
+}
+.f-c-85 {
+	color: rgba(0, 0, 0, 0.85)
+}
+.f-w-500{
+	font-weight: 500;
+}
+.f-w-400{
+	font-weight: 400;
+}
+.flex1{
+	flex: 1;
+	background: transparent;
+}
+.m-r-16 {
+	margin-right: 16rpx;
+}
+.m-r-24 {
+	margin-right: 24rpx;
+}
+.m-r-32 {
+	margin-right: 32rpx;
+}
+.p-t-0{
+	padding-top: 0;
+}
+.m-t-0 {
+	margin-top: 0;
+}
+.m-b-24 {
+	margin-bottom: 24rpx;
+}
+.border-r  {
+	border-right: 1px solid #f7f7f8;
+}
+.tapBoxTouchLine {
+    margin-top: 20rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .line {
+    margin: 0px;
+    vertical-align: middle;
+    border-bottom: 8rpx solid transparent;
+    //border-bottom: 8rpx solid rgb(214, 215, 217);
+    width: 60rpx;
+    transform: scaleY(0.5);
+    //border-top-color: rgb(214, 215, 217);
+    //border-right-color: rgb(214, 215, 217);
+    //border-left-color: rgb(214, 215, 217);
+  }
+
+  .fixedbox {
+    position: fixed;
+    left: 0;
+  }
+
+  .fixedbox2 {
+    position: fixed;
+    left: 0;
+    transition-property: top;
+    transition-duration: 0.8s;
+  }
+
+.map {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 750rpx;
+	height: 900rpx;
+	z-index: 10;
+}
+.title {
+	z-index: 100;
+	width: 750rpx;
+	position: fixed;
+	top: 0rpx;
+	left: 0rpx;
+	background-color: #ffffff;
+	line-height: 130rpx;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding-left: 20rpx;
+	padding-top: 20rpx;
+	padding-right: 36rpx;
+	padding-bottom: 20rpx;
+}
+
+.card {
+	padding: 16rpx;
+}
+.whiteBox {
+	background-color: #ffffff;
+	border-radius: 16rpx;
+	box-shadow: 2px 4px 16px rgba(170, 182, 200, 0.25);
+	box-sizing: border-box;
+}
+.cardTitle {
+	padding: 24rpx;
+	padding-bottom: 16rpx;
+}
+.address {
+	font-size: 24rpx;
+	padding: 24rpx;
+	padding-top: 0;
+	color: rgba(0, 0, 0, 0.65);
+	border-bottom: 1px solid #f7f7f8;
+}
+.btnFnBar {
+	padding: 24rpx;
+}
+.detailGroup {
+	border-radius: 16rpx;
+	padding: 24rpx;
+}
+.wordSign {
+	width: 80rpx;
+	height: 36rpx;
+	margin-right: 16rpx;
+}
+.orderDetail {
+	padding-top: 0;
+}
+.orderInfo {
+	border-bottom: 1px solid #f7f7f8;
+	padding-top: 24rpx;
+}
+.voiceBox {
+	width: 520rpx;
+	height: 80rpx;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 24rpx 16rpx;
+	border-radius: 8rpx;
+	background-color: #ffffff;
+	box-shadow: 0px 4rpx 16rpx rgba(34, 40, 75, 0.15);
+}
+.voiceIcon {
+	width: 48rpx;
+	height: 48rpx;
+}
+.imgBox {
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.imgItemBox {
+	width: 212rpx;
+	height: 212rpx;
+	margin-top: 16rpx;
+}
+.imgItem {
+	width: 212rpx;
+	height: 212rpx;
+	border-radius: 8rpx;
+}
+.video-box {
+	width: 212rpx;
+	height: 212rpx;
+	margin-top: 16rpx;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+}
+.videoPoster {
+	width: 212rpx;
+	height: 212rpx;
+	border-radius: 8rpx;
+}
+.play {
+	position: absolute;
+	left: 46rpx;
+	top: 46rpx;
+	width: 120rpx;
+	height: 120rpx;
+}
+
+.infoTitle {
+	margin-bottom: 24rpx;
+}
+.cell {
+	margin-bottom: 20rpx;
+}
+.bigImg {
+	width: 440rpx;
+	height: 440rpx;
+	margin-bottom: 16rpx;
+	border-radius: 8rpx;
+}
+.bigImgBox {
+	margin-bottom: 24rpx;
+	width: 440rpx;
+}
+.normalImgGroup {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.normalImgBox {
+	width: 212rpx;
+	margin-bottom: 24rpx;
+}
+.normalImg {
+	width: 212rpx;
+	height: 212rpx;
+	border-radius: 8rpx;
+	margin-bottom: 16rpx;
+}
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	background: #fff;
+}
+.footerBtnBar {
+    width: 750rpx;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 22rpx 32rpx;
+}
+.footerItem{
+	border: 1px solid rgba(0, 0, 0, 0.25);
+	border-radius: 120rpx;
+	padding: 22rpx 32rpx;
+}
+.footerItemAct {
+	border-color: #FF5319;
+	color: #FF5319;
+}
+</style>

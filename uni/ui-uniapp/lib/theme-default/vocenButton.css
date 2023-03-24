@@ -1,0 +1,10 @@
+.vocenButton {
+  width: 120rpx;
+  height: 40rpx;
+  text-align: center;
+  border-radius: 16rpx;
+  line-height: 40rpx;
+  font-size: 12px;
+  color: #fff;
+  background-color: #000;
+}

@@ -1,0 +1,822 @@
+<template>
+	<view class="container" :style="{height: sys.windowHeight}" v-if="showMap">
+		<map id="map" ref="map" :scale="options.scale" :style="{height: sys.windowHeight, width: '750rpx'}"
+			:markers="options.marker" :latitude="options.latitude" :longitude="options.longitude" :show-location="false"
+			enable-rotate enable-overlooking enable-poi @markertap="clickMarker" @tap="hideDetail">
+			<view class="full-w bg-w" :style="{height: sys.safeAreaInsets.top + 'px'}"></view>
+
+			<view class="nav-title row flex-justify-between align-c bg-w">
+				<view class="icon-left" @click.stop="backFn">
+				    <image class="icon-24" src='/static/common/map/arror-left.png'></image>
+				</view>
+				<text class="nav-title-word f-s-36 f-c-85">修理厂地图</text>
+				<view class="func-bar row align-c">
+					<text class="f-s-28 f-c-65" @click="backFn">列表</text>
+					<!-- <image class="icon-more icon-24" src="/static/common/map/more.png"></image> -->
+				</view>
+			</view>
+
+			<!-- 标点对应状态说明 -->
+			<view class="fixed check" :style="{top: (sys.safeAreaInsets.top + 63) + 'px'}">
+				<view v-for="item in tabList" :key="item.id" class="check-item" @click="changeType(item)">
+					<image v-if="item.checkStatus === 0" class="check-item-icon"
+						src="/static/common/map/map_icon_0.png"></image>
+					<image v-else-if="item.checkStatus === 1" class="check-item-icon"
+						src="/static/common/map/map_icon_1.png" />
+					<image v-else-if="item.checkStatus === 4" class="check-item-icon"
+						src="/static/common/map/map_icon_2.png" />
+					<text class="f-s-24 f-c-85">{{ item.checkStatusStr }}</text>
+				</view>
+			</view>
+
+			<!-- 底部悬浮区域 -->
+			<view class="fixed full-w bottom-box row">
+				<!-- 地区内修理厂数据 -->
+				<view v-if="showBtn" class="census row full-w flex-justify-between">
+					<view></view>
+					<view class="census-content">
+						<text class="f-s-28">所在修理厂总数：{{ areaData.total }}</text>
+						<text class="f-s-28">已绑定：{{ areaData.bindNum }}</text>
+						<text class="f-s-28">未绑定：{{ areaData.unbindNum }}</text>
+					</view>
+				</view>
+
+				<!-- 底部悬浮按钮 -->
+				<view v-if="showBtn" class="bottom-btn-bar full-w">
+					<view class="row flex-justify-between">
+						<text class="btn-bar__item" @click="goTo('./InviteGarage')">邀请修理厂注册</text>
+						<text class="btn-bar__item btn-bar__item-act"
+							@click="goTo('/pagesChannelManager/GarageModule/CreateGarage')">新增修理厂</text>
+					</view>
+					<view :style="{height: sys.safeAreaInsets.bottom + 'px'}"></view>
+				</view>
+
+				<u-transition v-else :show="show" mode="slide-up" @afterLeave="showBtn = true">
+					<view class="census row full-w flex-justify-between">
+						<view></view>
+						<view class="census-content">
+							<text class="f-s-28">所在修理厂总数：{{ areaData.total || 0 }}</text>
+							<text class="f-s-28">已绑定：{{ areaData.bindNum || 0 }}</text>
+							<text class="f-s-28">未绑定：{{ areaData.unbindNum || 0 }}</text>
+						</view>
+					</view>
+					<view class="transition row">
+						<view class="detail">
+							<view class="detail-close row flex-justify-between" @click="hideDetail">
+								<view></view>
+								<image class="icon-28" src="/static/common/map/close.png"></image>
+							</view>
+
+							<view class="detail-title row">
+								<image class="icon-face" :src="curData.storeUrl || '/static/icons/me.png'"></image>
+								<text class="detail-title__name f-s-32 f-c-85">{{ curData.storeName }}</text>
+								<image v-if="curData.status === 1" class="icon-sign"
+									src="/static/common/map/attestation_1.png"></image>
+								<image v-else-if="curData.status === 4" class="icon-sign"
+									src="/static/common/map/attestation_2.png"></image>
+								<image v-else="curData.checkStatus === 1" class="icon-sign"
+									src="/static/common/map/attestation_0.png"></image>
+							</view>
+
+							<text
+								class="detail-address f-s-24 f-c-45">{{ curData.areaCodeStr }}{{ curData.address }}</text>
+
+							<view class="detail-contact row flex-justify-between align-c">
+								<view @click="callPhone">
+									<text class="f-s-24 f-c-45">{{ curData.contractName }}</text>
+									<view class="row align-c">
+										<text class="f-s-24 f-c-45 phone">{{ encryptPhone(curData.userName) }}</text>
+										<image class="icon-32" src="/static/common/map/phone.png"></image>
+									</view>
+								</view>
+								<text v-if="curData.status === 0" class="detail-contact__btn"
+									@click="goTo('./InviteGarage')">去点亮</text>
+								<text v-else class="detail-contact__btn"
+									@click="goTo('/pagesAgent/SubstituteOrder/SubstituteOrder?type=1')">代客下单</text>
+							</view>
+
+							<view class="sign-bar row align-c">
+								<block v-for="(item, index) in signList">
+									<text
+									    :key="index"
+									    class="sign"
+										:class="{ 'sign-act' : curData.labelType.indexOf(item.val) != -1 }"
+										@click="changeSign(index)"
+                                    >{{ item.name }}</text>
+								</block>
+							</view>
+						</view>
+					</view>
+				</u-transition>
+			</view>
+		</map>
+	</view>
+</template>
+<script>
+	import util from '@/common/MapCoordinate'
+	export default {
+		name: 'Demo',
+		data() {
+			return {
+				// 展示详情抽屉
+				show: false,
+				// 展示底部按钮
+				showBtn: true,
+				requestParams: {
+					checkStatus: null, // 认证状态
+					companyId: null, // 地图标点id
+					licenseId: '133960256299597825',
+					inviterId: '154902365089169408',
+				},
+				// 区域内修理厂数据
+				areaData: {
+					total: 100, // 总数
+					bindNum: 45, // 已认证
+					unbindNum: 55 // 未认证
+				},
+				// 当前选中修理厂数据
+				curData: {
+					face_icon: '/static/common/map/map_icon_2.png', // 头像
+					store_name: '江陵动力修理厂', // 修理厂名称
+					status: 2, // 认证状态
+					distance: '439m', // 距离
+					address: '河南省-郑州市-金水区-龙子湖街道中央广场河南省郑州市金水区龙子湖街道中央广场', // 地址
+					user_name: '张木子', // 联系人名称
+					phone: '132 **** 1789', // 脱敏电话
+					real_phone: '13353833215', // 真实电话（调用拨打电话功能）
+					sign: 1, //标记 1、目标客户；2、汽车美容；3、补胎
+				},
+				tabList: [], // 状态筛选按钮
+				curTab: 0, // 当前选中状态
+				// 标签按钮
+				signList: [{
+						name: '目标客户',
+						val: 1,
+						selected: false,
+					},
+					{
+						name: '汽车美容',
+						val: 2,
+						selected: false,
+					},
+					{
+						name: '补胎',
+						val: 3,
+						selected: false,
+					},
+				],
+				curSign: 0, // 当前选中标签
+				// 用户信息
+				userInfo: {},
+				sys: {},
+				// 地图参数
+				options: {
+					// 地图属性参数
+					latitude: 39.908692, //纬度
+					longitude: 116.397477, //经度
+					scale: 13, //缩放级别
+					// 标记点属性
+					marker: [],
+				},
+				showMap: false,
+			}
+		},
+		onLoad(options) {
+			const res = uni.getSystemInfoSync()
+			this.sys = res
+			console.log('safeArea', res)
+			const {
+				licenseId,
+				inviterId
+			} = options
+			this.requestParams.licenseId = licenseId
+			this.requestParams.inviterId = inviterId
+			// this.userInfo = this.$store.state['user'].userInfo || {}
+			
+		},
+		onShow() {
+			uni.getLocation({
+				type: 'wgs84',
+				success: async (res) => {
+					uni.showLoading({
+						title: '页面加载中'
+					})
+					const {
+						latitude,
+						longitude
+					} = res
+					console.log('转化前的', res)
+					//将WGS-84(国际标准)转为GCJ-02(火星坐标)
+					const result = util.transformFromWGSToGCJ(latitude, longitude);
+					console.log('转化后的', result)
+					this.requestParams.latitude = result.latitude.toFixed(6)
+					this.requestParams.longitude = result.longitude.toFixed(6)
+					this.options.latitude = result.latitude.toFixed(6)
+					this.options.longitude = result.longitude.toFixed(6)
+					await this.getTabs()
+					await this.getData()
+					await this.getList()
+				},
+				complete: (res) => {
+					console.log(res, '完成了');
+				},
+				fail: (ret) => {
+					uni.showModal({
+						title: '提示',
+						content: '需要您开启定位授权，获取您的位置信息！',
+						cancelText: '暂不开启',
+						confirmText: '去开启',
+						success: ({
+							confirm,
+							cancel
+						}) => {
+							if (confirm) {
+								// android平台
+								if (uni.getSystemInfoSync().platform == 'android') {
+									var Intent = plus.android.importClass(
+										'android.content.Intent');
+									var Settings = plus.android.importClass(
+										'android.provider.Settings');
+									var intent = new Intent(Settings
+										.ACTION_LOCATION_SOURCE_SETTINGS);
+									var main = plus.android.runtimeMainActivity();
+									main.startActivity(intent); // 打开系统设置GPS服务页面
+								}
+			
+								// ios平台
+								if (uni.getSystemInfoSync().platform == 'ios') {
+									var UIApplication = plus.ios.import("UIApplication");
+									var application2 = UIApplication.sharedApplication();
+									var NSURL2 = plus.ios.import("NSURL");
+									var setting2 = NSURL2.URLWithString(
+										"App-Prefs:root=Privacy&path=LOCATION");
+									application2.openURL(setting2);
+									plus.ios.deleteObject(setting2);
+									plus.ios.deleteObject(NSURL2);
+									plus.ios.deleteObject(application2);
+								}
+							}
+			
+							// 用户取消前往开启定位服务
+							if (cancel) {
+								// do sth...
+								uni.navigateBack()
+							}
+						}
+					});
+				}
+			})
+		},
+		methods: {
+			// 加密电话
+			encryptPhone(phone) {
+				return phone ?  getApp().$vocenApi.VoUtils.encryptPhone(phone) : ''
+			},
+			// 获取数据统计
+			async getData() {
+				const {
+					latitude,
+					longitude,
+					licenseId,
+					inviterId
+				} = this.requestParams
+				try {
+					const data = await getApp().$VoHttp.apiCompanyInfoManagerGarageMapStatistical({
+						latitude,
+						longitude,
+						licenseId,
+						inviterId,
+					})
+					if (!data || !data.data) return
+					console.log(data)
+					if (+data.code === 20001) {
+						this.areaData = data.data
+					} else {
+						uni.$u.toast(data.message)
+					}
+				} catch (e) {
+					console.log(e);
+					uni.$u.toast(e.message || '网络请求失败')
+				}
+			},
+			// 获取tabs
+			async getTabs() {
+				const {
+					latitude,
+					longitude,
+					licenseId,
+					inviterId
+				} = this.requestParams
+				try {
+					const data = await getApp().$VoHttp.apiCompanyInfoManagerGarageMapTab({
+						latitude,
+						longitude,
+						licenseId,
+						inviterId,
+					})
+					if (!data || !data.data) return
+					if (+data.code === 20001) {
+						this.tabList = data.data
+					} else {
+						uni.$u.toast(data.message)
+					}
+				} catch (e) {
+					console.log(e);
+					uni.$u.toast(e.message || '网络请求失败')
+				}
+			},
+			// 获取修理厂详情
+			async getDetail(id) {
+				try {
+					const data = await getApp().$VoHttp.apiCompanyInfoManagerGarageMapDetails({id: id})
+					if (!data || !data.data) return
+					console.log(data)
+					if (+data.code === 20001) {
+						this.curData = data.data
+						if (data.data.labelType) {
+                            let selectSign = data.data.labelType.split(',')
+                            selectSign.forEach((item) => {
+                              this.signList[Number(item) - 1].selected = true
+                            })
+                        }
+					} else {
+						uni.$u.toast(data.message)
+					}
+				} catch (e) {
+					console.log(e)
+					uni.$u.toast(e.message || '网络请求失败')
+				}
+			},
+			// 获取修理厂marker列表
+			async getList() {
+				this.showMap = false
+				const {
+					latitude,
+					longitude,
+					licenseId,
+					inviterId,
+					checkStatus
+				} = this.requestParams
+				try {
+					const data = await getApp().$VoHttp.apiCompanyInfoManagerGarageMapList({
+						latitude,
+						longitude,
+						licenseId,
+						inviterId,
+						checkStatus,
+					})
+					if (!data || !data.data) return
+					console.log(data)
+					if (+data.code === 20001) {
+						let arr = []
+						if (data.data.length > 0) {
+							data.data.forEach((item, index) => {
+								const {
+									checkStatus,
+									companyId,
+									latitude,
+									longitude
+								} = item
+								let iconPath = '/static/common/map/map_icon_0.png'
+								if (checkStatus === 1) {
+									iconPath = '/static/common/map/map_icon_1.png'
+								} else if (checkStatus === 4) {
+									iconPath = '/static/common/map/map_icon_2.png'
+								}
+								const obj = {
+									id: index,
+									companyId,
+									checkStatus,
+									latitude,
+									longitude,
+									iconPath,
+									rotate: 0, // 旋转度数
+									width: 20, //宽
+									height: 20, //高
+									alpha: 1, //透明度
+								}
+								// this.options.marker.concat(obj)
+								arr.push(obj)
+							})
+							this.options.marker = [...arr]
+							this.$forceUpdate()
+						} else {
+							this.options.marker = []
+						}
+						this.showMap = true
+					} else {
+						uni.$u.toast(data.message)
+					}
+				} catch (e) {
+					console.log(e);
+					uni.$u.toast(e.message || '网络请求失败')
+				}
+			},
+			// 返回上一级
+			backFn() {
+				uni.navigateBack({
+                    fail(err) {},
+                })
+			},
+			/**
+			 * 点击地图标点事件
+			 * @param e 当前点击参数
+			 */
+			async clickMarker(e) {
+				const cur = e.detail.markerId
+				let companyId = ''
+				this.options.marker.forEach(item => {
+					if (item.id === cur) {
+						item.width = item.height = 42
+						companyId = item.companyId
+					} else {
+						item.width = item.height = 20
+					}
+				})
+				await this.getDetail(companyId)
+				const list = this.options.marker
+				this.options.marker = []
+				setTimeout(() => {
+					this.options.marker = list
+					this.show = true
+					this.showBtn = false
+					console.log(this.options.marker)
+				}, 100)
+			},
+			/**
+			 * 隐藏详情后
+			 * @param e
+			 */
+			hideDetail(e) {
+				this.show = false
+				this.options.marker.forEach(item => {
+					item.width = item.height = 20
+				})
+				const list = this.options.marker
+				this.options.marker = []
+				setTimeout(() => {
+					console.log('zxc')
+					this.options.marker = list
+				}, 100)
+			},
+			/**
+			 * 切换标签
+			 */
+			async changeSign(index) {
+			    let arr = []
+			    let val = this.signList[index].val + ''
+			    if (this.curData.labelType) {
+			        arr = this.curData.labelType.split(',')
+			        if (arr.indexOf(val) != -1) {
+                        let i = arr.indexOf(val)
+                        arr.splice(i, 1)
+                    } else {
+                        arr.push(val)
+                    }
+			    } else {
+			        arr.push(val)
+			    }
+				let param = {
+				    companyId: this.curData.companyId,
+				    licenseId: this.requestParams.licenseId,
+				    operator: this.requestParams.inviterId,
+				    labelType: arr.length ? arr.join(',') : ''
+				}
+				console.log(param)
+				try{
+				    const data = await getApp().$VoHttp.apiCompanyInfoManagerGarageLabelSave(param)
+				    if (!data || !data.data) return
+				    this.curData.labelType = arr.length ? arr.join(',') : ''
+				} catch(e) {
+				    console.log(e)
+				}
+			},
+			/**
+			 * 底部跳转按钮
+			 */
+			goTo(url) {
+				uni.navigateTo({url})
+			},
+			/**
+			 * 切换地图标点类型
+			 */
+			changeType(item) {
+				this.requestParams.type = item.checkStatus
+				this.getData()
+			},
+			/**
+			 * 拨打电话
+			 */
+			async callPhone() {
+				const phone = this.curData.userName
+				let a = true
+				if (uni.getSystemInfoSync().platform == 'ios') {
+					//ios不需要获取电话权限
+					// a = await permission.judgeIosPermission('contact')
+				} else {
+					a = await permission.requestAndroidPermission('android.permission.CALL_PHONE')
+					// 永久拒绝
+					if (a === -1) {
+						a = false
+					}
+				}
+				console.log('quanxian=====', a)
+				if (!a) {
+					uni.showModal({
+						title: '提示',
+						content: '请去设置打开电话权限',
+						success: function(res) {
+							if (res.confirm) {
+								permission.gotoAppPermissionSetting()
+							} else if (res.cancel) {
+								console.log('用户点击取消')
+							}
+						},
+					})
+					return
+				}
+				uni.makePhoneCall({
+					phoneNumber: String(phone),
+				})
+			}
+		},
+	}
+</script>
+<style scoped>
+	/* 固定定位 */
+	.fixed {
+		position: fixed;
+	}
+	
+	.icon-left {
+	    height: 88rpx;
+	    padding-left: 36rpx;
+	    align-items: center;
+	    justify-content: center;
+	}
+
+	.icon-24 {
+		width: 24rpx;
+		height: 24rpx;
+	}
+
+	.icon-28 {
+		width: 28rpx;
+		height: 28rpx;
+	}
+
+	.icon-32 {
+		width: 32rpx;
+		height: 32rpx;
+	}
+
+	.icon-sign {
+		width: 104rpx;
+		height: 36rpx;
+	}
+
+	.full-w {
+		width: 750rpx;
+	}
+
+	.bg-w {
+		background-color: #ffffff;
+	}
+
+	.flex-justify-between {
+		justify-content: space-between;
+	}
+
+	.align-c {
+		align-items: center;
+	}
+
+	.shrink {
+		flex-shrink: 0;
+	}
+
+	.row {
+		flex-direction: row;
+	}
+
+	.f-s-24 {
+		font-size: 24rpx;
+	}
+
+	.f-s-28 {
+		font-size: 28rpx;
+	}
+
+	.f-s-32 {
+		font-size: 32rpx;
+	}
+
+	.f-s-36 {
+		font-size: 36rpx;
+	}
+
+	.f-c-25 {
+		color: rgba(0, 0, 0, 0.25)
+	}
+
+	.f-c-45 {
+		color: rgba(0, 0, 0, 0.45)
+	}
+
+	.f-c-65 {
+		color: rgba(0, 0, 0, 0.65)
+	}
+
+	.f-c-85 {
+		color: rgba(0, 0, 0, 0.85)
+	}
+
+	.mark {
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 750rpx;
+	}
+
+	.nav-title,
+	.func-bar {
+		height: 88rpx;
+	}
+
+	.nav-title {
+		position: relative;
+		padding: 0 36rpx;
+		padding-left: 0;
+	}
+
+	.nav-title-word {
+		position: absolute;
+		left: 286rpx;
+		font-weight: 500;
+		font-size: 36rpx;
+	}
+
+	.icon-more {
+		margin-left: 36rpx;
+	}
+
+	.map {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 750rpx;
+		height: 900rpx;
+		z-index: 10;
+	}
+
+	/* 标点对应状态说明 */
+	.check {
+		width: 96rpx;
+		top: 126rpx;
+		right: 32rpx;
+		padding-top: 22rpx;
+		background-color: rgba(255, 255, 255, 0.85);
+		border-radius: 8rpx;
+		box-shadow: 0 4rpx 16rpx rgba(34, 40, 75, 0.15);
+		/* backdrop-filter: blur(8rpx); */
+	}
+
+	.check-item {
+		align-items: center;
+		margin-bottom: 16rpx;
+	}
+
+	.check-item-icon {
+		width: 40rpx;
+		height: 40rpx;
+		margin-bottom: 5rpx;
+	}
+
+
+	/* 底部信息区 */
+	.bottom-box {
+		left: 0;
+		bottom: 0;
+		flex-wrap: wrap;
+	}
+
+	/* 地区内修理厂数据 */
+	.census {
+		font-weight: 400;
+		font-size: 28rpx;
+		margin-bottom: 32rpx;
+	}
+
+	.census-content {
+		padding: 24rpx 16rpx;
+		margin-right: 32rpx;
+		background-color: rgba(255, 255, 255, 0.85);
+		border-radius: 8rpx;
+		box-shadow: 0 4rpx 16rpx rgba(34, 40, 75, 0.15);
+		/* backdrop-filter: blur(8rpx); */
+	}
+
+	/* 底部按钮 */
+	.bottom-btn-bar {
+		padding: 20rpx 32rpx;
+		background-color: #ffffff;
+	}
+
+	.btn-bar__item {
+		width: 325rpx;
+		height: 92rpx;
+		line-height: 92rpx;
+		color: #FF5319;
+		font-size: 32rpx;
+		border: 1px solid #FF7A4D;
+		border-radius: 48rpx;
+		text-align: center;
+	}
+
+	.btn-bar__item-act {
+		color: #fff;
+		background-color: #FF5319;
+		border-color: #FF5319;
+	}
+
+	/* 底部详情弹窗 */
+	.detail {
+		width: 750rpx;
+		padding: 20rpx 32rpx;
+		background-color: #ffffff;
+	}
+
+	.detail-close {
+		margin-right: 14rpx;
+		margin-bottom: 30rpx;
+	}
+
+	.icon-face {
+		width: 48rpx;
+		height: 48rpx;
+		border-radius: 8rpx;
+	}
+
+	.detail-title {
+		display: flex;
+		align-items: center;
+		font-weight: 500;
+		font-size: 32rpx;
+	}
+
+	.detail-title__name {
+		margin-left: 16rpx;
+		margin-right: 8rpx;
+		max-width: 424rpx;
+		lines: 1;
+		text-overflow: ellipsis;
+	}
+
+	.detail-address {
+		margin-top: 24rpx;
+		margin-bottom: 10rpx;
+		lines: 2;
+		text-overflow: ellipsis;
+	}
+
+	.detail-contact {
+		padding-bottom: 36rpx;
+		border-bottom: 2rpx solid #F7F7F8;
+	}
+
+	.phone {
+		margin-right: 28rpx;
+		height: 36rpx;
+		line-height: 36rpx;
+	}
+
+	.detail-contact__btn {
+		width: 160rpx;
+		height: 56rpx;
+		line-height: 56rpx;
+		font-size: 24rpx;
+		text-align: center;
+		color: #FF5319;
+		border: 1px solid #FF7A4D;
+		border-radius: 30px;
+	}
+
+	.sign-bar {
+		padding: 24rpx 0rpx;
+		overflow: scroll;
+	}
+
+	.sign {
+		padding: 0 16rpx;
+		font-size: 24rpx;
+		color: rgba(0, 0, 0, 0.45);
+		background-color: #F7F7F8;
+		border-radius: 24rpx;
+		margin-right: 16rpx;
+	}
+
+	.sign-act {
+		background-color: #E50012;
+		color: #fff;
+	}
+</style>

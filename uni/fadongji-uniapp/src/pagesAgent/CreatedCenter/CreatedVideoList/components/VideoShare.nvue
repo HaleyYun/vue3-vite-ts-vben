@@ -1,0 +1,151 @@
+<template>
+	<u-popup :safeAreaInsetBottom="true" :show="show" mode="bottom" @close="cancle">
+		<view class="share">
+			<view class="share-title">
+				<text class="share-title__text">分享至</text>
+			</view>
+			<view class="share-top__line" />
+			<view class="share-center">
+				<view class="share-center__item" v-for="(item, index) in shareList" :key="index" @click="shareItem(item)">
+					<image class="share-center__image" :src="item.src" />
+					<text class="share-center__title">{{ item.name }}</text>
+				</view>
+			</view>
+			<view class="share-top__line" />
+			<view class="share-center" v-if="isEdit">
+				<view class="share-center__item" @click="toEdit()">
+					<image class="share-center__image" src="/static/created/circle/edit.png"></image>
+					<text class="share-center__title">编辑视频</text>
+				</view>
+			</view>
+			<view class="share-bottom__line" />
+			<view class="share-cancel" @click="cancle">
+				<text class="share-cancel__text">取消</text>
+			</view>
+		</view>
+	</u-popup>
+</template>
+
+<script>
+	export default {
+		name: 'VoShareView',
+		props: {
+			/*
+			 * src 分享图片
+			 * name 标题
+			 * */
+			// shareList: {
+			//   type: Array,
+			//   defaults: [],
+			// },
+			// show: Boolean,
+			//是否编辑
+			isEdit:{
+				type: Number,
+				default: 0,
+			}
+		},
+		data() {
+			return {
+				show: false,
+				shareList: [{
+						src: '/static/created/circle/share_friend.png',
+						name: '微信好友',
+						type: 'WXSceneSession',
+					},
+					{
+						src: '/static/created/circle/share_circle.png',
+						name: '朋友圈',
+						type: 'WXSceneTimeline',
+					},
+				],
+				info: '',
+			}
+		},
+		methods: {
+			shareItem(item) {
+				console.log('分享weixin')
+				//testm.fdjcyl.com
+				this.$emit('shareFn', item.type)
+				
+			},
+			showShare(data) {
+				console.log(data)
+				this.info = data
+				this.show = true
+			},
+			cancle() {
+				this.show = false
+			},
+			//去编辑
+			toEdit(){
+				this.show = false
+				uni.navigateTo({
+					url: '/pagesAgent/CreatedCenter/ReleaseCircle/ReseaseVideo?id=' + this.info.id
+				})
+				// this.$linkToEasy('/pagesAgent/CreatedCenter/ReleaseCircle/ReseaseVideo?id=' + this.info.id)
+			}
+		},
+	}
+</script>
+
+<style lang="scss" scoped>
+	.share-title {	
+		height: 74rpx;		
+		width: 750rpx;
+		text-align: center;
+	}
+	.share-title__text{
+		font-size: 28rpx;
+		font-weight: bold;
+		color: rgba(0, 0, 0, 0.85);
+		line-height: 74rpx;
+		text-align: center;	
+	}
+	.share-top__line {
+		width: 750rpx;
+		height: 1px;
+		background: #f7f7f8;
+	}
+	.share-center {
+		margin: 40rpx 48rpx;
+		display: flex;
+		flex-direction: row;
+	}
+	.share-center__item{
+		margin-right: 40rpx;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+	}
+	.share-center__image {
+		width: 120rpx;
+		height: 120rpx;
+	}
+
+	.share-center__title {
+		margin-top: 8rpx;
+		font-size: 24rpx;
+		line-height: 34rpx;
+		text-align: center;
+		color: rgba(0, 0, 0, 0.85);
+	}
+	.share-bottom__line {
+		width: 750rpx;
+		height: 16rpx;
+		background: #f7f7f8;
+	}
+
+	.share-cancel {
+		flex: 1;
+		height: 96rpx;
+		text-align: center;
+	}
+	.share-cancel__text{
+		flex: 1;
+		font-size: 28rpx;
+		color: rgba(0, 0, 0, 0.85);
+		line-height: 96rpx;
+		text-align: center;	
+	}
+</style>

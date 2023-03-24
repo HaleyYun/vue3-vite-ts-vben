@@ -1,0 +1,44 @@
+{
+	"name": "VoOneKeyLoginPlugin",
+	"id": "vocen-login",
+	"version": "1.0.0",
+	"description": "VoOneKeyLoginPlugin",
+	"_dp_type": "nativeplugin",
+	"_dp_nativeplugin": {
+		"android": {
+			"integrateType": "aar",
+			"plugins": [{
+				"type": "module",
+				"name": "vocen-login",
+				"class": "com.zz.vocen.plugin.shanyan.ShanYanLogin"
+			}],
+			"parameters": {
+				"ShanYanAppId": {
+					"des": "闪验一键登录AppId",
+					"key": "app_id"
+				}
+			},
+			"useAndroidX": true,
+			"minSdkVersion": "21"
+		},
+		"ios": {
+			"plugins": [{
+				"type": "component",
+				"name": "vocen-login",
+				"class": "VoOneKeyLoginComponent"
+			}],
+			"integrateType": "framework",
+			"frameworks": ["Network.framework", "account_login_sdk_noui_core.framework", "CL_ShanYanSDK.framework",
+				"EAccountApiSDK.framework", "OAuth.framework", "TYRZUISDK.framework","libc++.1.tbd"
+			],
+			"deploymentTarget": "9.0",
+			"hooksClass": "VoOneKeyLoginProxy",
+			"parameters": {
+				"AppKey": {
+					"des": "闪验一键登录AppKey",
+					"key": "ShanYan:AppKey"
+				}
+			}
+		}
+	}
+}

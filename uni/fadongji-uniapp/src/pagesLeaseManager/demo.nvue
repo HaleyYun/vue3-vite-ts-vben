@@ -1,0 +1,662 @@
+<template>
+	<view class="container" :style="{height: windowsHeight}">
+		<map id="map" ref="map" :scale="options.scale" :style="{height: windowsHeight, width: windowsWidth}" :markers="options.marker"
+			:latitude="options.latitude" :longitude="options.longitude" show-location enable-rotate
+			enable-overlooking enable-poi @markertap="clickMarker" @tap="addEvent">
+			<view class="full-w bg-w" :style="{height: safeTopHeight + 'px'}"></view>
+
+			<view class="nav-title row flex-justify-between align-c bg-w">
+				<image class="icon-left icon-24" src='/static/common/map/arror-left.png' @click="$backFn"></image>
+				<text class="nav-title-word f-s-36 f-c-85">修理厂地图</text>
+				<view class="func-bar row align-c">
+					<text class="f-s-28 f-c-65" @click="$backFn">列表</text>
+					<!-- <image class="icon-more icon-24" src="/static/common/map/more.png"></image> -->
+				</view>
+			</view>
+			<view class="mark" :style="{ 'z-index': show ? 1000 : -1, top: (safeTopHeight + 63) + 'px' }"
+				@click="hideDetail"></view>
+			<!-- 标点对应状态说明 -->
+			<view class="fixed check" :style="{top: (safeTopHeight + 63) + 'px'}">
+				<view class="check-item" @click="changeType(1)">
+					<image class="check-item-icon" src="/static/common/map/map_icon_0.png"></image>
+					<text class="f-s-24 f-c-85">待认证</text>
+				</view>
+				<view class="check-item" @click="changeType(2)">
+					<image class="check-item-icon" src="/static/common/map/map_icon_1.png"></image>
+					<text class="f-s-24 f-c-85">待审核</text>
+				</view>
+				<view class="check-item" @click="changeType(3)">
+					<image class="check-item-icon" src="/static/common/map/map_icon_2.png"></image>
+					<text class="f-s-24 f-c-85">已绑定</text>
+				</view>
+			</view>
+
+			<!-- 底部悬浮区域 -->
+			<view class="fixed full-w bottom-box row">
+				<!-- 地区内修理厂数据 -->
+				<view class="census row full-w flex-justify-between">
+					<view></view>
+					<view class="census-content">
+						<view>所在修理厂总数：{{ areaData.total }}</view>
+						<view>已绑定：{{ areaData.isbind }}</view>
+						<view>未绑定：{{ areaData.unbind }}</view>
+					</view>
+				</view>
+
+				<!-- 底部悬浮按钮 -->
+				<view v-if="showBtn" class="bottom-btn-bar full-w">
+					<text class="btn-bar__item" @click="goTo('./InviteGarage')">邀请修理厂注册</text>
+					<!-- <text
+						v-if="userInfo.roleCode === 'agent'"
+						class="btn-bar__item btn-bar__item-act"
+						@click="goTo('/pagesChannelManager/GarageModule/CreateGarage')"
+					>新增修理厂</text>
+					<text
+						v-else-if="userInfo.roleCode === 'channel'"
+						class="btn-bar__item btn-bar__item-act"
+						@click="goTo('/pagesChannelManager/GarageModule/CreateGarage')"
+					>新增修理厂</text> -->
+					<text class="btn-bar__item btn-bar__item-act">新增修理厂</text>
+				</view>
+
+				<u-transition :show="show" mode="slide-up" @afterLeave="showBtn = true">
+					<view class="transition row">
+						<view class="detail">
+							<view class="detail-close row flex-justify-between" @click="hideDetail">
+								<view></view>
+								<image class="icon-28" src="/static/common/map/close.png"></image>
+							</view>
+
+							<view class="detail-title row">
+								<image class="icon-face" :src="curData.face_icon"></image>
+								<text class="detail-title__name f-s-32 f-c-85">{{ curData.store_name }}</text>
+								<image v-if="curData.status === 0" class="icon-sign"
+									src="/static/common/map/attestation_0.png"></image>
+								<image v-else-if="curData.status === 1" src="/src/static/common/map/attestation_1.png">
+								</image>
+								<image v-else-if="curData.status === 2" src="/src/static/common/map/attestation_2.png">
+								</image>
+							</view>
+
+							<text class="detail-address f-s-24 f-c-45">{{ curData.distance }} 丨
+								{{ curData.address }}</text>
+
+							<view class="detail-contact row flex-justify-between align-c">
+								<view>
+									<text class="f-s-24 f-c-45">{{ curData.user_name }}</text>
+									<view class="row align-c">
+										<text class="f-s-24 f-c-45 phone">{{ curData.phone }}</text>
+										<image class="icon-32" src="/static/common/map/phone.png"></image>
+									</view>
+								</view>
+								<text v-if="curData.status === 0" class="detail-contact__btn"
+									@click="goTo('./InviteGarage')">去点亮</text>
+								<text v-else class="detail-contact__btn"
+									@click="goTo('/pagesAgent/SubstituteOrder/SubstituteOrder?type=1')">代客下单</text>
+							</view>
+
+							<view class="sign-bar row align-c">
+								<template v-for="(item, index) in signList">
+									<text :key="index" :class="item.act ? 'sign sign-act' : 'sign'"
+										@click="changeSign(item)">{{ item.name }}</text>
+								</template>
+							</view>
+						</view>
+					</view>
+				</u-transition>
+			</view>
+
+			<!--<view>
+				<u-modal title="提示" content="需要您开启定位授权，<br>获取您的位置信息!" confirmText="去打开" cancelText="取消"
+					:show="showModule" closeOnClickOverlay showCancelButton @confirm="openGPS" @cancel="closeModal">
+					<view class="slot-content">
+						<text>需要您开启定位授权，获取您的</text>
+						<text style="text-align: center;">位置信息!</text>
+					</view>
+				</u-modal>
+			</view> -->
+
+	</map>
+	</view>
+</template>
+<script>
+	export default {
+		name: 'Demo',
+		data() {
+			return {
+				showModule: true,
+				// 展示详情抽屉
+				show: false,
+				// 展示底部按钮
+				showBtn: true,
+				requestParams: {
+					type: 1, // 认证状态
+					id: '' // 地图标点id
+				},
+				// 区域内修理厂数据
+				areaData: {
+					total: 100, // 总数
+					isbind: 45, // 已认证
+					unbind: 55 // 未认证
+				},
+				// 当前选中修理厂数据
+				curData: {
+					face_icon: '/static/common/map/map_icon_2.png', // 头像
+					store_name: '江陵动力修理厂', // 修理厂名称
+					status: 2, // 认证状态
+					distance: '439m', // 距离
+					address: '河南省-郑州市-金水区-龙子湖街道中央广场河南省郑州市金水区龙子湖街道中央广场', // 地址
+					user_name: '张木子', // 联系人名称
+					phone: '132 **** 1789', // 脱敏电话
+					real_phone: '13353833215', // 真实电话（调用拨打电话功能）
+					sign: 1, //标记 1、目标客户；2、汽车美容；3、补胎
+				},
+				signList: [{
+						name: '目标客户',
+						val: 1,
+						act: 1 // 选中状态
+					},
+					{
+						name: '汽车美容',
+						val: 2,
+						act: 0
+					},
+					{
+						name: '补胎',
+						val: 3,
+						act: 0
+					},
+				],
+				// 地图参数
+				options: {
+					// 地图属性参数
+					latitude: 23.106574, //纬度
+					longitude: 113.324587, //经度
+					scale: 13, //缩放级别
+					// 标记点属性
+					marker: [{
+							state: 1,
+							id: 0,
+							latitude: 23.13065, //纬度
+							longitude: 113.3274, //经度
+							iconPath: '/static/common/map/map_icon_0.png', //显示的图标
+							rotate: 0, // 旋转度数
+							width: 40, //宽
+							height: 40, //高
+							alpha: 1, //透明度
+						},
+						{
+							id: 1234597,
+							latitude: 23.106574, //纬度
+							longitude: 113.324587, //经度
+							iconPath: '/static/common/map/map_icon_1.png', //显示的图标
+							rotate: 0, // 旋转度数
+							width: 40, //宽
+							height: 40, //高
+							//  title:'我在这里',//标注点名
+							alpha: 1, //透明度
+							//      label:{//为标记点旁边增加标签   //因背景颜色H5不支持
+							//   color:'red',//文本颜色
+							//      },
+							// callout: {//自定义标记点上方的气泡窗口 点击有效
+							//   content: '广州塔',//文本
+							//   color: '#ffffff',//文字颜色
+							//   fontSize: 14,//文本大小
+							//   borderRadius: 15,//边框圆角
+							//   borderWidth: '10',
+							//   bgColor: '#e51860',//背景颜色
+							//   display: 'ALWAYS',//常显
+							// },
+						},
+						{
+							id: 2,
+							latitude: 23.1338, //纬度
+							longitude: 113.33052, //经度
+							iconPath: '/static/common/map/map_icon_2.png', //显示的图标
+							rotate: 0, // 旋转度数
+							width: 40, //宽
+							height: 40, //高
+							alpha: 1, //透明度
+						},
+					]
+				},
+				flag: false,
+				timer: null,
+				windowsWidth: 0,
+			}
+		},
+		onLoad(options) {
+			
+			const res = uni.getSystemInfoSync()
+			console.log('safeArea', res)
+			this.windowsHeight = res.screenHeight
+			this.safeTopHeight = res.statusBarHeight
+			this.windowsWidth = res.screenWidth
+			// console.log(this.userInfo)
+			// uni.getLocation({
+			// 	type: 'gcj02',
+			// 	success: (res) => {
+			// 		this.options.latitude = res.latitude
+			// 		this.options.longitude = res.longitude
+			// 	},
+			// 	fail: (ret) => {
+			// 		console.log(ret);
+			// 		if (ret.code === 22){
+			// 			this.$u.toast('获取定位权限失败，请确认您已经打开手机定位功能且允许获取位置权限')
+			// 			setTimeout(()=>{
+			// 				this.$backFn()
+			// 			},1500)
+			// 		}
+			// 	}
+			// })
+
+		},
+		// onReady () {
+		// 	this.addEvent()
+		// },
+		methods: {
+			throttle(func, wait = 500, immediate = true) {
+			  if (immediate) {
+			    if (!this.flag) {
+			      this.flag = true
+			      // 如果是立即执行，则在wait毫秒内开始时执行
+			      typeof func === 'function' && func()
+			      this.timer = setTimeout(() => {
+			        this.flag = false
+			      }, wait)
+			    }
+			  } else if (!this.flag) {
+			    this.flag = true
+			    // 如果是非立即执行，则在wait毫秒内的结束处执行
+			    this.timer = setTimeout(() => {
+			      this.flag = false
+			      typeof func === 'function' && func()
+			    }, wait)
+			  }
+			},
+			addEvent(e) {
+				console.log('被调用了', e)
+				// const that = this
+				// const map = uni.createMapContext('map', this).$getAppMap()
+				// console.log(map)
+				// map.onclick = (point) => {
+				// 	console.log(point)
+				// 	this.throttle(() => {
+				// 	}, 1000)
+				// }
+			},
+			openGPS() {
+				// android平台
+				if (uni.getSystemInfoSync().platform == 'android') {
+					var Intent = plus.android.importClass('android.content.Intent');
+					var Settings = plus.android.importClass('android.provider.Settings');
+					var intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+					var main = plus.android.runtimeMainActivity();
+					main.startActivity(intent); // 打开系统设置GPS服务页面
+				}
+
+				// ios平台
+				if (uni.getSystemInfoSync().platform == 'ios') {
+					var UIApplication = plus.ios.import("UIApplication");
+					var application2 = UIApplication.sharedApplication();
+					var NSURL2 = plus.ios.import("NSURL");
+					var setting2 = NSURL2.URLWithString("App-Prefs:root=Privacy&path=LOCATION");
+					application2.openURL(setting2);
+					plus.ios.deleteObject(setting2);
+					plus.ios.deleteObject(NSURL2);
+					plus.ios.deleteObject(application2);
+				}
+			},
+			closeModal() {
+				this.showModule = false
+			},
+			/**
+			 * 点击地图标点事件
+			 * @param e 当前点击参数
+			 */
+			clickMarker(e) {
+				const cur = e.detail.markerId
+				this.options.marker.forEach(item => {
+					if (item.id === cur) {
+						item.width = item.height = 42
+					} else {
+						item.width = item.height = 20
+					}
+				})
+				const list = this.options.marker
+				this.options.marker = []
+				setTimeout(() => {
+					this.options.marker = list
+					this.show = true
+					this.showBtn = false
+				}, 100)
+			},
+			/**
+			 * 隐藏详情后
+			 * @param e
+			 */
+			hideDetail(e) {
+				this.show = false
+				this.options.marker.forEach(item => {
+					item.width = item.height = 20
+				})
+				const list = this.options.marker
+				this.options.marker = []
+				setTimeout(() => {
+					console.log('zxc')
+					this.options.marker = list
+				}, 100)
+			},
+			/**
+			 * 切换标签
+			 */
+			changeSign(cur) {
+				this.signList.forEach((item) => {
+					if (item.val === cur.val) {
+						item.act = true
+					} else {
+						item.act = false
+					}
+				})
+			},
+			/**
+			 * 底部跳转按钮
+			 */
+			goTo(url) {
+				uni.navigateTo({
+					url
+				})
+			},
+			/**
+			 * 切换地图标点类型
+			 */
+			changeType(type) {
+				this.requestParams.type = type
+			},
+			/**
+			 * 拨打电话
+			 */
+			callPhone() {
+				const phone = this.curData.real_phone
+				uni.makePhoneCall({
+					phoneNumber: String(phone),
+				})
+			}
+		},
+	}
+</script>
+<style scoped>
+	/* 固定定位 */
+	.fixed {
+		position: fixed;
+	}
+
+	.icon-24 {
+		width: 24rpx;
+		height: 24rpx;
+	}
+
+	.icon-28 {
+		width: 28rpx;
+		height: 28rpx;
+	}
+
+	.icon-32 {
+		width: 32rpx;
+		height: 32rpx;
+	}
+
+	.icon-sign {
+		width: 104rpx;
+		height: 36rpx;
+	}
+
+	.full-w {
+		width: 750rpx;
+	}
+
+	.bg-w {
+		background-color: #ffffff;
+	}
+
+	.flex-justify-between {
+		justify-content: space-between;
+	}
+
+	.align-c {
+		align-items: center;
+	}
+
+	.shrink {
+		flex-shrink: 0;
+	}
+
+	.row {
+		flex-direction: row;
+	}
+
+	.f-s-24 {
+		font-size: 24rpx;
+	}
+
+	.f-s-28 {
+		font-size: 28rpx;
+	}
+
+	.f-s-32 {
+		font-size: 32rpx;
+	}
+
+	.f-s-36 {
+		font-size: 36rpx;
+	}
+
+	.f-c-25 {
+		color: rgba(0, 0, 0, 0.25)
+	}
+
+	.f-c-45 {
+		color: rgba(0, 0, 0, 0.45)
+	}
+
+	.f-c-65 {
+		color: rgba(0, 0, 0, 0.65)
+	}
+
+	.f-c-85 {
+		color: rgba(0, 0, 0, 0.85)
+	}
+
+	.mark {
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 750rpx;
+	}
+
+	.nav-title,
+	.func-bar {
+		height: 88rpx;
+	}
+
+	.nav-title {
+		position: relative;
+		padding: 0 36rpx;
+	}
+
+	.nav-title-word {
+		position: absolute;
+		left: 286rpx;
+		font-weight: 500;
+		font-size: 36rpx;
+	}
+
+	.icon-more {
+		margin-left: 36rpx;
+	}
+
+	.map {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 750rpx;
+		height: 900rpx;
+		z-index: 10;
+	}
+
+	/* 标点对应状态说明 */
+	.check {
+		width: 96rpx;
+		top: 126rpx;
+		right: 32rpx;
+		padding-top: 22rpx;
+		background-color: rgba(255, 255, 255, 0.85);
+		border-radius: 8rpx;
+		box-shadow: 0 4rpx 16rpx rgba(34, 40, 75, 0.15);
+		/* backdrop-filter: blur(8rpx); */
+	}
+
+	.check-item {
+		align-items: center;
+		margin-bottom: 16rpx;
+	}
+
+	.check-item-icon {
+		width: 40rpx;
+		height: 40rpx;
+		margin-bottom: 5rpx;
+	}
+
+
+	/* 底部信息区 */
+	.bottom-box {
+		left: 0;
+		bottom: 0;
+		flex-wrap: wrap;
+	}
+
+	/* 地区内修理厂数据 */
+	.census {
+		font-weight: 400;
+		font-size: 28rpx;
+		margin-bottom: 32rpx;
+	}
+
+	.census-content {
+		padding: 24rpx 16rpx;
+		margin-right: 32rpx;
+		background-color: rgba(255, 255, 255, 0.85);
+		border-radius: 8rpx;
+		box-shadow: 0 4rpx 16rpx rgba(34, 40, 75, 0.15);
+		/* backdrop-filter: blur(8rpx); */
+	}
+
+	/* 底部按钮 */
+	.bottom-btn-bar {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20rpx 32rpx;
+		text-align: center;
+		font-weight: 400;
+		background-color: #ffffff;
+	}
+
+	.btn-bar__item {
+		width: 325rpx;
+		height: 92rpx;
+		line-height: 92rpx;
+		color: #FF5319;
+		font-size: 32rpx;
+		border: 1px solid #FF7A4D;
+		border-radius: 48rpx;
+		text-align: center;
+	}
+
+	.btn-bar__item-act {
+		color: #fff;
+		background-color: #FF5319;
+		border-color: #FF5319;
+	}
+
+	/* 底部详情弹窗 */
+	.detail {
+		width: 750rpx;
+		padding: 20rpx 32rpx;
+		background-color: #ffffff;
+	}
+
+	.detail-close {
+		margin-right: 14rpx;
+		margin-bottom: 30rpx;
+	}
+
+	.icon-face {
+		width: 48rpx;
+		height: 48rpx;
+		border-radius: 8rpx;
+	}
+
+	.detail-title {
+		display: flex;
+		align-items: center;
+		font-weight: 500;
+		font-size: 32rpx;
+	}
+
+	.detail-title__name {
+		margin-left: 16rpx;
+		margin-right: 8rpx;
+		max-width: 424rpx;
+		lines: 1;
+		text-overflow: ellipsis;
+	}
+
+	.detail-address {
+		margin-top: 24rpx;
+		margin-bottom: 10rpx;
+		lines: 2;
+		text-overflow: ellipsis;
+	}
+
+	.detail-contact {
+		padding-bottom: 36rpx;
+		border-bottom: 2rpx solid #F7F7F8;
+	}
+
+	.phone {
+		margin-right: 28rpx;
+		height: 36rpx;
+		line-height: 36rpx;
+	}
+
+	.detail-contact__btn {
+		width: 160rpx;
+		height: 56rpx;
+		line-height: 56rpx;
+		font-size: 24rpx;
+		text-align: center;
+		color: #FF5319;
+		border: 1px solid #FF7A4D;
+		border-radius: 30px;
+	}
+
+	.sign-bar {
+		padding: 24rpx 0rpx;
+		overflow: scroll;
+	}
+
+	.sign {
+		padding: 0 16rpx;
+		font-size: 24rpx;
+		color: rgba(0, 0, 0, 0.45);
+		background-color: #F7F7F8;
+		border-radius: 24rpx;
+		margin-right: 16rpx;
+	}
+
+	.sign-act {
+		background-color: #E50012;
+		color: #fff;
+	}
+</style>

@@ -1,0 +1,232 @@
+<template></template>
+
+<script lang="ts">
+// import AgentRegion from '/@/modules/AgentPages/component/AgentRegion.vue'
+import {defineComponent, ref, CSSProperties, watch} from 'vue'
+import {addressOptions} from '/@/modules/CustomerModule/AgentPages/mock'
+import {SelectTypes} from 'ant-design-vue/es/select'
+import {Dayjs} from 'dayjs'
+import {
+  Button,
+  Form,
+  Input,
+  Select,
+  Radio,
+  Row,
+  Col,
+  Cascader,
+} from 'ant-design-vue'
+
+export default defineComponent({
+  components: {
+	Cascader,
+	Button,
+	Form,
+	FormItem: Form.Item,
+	Input,
+	Select,
+	RadioGroup: Radio.Group,
+	RadioButton: Radio.Button,
+	Row,
+	Col,
+  },
+  setup() {
+	//日期
+	const getCurrentStyle = (current: Dayjs) => {
+	  const style: CSSProperties = {}
+	  if (current.date() === 1) {
+		style.border = '1px solid #1890ff'
+		style.borderRadius = '50%'
+	  }
+	  return style
+	}
+	const ification = ref<string>('a')
+	//运营
+	const options = ref<SelectTypes['options']>([
+	  {value: '张三', label: '张三'},
+	  {value: '李四', label: '李四'},
+	  {value: '王五', label: '王五'},
+	  {value: '赵66', label: '王66'},
+	  {value: '王小五', label: '王小五'},
+	  {value: '王大五', label: '王大五'},
+	  {value: '王老五', label: '王小五'},
+	])
+	const handleChange = (value: string) => {
+	  console.log(`selected ${value}`)
+	}
+	const handleBlur = () => {
+	  console.log('blur')
+	}
+	const handleFocus = () => {
+	  console.log('focus')
+	}
+	const filterOption = (input: string, option: any) => {
+	  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+	}
+	//认证状态
+	const options1 = ref<SelectTypes['options']>([
+	  {value: '未认证', label: '未认证'},
+	  {value: '未审核', label: '未审核'},
+	  {value: '待审核', label: '待审核'},
+	  {value: '已审核', label: '已审核'},
+	  {value: '待认证', label: '待认证'},
+	  {value: '已认证', label: '已认证'},
+	])
+	const handleChange1 = (value: string) => {
+	  console.log(`selected ${value}`)
+	}
+	const handleBlur1 = () => {
+	  console.log('blur')
+	}
+	const handleFocus1 = () => {
+	  console.log('focus')
+	}
+	const filterOption1 = (input: string, option: any) => {
+	  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+	}
+	//账号启用
+	const options2 = ref<SelectTypes['options']>([
+	  {value: '开启', label: '开启'},
+	  {value: '关闭', label: '关闭'},
+	])
+	const handleChange2 = (value: string) => {
+	  console.log(`selected ${value}`)
+	}
+	const handleBlur2 = () => {
+	  console.log('blur')
+	}
+	const handleFocus2 = () => {
+	  console.log('focus')
+	}
+	const filterOption2 = (input: string, option: any) => {
+	  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+	}
+	//来源
+	const options3 = ref<SelectTypes['options']>([
+	  {value: '抖音', label: '抖音'},
+	  {value: '微信', label: '微信'},
+	])
+	const handleChange3 = (value: string) => {
+	  console.log(`selected ${value}`)
+	}
+	const handleBlur3 = () => {
+	  console.log('blur')
+	}
+	const handleFocus3 = () => {
+	  console.log('focus')
+	}
+	const filterOption3 = (input: string, option: any) => {
+	  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+	}
+	// watch(() => router.params.)
+	return {
+	  //日期
+	  ification,
+	  value2: ref<Moment[]>([]),
+	  getCurrentStyle,
+	  //运营
+	  value: ref<string | undefined>(undefined),
+	  filterOption,
+	  handleBlur,
+	  handleFocus,
+	  handleChange,
+	  options,
+	  //认证状态
+	  cation: ref<string | undefined>(undefined),
+	  filterOption1,
+	  handleBlur1,
+	  handleFocus1,
+	  handleChange1,
+	  options1,
+	  //启用状态
+	  enable: ref<string | undefined>(undefined),
+	  filterOption2,
+	  handleBlur2,
+	  handleFocus2,
+	  handleChange2,
+	  options2,
+	  //启用状态
+	  source: ref<string | undefined>(undefined),
+	  filterOption3,
+	  handleBlur3,
+	  handleFocus3,
+	  handleChange3,
+	  options3,
+	  addressOptions,
+	}
+  },
+})
+</script>
+
+<style lang="less" scoped>
+.form-list {
+  padding: 15px;
+  
+  .form-list-box {
+	padding-top: 15px;
+	position: relative;
+	background-color: #fff;
+	
+	.action-btn-box {
+	  display: flex;
+	  
+	  .submit-btn {
+		margin-left: 150px;
+	  }
+	  
+	  .rest-btn {
+		margin-left: 15px;
+	  }
+	}
+	
+	.box-layout {
+	  padding: 10px;
+	  
+	  .constant {
+		width: 240px;
+	  }
+	  
+	  .box-layout-item {
+		width: 425px;
+	  }
+	}
+  }
+  
+  .form-list-choice {
+	padding: 20px;
+	width: 100%;
+	background-color: #fff;
+	// margin-top: 20px;
+	
+	.choice-btnItem {
+	  margin-right: 10px;
+	  
+	  .choice-content {
+		color: #ff1a20;
+	  }
+	  
+	  &.ant-radio-button-wrapper-checked:hover {
+		color: #fff !important;
+		
+		.choice-content {
+		  color: #fff !important;
+		}
+	  }
+	  
+	  :hover .choice-content {
+		color: #0960bd !important;
+	  }
+	}
+	
+	.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+	  z-index: 1;
+	  color: #fff;
+	  background: #0960bd;
+	  
+	  .choice-content {
+		color: #fff;
+	  }
+	}
+  }
+}
+</style>

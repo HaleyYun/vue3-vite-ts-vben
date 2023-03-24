@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../dist/index.umd.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<span id="svgTest" style="line-height: 1;">
+  <span>111</span>
+  <div id="svg"></div>
+  <div>测试</div>
+</span>
+
+<script>
+
+
+	const {dayjs, VoUtils} = VoCenShared
+
+	const nowTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+	// 获取现在的时间
+	console.log(nowTime, '现在的时间')
+
+	// 近一个月的时间开始时间
+	const oneMonthBeforeTime = dayjs().subtract(1, 'month').format('YYYY-MM-DD HH:mm:ss');
+	console.log(oneMonthBeforeTime, '1个月之前')
+
+	// 近2个月的时间开始时间
+	const twoMonthBeforeTime = dayjs().subtract(2, 'month').format('YYYY-MM-DD HH:mm:ss');
+	console.log(twoMonthBeforeTime, '2个月之前')
+
+	// 近3个月的时间开始时间
+	const threeMonthBeforeTime = dayjs().subtract(3, 'month').format('YYYY-MM-DD HH:mm:ss');
+	console.log(threeMonthBeforeTime, '3个月之前')
+
+	const t = dayjs().subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss');
+	console.log(t)
+
+	const testTime = dayjs().month(0).date(1).format('YYYY-MM-DD HH:mm:ss');
+	console.log(testTime, 'XX')
+
+	console.log(dayjs('2021').format('YYYY-MM-DD HH:mm:ss'))
+	console.log(dayjs('2022').format('YYYY-MM-DD HH:mm:ss'))
+	console.log(dayjs().format('YYYY-MM-DD HH:mm:ss'))
+
+	const time = VoUtils.transformDateByType(2022, 'year')
+	console.log(time)
+
+	const $t = VoUtils.IMTimeTransfer('2022-09-07 12:12:12')
+	console.log($t)
+</script>
+</body>
+</html>

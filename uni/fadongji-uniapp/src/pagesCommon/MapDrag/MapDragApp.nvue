@@ -1,0 +1,2205 @@
+<template>
+	<view v-if="showMap">
+		<view id="title" class="title"
+			:style="{'padding-top': sys.statusBarHeight !== 0 ? `${sys.statusBarHeight+10}px` : '20rpx'}">
+			<image src="/static/common/map/arror-left.png" style="width: 38rpx;height: 38rpx;" @click="backFn"></image>
+			<view class="row align-c">
+				<image v-if="!hideIcon" class="m-r-16" src="/static/common/clock.jpg"
+					style="width: 56rpx;height: 56rpx;"></image>
+				<text class="f-s-36 f-c-85">{{title}}</text>
+			</view>
+			<view></view>
+		</view>
+		<view v-if="showNoEngineerTip" class="noEngineerTip" @click="showNoEngineerTip = false">
+			<image class="warringPng" src="/static/common/map/warring.png" />
+			<text class="tipTextBox">当前无法获取到集师傅所在位置</text>
+			<image class="closePng" src="/static/common/map/close.png" />
+		</view>
+		<map id="map" :scale="options.scale" enable-rotate enable-overlooking enable-poi :show-location="false"
+			:style="{height: sys.windowHeight + 'px', width: sys.windowWidth+'px' }" :markers="options.marker"
+			:latitude="options.latitude" :longitude="options.longitude">
+		</map>
+		<view :class="isend ? 'fixedbox2' : 'fixedbox'" :style="{
+				height: sys.windowHeight + 'px',
+				width: sys.windowWidth + 'px',
+				top: fixboxtop + 'px',
+			}" @touchmove="getstart($event)" @tap="tap" @touchend="getend" ref="fixbox">
+			<view class="content" :style="{ height: windowHeight + 'px' }">
+				<view>
+					<view id="drag_card" class="card full-w">
+						<!-- 修理厂及旧机买家头部 -->
+						<block v-if="origin > 3">
+							<view class="whiteBox flex1 bg-w">
+								<view class="cardTitle row flex1 flex-justify-between align-c">
+									<image class="photo" :src="cardInfo.photoUrl || '/static/icons/me.png'"></image>
+									<view class="flex1">
+										<text class="f-c-85 f-w-500 f-s-28">集师傅：{{ cardInfo.storeName }}</text>
+										<text class="f-c-45 f-s-24">好评率：{{ cardInfo.favorableComment }}</text>
+									</view>
+								</view>
+								<text v-if="info.orderStatus === 3240 && info.homeEndTime <= nowDate"
+									class="address f-w-400" style="color: #f20014">
+									集师傅未按约定时间到店，可联系师傅继续等待或免费取消订单
+								</text>
+								<view class="btnFnBar row align-c flex-justify-between">
+									<view class="row align-c flex-justify-center flex1 border-r" @click="callPhone">
+										<image class="m-r-16 icon-40" src="/static/common/phone.png"></image>
+										<text class="f-s-28 f-c-65 f-w-400">拨打电话</text>
+									</view>
+									<block v-if="+info.supportType === 31">
+										<view v-if="info.buyerId > 0" class="row align-c flex-justify-center flex1"
+											@click="goImUrl">
+											<image class="m-r-16 icon-40" src="/static/common/talk.png"></image>
+											<text class="f-s-28 f-c-65 f-w-400">发消息</text>
+										</view>
+									</block>
+									<view v-else class="row align-c flex-justify-center flex1" @click="goImUrl">
+										<image class="m-r-16 icon-40" src="/static/common/talk.png"></image>
+										<text class="f-s-28 f-c-65 f-w-400">发消息</text>
+									</view>
+								</view>
+							</view>
+						</block>
+
+						<!-- 技术工头部 -->
+						<view v-else class="whiteBox flex1 bg-w">
+							<view class="cardTitle row flex1 flex-justify-between align-c">
+								<text class="f-s-32 f-c-85 f-w-500">{{ cardInfo.storeName }}</text>
+								<image style="width: 120rpx;height: 48rpx;" src="/static/common/navigation.png"
+									@click="openGPSApp"></image>
+							</view>
+							<text class="address f-w-400">{{ cardInfo.address }}</text>
+							<view class="btnFnBar row align-c flex-justify-between">
+								<view class="row align-c flex-justify-center flex1 border-r" @click="callPhone">
+									<image class="m-r-16 icon-40" src="/static/common/phone.png"></image>
+									<text class="f-s-28 f-c-65 f-w-400">拨打电话</text>
+								</view>
+								<block v-if="+info.supportType === 31">
+									<view v-if="info.buyerId > 0" class="row align-c flex-justify-center flex1"
+										@click="goImUrl">
+										<image class="m-r-16 icon-40" src="/static/common/talk.png"></image>
+										<text class="f-s-28 f-c-65 f-w-400">发消息</text>
+									</view>
+								</block>
+								<view v-else class="row align-c flex-justify-center flex1" @click="goImUrl">
+									<image class="m-r-16 icon-40" src="/static/common/talk.png"></image>
+									<text class="f-s-28 f-c-65 f-w-400">发消息</text>
+								</view>
+							</view>
+						</view>
+					</view>
+					<scroll-view :style="{'height':scrollViewHeight +'px'}" scroll-y="true" class="card orderDetail">
+						<list class="detailGroup flex1 bg-w">
+							<!-- 服务项目 -->
+							<cell class="orderInfo p-t-24" v-if="contentInfo.serviceInfo.type">
+								<text class="f-s-32 f-c-85 f-w-500 infoTitle">服务项目</text>
+								<view class="cell row" v-if="contentInfo.serviceInfo.type">
+									<block v-if="contentInfo.serviceInfo.type === 1">
+										<image class="wordSign" src="/static/common/install.png"></image>
+									</block>
+									<block v-else-if="contentInfo.serviceInfo.type === 2">
+										<image class="wordSign" src="/static/common/recovery.png"></image>
+									</block>
+									<block v-else-if="contentInfo.serviceInfo.type === 3">
+										<image class="wordSign" src="/static/common/postSale.png"></image>
+									</block>
+
+									<text class="f-s-28 f-c-85 f-w-500">{{ contentInfo.serviceInfo.name }}</text>
+								</view>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">服务金额：</text>
+									<view class="cellValue row">
+										<text class="f-s-28"
+											style="color:#EE0A24;">{{ contentInfo.serviceInfo.price }}元</text>
+									</view>
+								</view>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">上门时间：</text>
+									<view class="cellValue row">
+										<text
+											class="f-s-28 f-c-65 f-w-400 m-r-24">{{ contentInfo.serviceInfo.time }}</text>
+										<text class="f-s-28" style="color: #FF5319;" @click="editTime">修改</text>
+									</view>
+								</view>
+								<view class="cell row flex-justify-between" v-if="contentInfo.serviceInfo.type === 3">
+									<text class="f-c-85 f-w-500 f-s-28">上门指导：</text>
+									<view class="cellValue row">
+										<text
+											class="f-s-28 f-c-65 f-w-400 m-r-24">{{ contentInfo.serviceInfo.tips }}</text>
+									</view>
+								</view>
+							</cell>
+
+							<!-- 故障信息 -->
+							<cell class="orderInfo"
+								v-if="contentInfo.brokenInfo && contentInfo.brokenInfo.picList.length > 0">
+								<text class="f-s-32 f-c-85 f-w-500 infoTitle">故障信息</text>
+								<view class="cell">
+									<text class="f-c-85 f-w-500 f-s-28" style="margin-bottom: 16rpx;">故障描述：</text>
+									<!-- TODO: 语音长度 -->
+									<!-- <image
+										v-if="contentInfo.brokenInfo.descVioce.audio"
+										@click="choseAudio"
+										style="width: 520rpx;height: 80rpx;"
+										src="/static/common/audio.png"
+									/> -->
+									<view class="voiceBox" v-if="contentInfo.brokenInfo.descVioce.audio"
+										@click="choseAudio">
+										<image class="voiceBg" src="/static/common/voice_bg.png"></image>
+										<image class="voiceIcon" src="/static/icons/voice.png"></image>
+										<text class="f-s-28 line-10">{{ contentInfo.brokenInfo.descVioce }}s</text>
+									</view>
+									<text class="f-s-28 line-10" v-else>
+										{{ contentInfo.brokenInfo.desc }}
+									</text>
+
+								</view>
+								<view class="cell">
+									<text class="f-c-85 f-w-500 f-s-28">故障图片：</text>
+									<view class="imgBox row">
+										<!--两个和5个的时候渲染空view展位-->
+										<view v-for="(item, index) in contentInfo.brokenInfo.picList" :key="index + '1'"
+											class="imgItemBox" @click="choseImg(item)">
+											<image class="imgItem" :src="item" />
+										</view>
+										<view v-for="(item, index) in contentInfo.brokenInfo.videoList"
+											:key="index + '2'" class="video-box" @click="choseVideo(item)">
+											<image class="videoPoster" :src="item.poster" />
+											<image class="play" src="/static/common/play.png" />
+										</view>
+										<block v-if="contentInfo.brokenInfo.picList.length
+											+ contentInfo.brokenInfo.videoList.length === 2
+											|| contentInfo.brokenInfo.picList
+											+ contentInfo.brokenInfo.videoList.length === 5">
+											<view></view>
+										</block>
+
+										<!-- <image class="imgItem" src="/static/demo/IMG_3839.JPG" @click="choseImg()"></image>
+										<image class="imgItem" src="/static/demo/IMG_3839.JPG" @click="choseImg()"></image>
+										<image class="imgItem" src="/static/demo/IMG_3839.JPG" @click="choseImg()"></image> -->
+									</view>
+								</view>
+							</cell>
+
+							<!-- 旧机信息 -->
+							<cell class="orderInfo" v-if="contentInfo.oldInfo && contentInfo.oldInfo.length > 0">
+								<text class="f-s-32 f-c-85 f-w-500 infoTitle">旧机信息</text>
+								<view v-if="contentInfo.engineId" class="flex-justify-between align-c">
+									<text class="flex1 f-c-85 f-s-28 f-w-500">缸体号：</text>
+									<text class="f-c-85 f-s-28 f-w-500">{{ contentInfo.engineId }}</text>
+								</view>
+								<view>
+									<view class="bigImgBox" v-if="contentInfo.oldInfo[0]"
+										@click="choseImg(contentInfo.oldInfo[0])">
+										<image class="bigImg" :src="contentInfo.oldInfo[0]"></image>
+										<text class="f-s-28 f-c-45" style="text-align: center;">缸体号</text>
+									</view>
+									<view class="normalImgGroup">
+										<view class="normalImgBox" v-if="contentInfo.oldInfo[1]"
+											@click="choseImg(contentInfo.oldInfo[1])">
+											<image class="normalImg" :src="contentInfo.oldInfo[1]"></image>
+											<text class="f-s-28 f-c-45" style="text-align: center;">进气端</text>
+										</view>
+										<view class="normalImgBox" v-if="contentInfo.oldInfo[2]"
+											@click="choseImg(contentInfo.oldInfo[2])">
+											<image class="normalImg" :src="contentInfo.oldInfo[2]"></image>
+											<text class="f-s-28 f-c-45" style="text-align: center;">排气端</text>
+										</view>
+										<view class="normalImgBox" v-if="contentInfo.oldInfo[3]"
+											@click="choseImg(contentInfo.oldInfo[3])">
+											<image class="normalImg" :src="contentInfo.oldInfo[3]"></image>
+											<text class="f-s-28 f-c-45" style="text-align: center;">正时端</text>
+										</view>
+										<view class="normalImgBox" v-if="contentInfo.oldInfo[4]"
+											@click="choseImg(contentInfo.oldInfo[4])">
+											<image class="normalImg" :src="contentInfo.oldInfo[4]"></image>
+											<text class="f-s-28 f-c-45" style="text-align: center;">曲后端</text>
+										</view>
+									</view>
+								</view>
+							</cell>
+
+							<!-- 购机订单 -->
+							<cell class="orderInfo"
+								v-if="contentInfo.buyInfo && contentInfo.buyInfo.goodsName && info.supportSource === 2">
+								<view class="infoTitle row align-c flex-justify-between"
+									@click.stop="goToUrl(`/pagesGarage/InstallOrder/OrderDetail/OrderDetail?id=${info.relationOrderId}`)">
+									<text class="flex1 f-s-32 f-c-85 f-w-500">购机订单</text>
+									<text class="f-s-32 f-c-45 f-w-500">></text>
+								</view>
+								<view class="row align-c">
+									<image :src="contentInfo.buyInfo.pic"
+										style="width: 160rpx; height: 160rpx;border-radius: 8rpx;" class="m-r-16" />
+									<view class="flex1">
+										<view style="flex-direction: row;">
+											<text v-show="contentInfo.buyInfo.categoryType"
+												class="good-tips m-r-8">{{contentInfo.buyInfo.categoryType}}</text>
+											<text class="f-c-85 f-s-32">
+												{{contentInfo.buyInfo.goodsName}}
+											</text>
+										</view>
+										<text class="f-c-45 f-s-28">
+											发动机识别码：{{ contentInfo.buyInfo.code ? contentInfo.buyInfo.code : '暂无' }}
+										</text>
+									</view>
+								</view>
+							</cell>
+
+							<!-- 订单信息 -->
+							<cell class="orderInfo" v-if="contentInfo.orderInfo.orderNo">
+								<text class="f-s-32 f-c-85 f-w-500 infoTitle">订单信息</text>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">订单编号：</text>
+									<view class="cellValue row">
+										<text
+											class="f-s-28 f-c-65 f-w-400 m-r-24">{{ contentInfo.orderInfo.orderNo }}</text>
+										<text class="f-s-28" style="color: #0D66FF;"
+											@click="copyThis(contentInfo.orderInfo.orderNo)">复制</text>
+									</view>
+								</view>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">下单时间：</text>
+									<view class="cellValue row">
+										<text
+											class="f-s-28 f-c-65 f-w-400">{{ contentInfo.orderInfo.createTime }}</text>
+									</view>
+								</view>
+								<view class="cell row flex-justify-between">
+									<text class="f-c-85 f-w-500 f-s-28">接单时间：</text>
+									<view class="cellValue row">
+										<text
+											class="f-s-28 f-c-65 f-w-400">{{ contentInfo.orderInfo.uodateTime }}</text>
+									</view>
+								</view>
+							</cell>
+						</list>
+					</scroll-view>
+				</view>
+
+				<!-- <EraMapDragBox
+					:minHeight="dragCardParams.height"
+					:maxHeight="dragCintentParams.height"
+					:touchHeight="124"
+					@currentHeight="setScrollHeight"
+					@maxtHeight="setScrollViewHeight"
+				>
+
+				</EraMapDragBox> -->
+			</view>
+		</view>
+
+
+		<view id="footer" class="footer">
+			<view v-if="origin === 1" class="footerBtnBar">
+				<text class="footerItem m-r-32 f-s-28" @click="refuseOrder(1, 32)">取消接单</text>
+				<text class="footerItem m-r-32  footerItemAct f-s-28" v-if="!info.supportQuality"
+					@click="goToUrl(`/pagesEngineer/InstallOrder/SubmitInstall?id=${info.id}`)">提交安装凭证</text>
+				<text class="footerItem footerItemAct f-s-28" @click="orderBegin">开始安装</text>
+			</view>
+			<view v-else-if="origin === 2" class="footerBtnBar">
+				<text class="footerItem m-r-32 f-s-28" @click="refuseOrder(1, 33)">取消接单</text>
+				<text class="footerItem footerItemAct f-s-28" v-if="!info.supportQualityVO"
+					@click="goToUrl(`/pagesEngineer/RecallOrder/SubmitVoucher?id=${info.id}&source=${info.supportSource}`)">提交验收凭证</text>
+			</view>
+			<view v-else-if="origin === 3" class="footerBtnBar">
+				<text class="footerItem m-r-32 f-s-28" @click="refuseOrder(1, 31)">取消接单</text>
+				<text class="footerItem footerItemAct f-s-28" @click="complateOrder">提交上门结果</text>
+			</view>
+			<block v-else-if="origin === 4">
+				<block v-if="info.homeEndTime < nowDate">
+					<view v-if="info.isWaiting" class="footerBtnBar">
+						<text class="footerItem m-r-32 f-s-28" @click="garageCancelOrder">取消订单</text>
+						<text class="footerItem f-s-28" @click="toConcat(2)">联系客服</text>
+					</view>
+					<view v-else class="footerBtnBar">
+						<text class="footerItem m-r-32 f-s-28" @click="complateWait">继续等待</text>
+						<text class="footerItem f-s-28" @click="showModal = true">不等待</text>
+					</view>
+				</block>
+				<view v-else class="footerBtnBar">
+					<text class="footerItem m-r-32 f-s-28" @click="garageCancelOrder">取消订单</text>
+					<text class="footerItem f-s-28" @click="toConcat(2)">联系客服</text>
+				</view>
+				<!-- <view v-if="info.orderStatus === 3240 && info.homeEndTime <= nowDate" class="footerBtnBar">
+					<text class="footerItem m-r-32 f-s-28" @click="complateWait">继续等待</text>
+					<text class="footerItem f-s-28" @click="showModal = true">不等待</text>
+				</view> -->
+			</block>
+			<block v-else-if="origin === 5" class="footerBtnBar">
+				<block v-if="info.homeEndTime < nowDate">
+					<view v-if="info.isWaiting" class="footerBtnBar">
+						<text class="footerItem m-r-32 f-s-28" @click="garageCancelOrder">取消订单</text>
+						<text class="footerItem f-s-28" @click="toConcat(2)">联系客服</text>
+					</view>
+					<view v-else class="footerBtnBar">
+						<text class="footerItem m-r-32 f-s-28" @click="toContinue">继续等待</text>
+						<text class="footerItem f-s-28" @click="showModal = true">不等待</text>
+					</view>
+				</block>
+				<view v-else class="footerBtnBar">
+					<text class="footerItem m-r-32 f-s-28" @click="garageCancelOrder">取消订单</text>
+					<text class="footerItem f-s-28" @click="toConcat(2)">联系客服</text>
+				</view>
+			</block>
+			<view class="safearea-box" :style="{ 'height': sys.safeAreaInsets.bottom + 'px' }" />
+		</view>
+		<EraPreviewVideo ref="EraPreviewVideo" :videoSrc="videoSrc" :poster="poster" />
+		<u-modal v-if="showModal" :show="showModal" :content="'是否需要指派其他集师傅继续安装服务？'" confirmText cancelText
+			@confirm="waitCancel" @cancel="confirmWait" />
+		<u-modal :show="showModalCancel" :showCancelButton="true" cancelText="我再想想" confirmText="取消订单"
+			content="该安装订单为随新机购买生成的订单，如要取消，则将同步取消关联的购买订单" @cancel="showModalCancel = false" @confirm="cancelOrder" />
+		<u-modal :show="showModalTip" :showCancelButton="false" confirmText="我知道了"
+			content="该安装订单为随新机购买生成的订单，当前关联的购买订单已经发货，无法取消订单" @confirm="showModalTip = false" />
+	</view>
+</template>
+<script>
+	import util from '@/common/MapCoordinate'
+	import permission from '@/common/permission'
+	const vocenService = uni.requireNativePlugin('vocen-qimoService')
+	export default {
+		name: "MapDragApp",
+		data() {
+			return {
+				showNoEngineerTip: false,
+				showMap: false,
+				// 不等待弹窗
+				showModal: false,
+				showModalCancel: false,
+				showModalTip: false,
+				nowDate: getApp().$vocenApi.VoUtils.timeFormat(new Date(), 'yyyy-mm-dd hh:MM:ss'),
+				title: '',
+				hideIcon: false, // 是否隐藏title的icon
+				origin: 1, // 来源 安装订单；回收订单；售后订单；修理厂端安装订单；修理厂端回收订单；修理厂位置轨迹；回收公司位置轨迹
+				id: 1,
+				repairMarker: {
+					state: 1,
+					id: 0,
+					latitude: 23.13065, //纬度
+					longitude: 113.3274, //经度
+					iconPath: '/static/common/map/marker-blue.png', //显示的图标
+					rotate: 0, // 旋转度数
+					width: 20, //宽
+					height: 20, //高
+					alpha: 1, //透明度
+					callout: { //自定义标记点上方的气泡窗口 点击有效
+						content: '', //文本
+						// color: '#ffffff',//文字颜色
+						fontSize: 14, //文本大小
+						borderRadius: 15, //边框圆角
+						borderWidth: '10',
+						bgColor: '#ffffff', //背景颜色
+						display: 'ALWAYS', //常显
+					},
+				},
+				skillMarker: {
+					id: 1234597,
+					latitude: 23.106574, //纬度
+					longitude: 113.324587, //经度
+					iconPath: '/static/common/map/marker-orange.png', //显示的图标
+					rotate: 0, // 旋转度数
+					width: 20, //宽
+					height: 20, //高
+					//  title:'我在这里',//标注点名
+					alpha: 1, //透明度
+					// label:{//为标记点旁边增加标签   //因背景颜色H5不支持
+					// 	color:'red',//文本颜色
+					// },
+					callout: { //自定义标记点上方的气泡窗口 点击有效
+						content: '', //文本
+						// color: '#ffffff',//文字颜色
+						fontSize: 14, //文本大小
+						borderRadius: 15, //边框圆角
+						borderWidth: '10',
+						bgColor: '#ffffff', //背景颜色
+						display: 'ALWAYS', //常显
+					},
+				},
+				// 地图参数
+				options: {
+					// 地图属性参数
+					latitude: 39.908692, //纬度
+					longitude: 116.397477, //经度
+					scale: 11, //缩放级别
+					// 标记点属性
+					marker: []
+				},
+				map: null,
+				sys: {},
+				touchHeight: 124,
+				firsttop: 0, // 默认高度
+				fixboxtop: 0, // 实际高度
+				phonetop: 200, // 默认滑动分界线 - 后面计算为最低与最高的一半
+				isend: false, // 触摸结束
+				isfirst: true, // 手指第一次触摸
+				tapboxtop: 0, // 手指距离顶部距离
+				currentHeight: 0, // 滑动组件当前高度
+				scrollViewHeight: 0, //用于计算滚动区域高
+
+				latitude: 39.909,
+				longitude: 116.39742,
+
+				dragCintentParams: {
+					height: 0
+				},
+				dragCardParams: {
+					height: 0,
+					Cheight: 0
+				},
+				footerHeight: 0,
+				videoSrc: '',
+				poster: '',
+				audio: '',
+				audioPlay: false,
+				// 拖拽卡片数据
+				cardInfo: {
+					storeName: '', // 汽修厂名字
+					phone: '', // 汽修厂电话,
+					imData: {
+						// 聊天室数据
+						shopUserId: '',
+						type: 0,
+						note: '',
+						platformCode: '',
+					},
+					address: '',
+				},
+				// 拖拽显示内容数据
+				contentInfo: {
+					engineId: '', // 缸体号
+					// 服务项目
+					serviceInfo: {
+						type: 1, //服务类型 暗转、回收、售后
+						price: 0, // 服务金额
+						time: '', // 上门时间
+						tips: '', // 上门指导
+						name: '', // 服务名称
+					},
+					// 故障信息
+					brokenInfo: {
+						desc: '', // 故障描述
+						descVioce: {
+							// 语音信息
+							duration: 0,
+							audio: [
+								// 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
+							],
+						},
+						// 故障图片
+						picList: [
+							// '/static/demo/IMG_3839.JPG',
+							// '/static/demo/IMG_3839.JPG',
+							// '/static/demo/IMG_3839.JPG',
+						],
+						// 故障视频
+						videoList: [{
+							type: '',
+							src: '',
+							poster: '',
+						}, ],
+					},
+					// 旧机信息
+					oldInfo: [
+						// '/static/demo/IMG_3839.JPG',
+						// '/static/demo/IMG_3839.JPG',
+						// '/static/demo/IMG_3839.JPG',
+						// '/static/demo/IMG_3839.JPG',
+						// '/static/demo/IMG_3839.JPG',
+					],
+					// 订单信息
+					orderInfo: {
+						orderNo: '', // 订单编号
+						createTime: '', // 下单时间
+						uodateTime: '', // 接单时间
+					},
+					// 购机订单
+					buyInfo: {
+						// 店铺id
+						shopId: '',
+						pic: '',
+						goodsName: '',
+						categoryType: '',
+						// 发动机识别码
+						code: '',
+					},
+				},
+				orderImgList: [
+					// '/static/demo/IMG_3839.JPG',
+					// '/static/demo/IMG_3839.JPG',
+					// '/static/demo/IMG_3839.JPG',
+					// '/static/demo/IMG_3839.JPG',
+				],
+				location: {
+					addressDetail: '',
+					latitude: '',
+					longitude: '',
+				},
+				info: {},
+				timer: {},
+			}
+		},
+		methods: {
+			goToUrl(url) {
+				uni.navigateTo({
+					url
+				})
+			},
+			// 获取用户定位信息
+			getUserLocation() {
+				uni.getLocation({
+					type: 'wgs84',
+					success: async (res) => {
+						const {
+							latitude,
+							longitude
+						} = res
+						console.log(res)
+						const result = util.transformFromWGSToGCJ(latitude, longitude)
+						console.log(result)
+						uni.showLoading({
+							title: '页面加载中',
+							mask: true,
+						})
+						this.location.longitude = +result.longitude.toFixed(6)
+						this.location.latitude = +result.latitude.toFixed(6)
+						// this.requestParams.latitude = result.latitude.toFixed(6)
+						// this.requestParams.longitude = result.longitude.toFixed(6)
+						await this.getMarker() // 获取标点
+						await this.getDetail() // 获取卡片详情
+					},
+					complete: (res) => {
+						console.log(res)
+					},
+					fail: (ret) => {
+						uni.showModal({
+							title: '提示',
+							content: '需要您开启定位授权，获取您的位置信息！',
+							cancelText: '暂不开启',
+							confirmText: '去开启',
+							success: ({
+								confirm,
+								cancel
+							}) => {
+								if (confirm) {
+									// android平台
+									if (uni.getSystemInfoSync().platform == 'android') {
+										var context = plus.android.importClass(
+											"android.content.Context");
+										var locationManager = plus.android.importClass(
+											"android.location.LocationManager");
+										var main = plus.android.runtimeMainActivity()
+										var mainSvr = main.getSystemService(context
+											.LOCATION_SERVICE)
+										if (!mainSvr.isProviderEnabled(locationManager
+												.GPS_PROVIDER)) {
+											var Intent = plus.android.importClass(
+												'android.content.Intent')
+											var Settings = plus.android.importClass(
+												'android.provider.Settings')
+											var intent = new Intent(Settings
+												.ACTION_LOCATION_SOURCE_SETTINGS)
+											main.startActivity(intent) // 打开系统设置GPS服务页面
+										} else {
+											var Intent = plus.android.importClass(
+												'android.content.Intent')
+											var Settings = plus.android.importClass(
+												'android.provider.Settings')
+											var Uri = plus.android.importClass('android.net.Uri')
+											var mainActivity = plus.android.runtimeMainActivity()
+											var intent = new Intent()
+											intent.setAction(Settings
+												.ACTION_APPLICATION_DETAILS_SETTINGS)
+											var uri = Uri.fromParts('package', mainActivity
+												.getPackageName(), null)
+											intent.setData(uri)
+											mainActivity.startActivity(intent)
+										}
+									}
+									// ios平台
+									if (uni.getSystemInfoSync().platform == 'ios') {
+										var UIApplication = plus.ios.import("UIApplication");
+										var application2 = UIApplication.sharedApplication();
+										var NSURL2 = plus.ios.import("NSURL");
+										var setting2 = NSURL2.URLWithString(
+											"App-Prefs:root=Privacy&path=LOCATION");
+										application2.openURL(setting2);
+										plus.ios.deleteObject(setting2);
+										plus.ios.deleteObject(NSURL2);
+										plus.ios.deleteObject(application2);
+									}
+								}
+								// 用户取消前往开启定位服务
+								if (cancel) {
+									// do sth...
+									uni.navigateBack()
+								}
+							},
+						})
+					},
+				})
+			},
+			// 获取地图标点
+			async getMarker() {
+				this.showMap = false
+				let params = {
+					id: this.id
+				}
+				let data
+				const _this = this
+				// 技术工获取定位标点
+				console.log(this.origin, 'this.origin')
+				try {
+					if (this.origin <= 3) {
+						params.latitude = this.location.latitude
+						params.longitude = this.location.longitude
+						params.addressDetail = ''
+						data = await getApp().$VoHttp.apiOrderRecycleTechnologyMapLocation(params, {
+							noLoading: true
+						})
+					} else {
+						data = await getApp().$VoHttp.apiOrderRecycleRepairMapLocation(params, {
+							noLoading: true
+						})
+					}
+					if (!data || !data.data || !data.data.id) {
+						uni.$u.toast('暂无位置信息')
+						setTimeout(() => {
+							this.backFn()
+						}, 2000)
+					}
+					console.log(data.data.id)
+					if (+data.code === 20001) {
+						this.options.marker = []
+						await setTimeout(() => {}, 200)
+						let addressInfo = JSON.parse(data.data.addressDetail)
+						this.options.marker[0] = Object.assign({}, this.repairMarker)
+						this.options.marker[0].latitude = addressInfo.latitude
+						this.options.marker[0].longitude = addressInfo.longitude
+						if (this.origin > 5) {
+							this.options.marker[0].callout.content = '目的地'
+						} else {
+							this.options.marker[0].callout.content = '修理厂位置'
+						}
+						// 如果有集师傅信息，地图中心点以集师傅为准
+						if (data.data.longitude) {
+							// let longitude = (Number(data.data.longitude) + Number(addressInfo.longitude)) / 2
+							// let latitude = (Number(data.data.latitude) + Number(addressInfo.latitude)) / 2
+							let longitude = +data.data.longitude
+							let latitude = +data.data.latitude
+							this.options.longitude = longitude.toFixed(6)
+							this.options.latitude = latitude.toFixed(6)
+							this.options.marker[1] = Object.assign({}, this.skillMarker)
+							this.options.marker[1].latitude = data.data.latitude
+							this.options.marker[1].longitude = data.data.longitude
+							this.options.marker[1].callout.content = `集师傅`
+
+							if (data.data.distance) {
+								let distance = data.data.distance
+								if (data.data.distance > 1000) {
+									distance = (distance / 1000).toFixed(2) + '公里'
+								} else {
+									distance = distance + '米'
+								}
+								this.options.marker[1].callout.content = `${distance}`
+							}
+						} else {
+							this.showNoEngineerTip = true
+							if (addressInfo.longitude) {
+								this.options.longitude = addressInfo.longitude
+								this.options.latitude = addressInfo.latitude
+							}
+						}
+					} else {
+						uni.hideLoading()
+						uni.$u.toast(data.message || '网络连接出错')
+						setTimeout(() => {
+							this.backFn()
+						}, 2000)
+					}
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+					const _this = this
+					uni.hideLoading()
+					if (e.message) {
+						if (e.message.indexOf('latitude') !== -1) {
+							uni.$u.toast('未获取到集师傅的位置信息')
+							setTimeout(() => {
+								this.backFn()
+							}, 2000)
+						} else {
+							uni.$u.toast(e.message || '网络连接出错')
+							setTimeout(() => {
+								this.backFn()
+							}, 2000)
+						}
+					} else {
+						uni.$u.toast('网络连接出错')
+						setTimeout(() => {
+							this.backFn()
+						}, 2000)
+					}
+
+				}
+			},
+			// 获取详情
+			async getDetail() {
+				if (this.origin <= 3) {
+					this.cardInfo.imData.platformCode = 'skilledWorker'
+				} else if (this.origin > 3 && this.origin < 7) {
+					this.cardInfo.imData.platformCode = 'garage'
+				} else {
+					this.cardInfo.imData.platformCode = 'recycling'
+				}
+				const _this = this
+				try {
+					let data
+					console.log(this.origin, 'this.origin')
+					switch (this.origin) {
+						// 来源 安装订单；回收订单；售后订单；修理厂端安装订单；修理厂端回收订单；修理厂位置轨迹；回收公司活动轨迹
+						case 1:
+							data = await getApp().$VoHttp.apiOrderTechnicianInstallDetail$Id({
+								id: this.id
+							}, {
+								noLoading: true
+							})
+							if (+data.code === 20001) {
+								this.contentInfo = this.computedInstallSeviceData(data)
+								this.cardInfo = this.computedInstallSevice(data)
+								this.info = data.data
+								console.log(this.info)
+							} else {
+								uni.hideLoading()
+								uni.$u.toast(data.message || '网络连接出错')
+								setTimeout(() => {
+									this.backFn()
+								}, 2000)
+							}
+							break
+						case 2:
+							data = await getApp().$VoHttp.apiOrderRecycleOrderDetail$Id({
+								id: this.id
+							}, {
+								noLoading: true
+							})
+							if (+data.code === 20001) {
+								this.contentInfo = this.computedRecycleSeviceData(data)
+								this.cardInfo = this.computedRecycleSevice(data)
+								this.info = data.data
+							} else {
+								uni.hideLoading()
+								uni.$u.toast(data.message || '网络连接出错')
+								setTimeout(() => {
+									this.backFn()
+								}, 2000)
+							}
+							break
+						case 3:
+							data = await getApp().$VoHttp.apiOrderSupportAfterSaleDetail$Id({
+								id: this.id
+							}, {
+								noLoading: true
+							})
+							if (+data.code === 20001) {
+								this.contentInfo = this.computedAfterSaleData(data)
+								this.cardInfo = this.computedCardInfoAfterSale(data)
+								console.log('this.cardInfo', this.cardInfo)
+								this.info = data.data
+							} else {
+								uni.hideLoading()
+								uni.$u.toast(data.message || '网络连接出错')
+								setTimeout(() => {
+									this.backFn()
+								}, 2000)
+							}
+							break
+						case 4:
+							data = await getApp().$VoHttp.apiOrderInstallDetail$Id({
+								id: this.id
+							}, {
+								noLoading: true
+							})
+							if (+data.code === 20001) {
+								this.contentInfo = this.computedInstallData(data)
+								this.cardInfo = this.computedCardInfoInstall(data)
+								this.info = data.data
+							} else {
+								uni.hideLoading()
+								uni.$u.toast(data.message || '网络连接出错')
+								setTimeout(() => {
+									this.backFn()
+								}, 2000)
+							}
+							break
+						case 5:
+							data = await getApp().$VoHttp.apiOrderRecycleDetail({
+								id: this.id
+							}, {
+								noLoading: true
+							})
+							if (+data.code === 20001) {
+								this.contentInfo = this.computedRecycleData(data)
+								this.cardInfo = this.computedCardInfoData(data)
+								this.info = data.data
+							} else {
+								uni.hideLoading()
+								uni.$u.toast(data.message || '网络连接出错')
+								setTimeout(() => {
+									this.backFn()
+								}, 2000)
+							}
+							break
+						case 6:
+							// 修理厂回收订单活动轨迹
+							data = await getApp().$VoHttp.apiOrderRecycleOrderDetail$Id({
+								id: this.id
+							}, {
+								noLoading: true
+							})
+							break
+					}
+
+					if (this.origin === 7) {
+						let info = this.$store.getters['mapDrag/mapData'] || null
+						this.cardInfo.storeName = info.orderEvaluateVO.masterName
+						this.cardInfo.photoUrl = info.orderEvaluateVO.photoUrl
+						this.cardInfo.phone = info.orderEvaluateVO.phone
+						this.cardInfo.favorableComment = info.orderEvaluateVO.favorableComment
+						this.cardInfo.imData = {
+							shopUserId: info.orderEvaluateVO.masterId,
+							type: 0,
+							note: info.orderEvaluateVO.masterName,
+							platformCode: 'skilledWorker',
+						}
+					}
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+					uni.$u.toast(e.message || '网络连接出错')
+					setTimeout(() => {
+						this.backFn()
+					}, 2000)
+				}
+				uni.hideLoading()
+				this.showMap = true
+				this.$forceUpdate()
+				this.$nextTick(() => {
+					this.initDragPage()
+				})
+			},
+			/**
+			 * 不等待
+			 * @param type 类型，1指派2不指派
+			 */
+			//不需要指派
+			async waitCancel() {
+				uni.showLoading({
+					title: '加载中...',
+					mask: true,
+				})
+				let data
+				let param = {
+					id: this.id
+				}
+				const _this = this
+				try {
+					if (this.origin === 4) {
+						data = await getApp().$VoHttp.apiOrderInstallUnwanted(param, {
+							noLoading: true
+						})
+					} else {
+						data = await getApp().$VoHttp.apiOrderRecycleNotNeed(param, {
+							noLoading: true
+						})
+					}
+					if (+data.code === 20001) {
+						uni.$u.toast('订单已关闭，订单将全额退款')
+						setTimeout(() => {
+							this.backFn()
+						}, 2000)
+					} else {
+						uni.$u.toast(data.message || '网络连接出错')
+						setTimeout(() => {
+							this.backFn()
+						}, 2000)
+					}
+					this.showModalWait = false
+					setTimeout(() => {
+						this.backFn()
+					}, 1500)
+				} catch (e) {
+					console.log(e)
+					uni.$u.toast(e.message || '网络连接出错')
+					setTimeout(() => {
+						this.backFn()
+					}, 2000)
+				}
+				uni.hideLoading()
+			},
+			//需要指派
+			async confirmWait() {
+				//点击后关闭弹窗，显示toast提示信息：已提交申请，等待平台派单。将该订单状态变更为【待指派】
+				uni.showLoading({
+					title: '加载中...',
+					mask: true,
+				})
+				let data
+				let param = {
+					id: this.id
+				}
+				const _this = this
+				try {
+					if (this.origin === 4) {
+						data = await getApp().$VoHttp.apiOrderInstallNeedAssign(param, {
+							noLoading: true
+						})
+					} else {
+						data = await getApp().$VoHttp.apiOrderRecycleNeedAssign(param, {
+							noLoading: true
+						})
+					}
+					if (+data.code === 20001) {
+						uni.navigateTo({
+							url: `/pagesEngineer/OrderList/EditOrder?id=${this.id}&supportType=${this.info.supportType}`
+						})
+						return
+					} else {
+						uni.$u.toast(data.message || '网络连接出错')
+					}
+					this.showModalWait = false
+					setTimeout(() => {
+						_this.backFn()
+					}, 1500)
+				} catch (e) {
+					console.log(e)
+					uni.$u.toast(e.message || '网络连接出错')
+					setTimeout(() => {
+						this.backFn()
+					}, 2000)
+				}
+				uni.hideLoading()
+			},
+			async toContinue() {
+				try {
+					const res = await getApp().$VoHttp.apiOrderRecycleContinueWait({
+						id: this.info.id,
+					})
+					uni.$u.toast(res.message)
+				} catch (err) {
+					uni.$u.toast(err.message || '网络连接出错')
+				}
+			},
+			// 继续等待
+			complateWait() {
+				uni.showLoading({
+					title: '加载中...',
+					mask: true,
+				})
+				//继续等待,点击后该订单依然为【待安装】状态，显示的可操作按钮为【取消订单】、【联系客服】
+				getApp().$VoHttp
+					.apiOrderInstallContinueWait({
+						id: this.info.id
+					}, {
+						noLoading: true
+					})
+					.then(() => {
+						uni.$u.toast('操作成功')
+						setTimeout(() => {
+							this.backFn()
+						}, 2000)
+					})
+					.catch((err) => {
+						uni.$u.toast(err.message || '网络连接出错')
+						setTimeout(() => {
+							this.backFn()
+						}, 2000)
+					})
+					.finally(() => {
+						uni.hideLoading()
+					})
+			},
+			// garage取消订单
+			garageCancelOrder() {
+				//待收货、已完成：此时不可以取消订单，页面上进行弹窗提示
+				if ((this.info.sellOrderStatus === 1130 || this.info.sellOrderStatus === 1140) && this.info
+					.supportSource === 2) {
+					this.showModalTip = true
+					return
+				}
+				// 用户点击【取消订单】后先判断订单来源
+				// 订单来源为【来源-销售订单】待付款、待发货：此时可以取消订单，页面上进行弹窗提示
+				if (this.info.supportSource === 2) {
+					this.showModalCancel = true
+				} else {
+					// TODO 跳转取消订单页面
+					uni.navigateTo({
+						url: `/pagesEngineer/OrderList/CancelOrder?id=${this.id}&type=2`
+					})
+				}
+				//待安装,获取退款数据
+				if (this.info.orderStatus === 3240) {
+					this.getCancelData()
+				}
+			},
+			//获取时间差
+			getHour(s1, s2) {
+				var reDate = /\d{4}-\d{1,2}-\d{1,2} /
+				s1 = new Date((reDate.test(s1) ? s1 : '2018-1-1 ' + s1).replace(/-/g, '/'))
+				s2 = new Date((reDate.test(s2) ? s2 : '2018-1-1 ' + s2).replace(/-/g, '/'))
+				var ms = s2.getTime() - s1.getTime()
+				if (ms < 0) return 0
+				return Math.floor(ms / 1000 / 60 / 60) //小时
+			},
+			//获取退款数据
+			getCancelData() {
+				getApp().$VoHttp
+					.apiOrderInstallCancel({
+						orderId: this.operationData.id
+					})
+					.then((res) => {
+						console.log('res', res)
+						this.cancelData = res.data
+						let preDate = new Date(
+							new Date(this.cancelData.homeStartTime).getTime() - 24 * 60 * 60 * 1000,
+						)
+						let preDateValue = getApp().$vocenApi.VoUtils.timeFormat(preDate, 'yyyy-mm-dd hh:MM:ss')
+						console.log('preDateValue', preDateValue)
+						let hourNum = this.getHour(this.nowDate, this.cancelData.homeStartTime)
+						if (hourNum >= 24) {
+							this.tipMsg = `${preDateValue}之前可免费取消`
+						} else if (hourNum < 24) {
+							this.tipMsg = `距离上门时间不足${hourNum}小时，现在取消将扣除违约金${this.cancelData.penaltyAmount}元补偿集师傅`
+						}
+						console.log('tipMsg', this.tipMsg)
+					})
+					.catch((err) => {
+						console.log('err', err)
+						uni.$u.toast(err.message || '网络连接出错')
+						setTimeout(() => {
+							this.backFn()
+						}, 2000)
+					})
+			},
+			// 取消订单
+			cancelOrder() {
+				this.showModalCancel = false
+				// TODO 跳转取消订单页面 判断
+				this.refuseOrder(2)
+			},
+			// 订单完成，提交上门结果
+			complateOrder() {
+				uni.navigateTo({
+					url: `/pagesEngineer/AfterSalesOrder/SubmitAcceptanceCertificate?id=${this.id}`
+				})
+			},
+			// 开始安装
+			async orderBegin() {
+				let _this = this
+				//默认为不可点击状态。获取当前集师傅和修理厂的位置，若二者距离小于50米，该按钮为可点击状态
+				//const res = await this.$VoHttp.apiOrderRecycleTechnologyMapLocation({
+				//    ...this.location,
+				//    id: this.info.id,
+				//    addressDetail: this.info.addressDetail,
+				//})
+				//if (res.data.distance && res.data.distance > 50) {
+				//    uni.$u.toast('您当前距离修理厂超过50米，无法开始安装')
+				//    return
+				//}
+				getApp().$VoHttp
+					.apiOrderTechnicianInstallStart$Id({
+						id: this.id
+					})
+					.then((res) => {
+						uni.$u.toast('开始安装工作，安装过程中如有问题您可联系平台售后协助解决')
+						setTimeout(() => {
+							uni.redirectTo({
+								url: '/pagesEngineer/InstallOrder/InInstallation?id=' + _this
+									.id,
+							})
+						}, 2000)
+					})
+					.catch((err) => {
+						uni.$u.toast(err.message || '网络连接出错')
+						setTimeout(() => {
+							this.backFn()
+						}, 2000)
+					})
+			},
+			// 取消订单
+			refuseOrder(type) {
+				uni.navigateTo({
+					url: `/pagesEngineer/OrderList/CancelOrder?id=${this.id}&supportType=${type}`
+				})
+			},
+			// 修改上门时间
+			editTime() {
+				uni.navigateTo({
+					url: `/pagesEngineer/OrderList/EditOrder?id=${this.id}&supportType=${this.info.supportType}`
+				})
+			},
+			// 构造回收数据
+			computedRecycleData(val) {
+				const data = val.data
+				const engineMsg = JSON.parse(data.engineMsg)
+				return {
+					engineId: JSON.parse(data.engineMsg).no, // 缸体号
+					// 服务项目
+					serviceInfo: {
+						type: 1, //服务类型 暗转、回收、售后
+						price: data?.supportAmount, // 服务金额
+						time: data.reachStoreTime, // 上门时间
+						tips: null, // 上门指导
+						name: data.supportName, // 服务名称
+						address: JSON.parse(data.addressDetail).address +
+							'-' +
+							JSON.parse(data.addressDetail).addressDetail,
+					},
+					// 旧机信息
+					// oldInfo: Object.values(JSON.parse(data.engineMsg).pic),
+					oldInfo: engineMsg.pic ? Object.values(engineMsg.pic) : {},
+					// 订单信息
+					orderInfo: {
+						orderNo: data.id, // 订单编号
+						createTime: data?.placeOrderTime, // 下单时间
+						uodateTime: data?.taskOrderTime, // 接单时间
+					},
+					// 购机订单
+					buyInfo: {
+						// 店铺id
+						shopId: data.relationOrderId, //关联订单id  '0'未关联
+						pic: data.goodsDetail?. [0].pic?. [0],
+						goodsName: data.goodsDetail?. [0].goodsName,
+						// 发动机识别码
+						code: data.engineNo,
+						categoryType: data.goodsDetail?. [0].categoryType,
+					},
+				}
+			},
+			//构造回收集师傅信息
+			computedCardInfoData(val) {
+				const data = val.data
+				// const res = await getApp().$VoHttp.apiOrderRecycleRepairMapLocation({ id: data.id })
+				return {
+					storeName: data.technicianInfo.realName, //集师傅姓名
+					phone: data.technicianInfo.userName, // 集师傅电话
+					favorableComment: data.technicianInfo.favorableComment,
+					imData: {
+						// 聊天室数据
+						shopUserId: data.technicianInfo.id,
+						type: 0,
+						note: data.technicianInfo.realName,
+						platformCode: 'skilledWorker',
+					},
+					// address: res.data?.masterAddress,
+				}
+			},
+			//构造修理厂安装订单集师傅信息
+			computedCardInfoInstall(val) {
+				const data = val.data
+				// const res = await getApp().$VoHttp.apiOrderRecycleRepairMapLocation({ id: data.id })
+				return {
+					storeName: data.orderEvaluateVO?.masterName, //集师傅姓名
+					phone: data.orderEvaluateVO?.phone, // 集师傅电话
+					favorableComment: data.orderEvaluateVO?.favorableComment, //好评率
+					photoUrl: data.orderEvaluateVO?.photoUrl,
+					imData: {
+						// 聊天室数据
+						shopUserId: data.orderEvaluateVO?.masterId,
+						type: 0,
+						note: data.orderEvaluateVO?.masterName,
+						platformCode: 'skilledWorker',
+					},
+					// address: res.data?.masterAddress,
+				}
+			},
+			// 构造修理厂安装订单数据
+			computedInstallData(val) {
+				const data = val.data
+				data.timeList.forEach((item) => {
+					if (item.timeName === '下单时间') {
+						data.createOrderTime = item.createTime
+					}
+					if (item.timeName === '接单时间') {
+						data.acceptTime = item.createTime
+					}
+				})
+				const engineMsg = JSON.parse(data.engineMsg)
+				return {
+					engineId: JSON.parse(data.engineMsg).no, // 缸体号
+					// 服务项目
+					serviceInfo: {
+						type: 1, //服务类型 暗转、回收、售后
+						price: data?.supportAmount, // 服务金额
+						time: data.reachStoreTime, // 上门时间
+						tips: null, // 上门指导
+						name: data.supportName, // 服务名称
+						address: JSON.parse(data.addressDetail).address +
+							'-' +
+							JSON.parse(data.addressDetail).addressDetail,
+					},
+					// 旧机信息
+					// oldInfo: Object.values(JSON.parse(data.engineMsg).pic),
+					oldInfo: engineMsg.pic ? Object.values(engineMsg.pic) : {},
+					// 订单信息
+					orderInfo: {
+						orderNo: data.id, // 订单编号
+						createTime: data?.createOrderTime, // 下单时间
+						uodateTime: data?.acceptTime, // 接单时间
+					},
+					// 购机订单
+					buyInfo: {
+						// 店铺id
+						shopId: data.relationOrderId, //关联订单id  '0'未关联
+						pic: data.goodsDetail?. [0].pic?. [0],
+						goodsName: data.goodsDetail?. [0].goodsName,
+						categoryType: data.goodsDetail?. [0].categoryType,
+					},
+				}
+			},
+			// 构造技术工售后服务单数据
+			computedAfterSaleData(val) {
+				const data = val.data
+				data.timeList.forEach((item) => {
+					if (item.timeName === '下单时间' || item.timeName === '创建时间') {
+						data.createOrderTime = item.createTime
+					}
+					if (item.timeName === '接单时间') {
+						data.acceptTime = item.createTime
+					}
+				})
+				if (data.homeStartTime && data.homeEndTime) {
+					data.time =
+						getApp().$vocenApi.VoUtils.timeFormat(data.homeStartTime, 'yyyy-mm-dd hh:MM') +
+						'-' +
+						getApp().$vocenApi.VoUtils.timeFormat(data.homeEndTime, 'hh:MM')
+				}
+				if (data.faultDetail && data.faultDetail.pic) {
+					console.log(data.faultDetail.pic)
+					data.failImg = data.faultDetail.pic.filter((item) => item.type === 'image')
+					let failVideo = data.faultDetail.pic.filter((item) => item.type === 'video')
+					if (failVideo.length) {
+						data.failVideoList = failVideo.map((item) => {
+							return {
+								type: 'video',
+								src: item.pic,
+								poster: `${item.pic}&type=3`,
+							}
+						})
+					} else {
+						data.failVideoList = []
+					}
+				}
+				return {
+					// engineId: JSON.parse(data.engineMsg).no, // 缸体号
+					// 服务项目
+					serviceInfo: {
+						type: 3, //服务类型 暗转、回收、售后
+						price: data.supportAmount, // 服务金额
+						time: data.time, // 上门时间
+						tips: data.homeMsg, // 上门指导
+						name: data.supportName, // 服务名称
+					},
+					//故障信息
+					brokenInfo: {
+						desc: data.faultDetail?.desc, // 故障描述
+						// 语音信息
+						descVioce: data.faultDetail.voice ? {
+							duration: '',
+							audio: [data.faultDetail.voice],
+						} : '',
+						// 故障图片
+						picList: data.failImg.map((item) => item.pic),
+						// 故障视频
+						videoList: data.failVideoList || [],
+					},
+					// 订单信息
+					orderInfo: {
+						orderNo: data.id, // 订单编号
+						createTime: data?.createOrderTime, // 下单时间
+						uodateTime: data?.acceptTime, // 接单时间
+					},
+				}
+			},
+			// 构造技术工售后服务单集师傅信息
+			computedCardInfoAfterSale(val) {
+				const data = val.data
+				return {
+					storeName: data.orderAddress?.name, //修理厂姓名
+					phone: data.orderAddress?.phone, // 修理厂电话
+					imData: {
+						// 聊天室数据
+						shopUserId: data.buyerUserId,
+						type: 0,
+						shopName: '',
+						platformCode: 'garage',
+					},
+					address: data.orderAddress?.address + data.orderAddress?.addressDetail,
+				}
+			},
+			// 构造技术工安装服务单数据
+			computedInstallSeviceData(val) {
+				const data = val.data
+				data.timeList.forEach((item) => {
+					if (item.timeName === '下单时间' || item.timeName === '创建时间') {
+						data.createOrderTime = item.createTime
+					}
+					if (item.timeName === '接单时间') {
+						data.acceptTime = item.createTime
+					}
+				})
+				if (data.homeStartTime && data.homeEndTime) {
+					data.time =
+						getApp().$vocenApi.VoUtils.timeFormat(data.homeStartTime, 'yyyy-mm-dd hh:MM') +
+						'-' +
+						getApp().$vocenApi.VoUtils.timeFormat(data.homeEndTime, 'hh:MM')
+				}
+				return {
+					// engineId: JSON.parse(data.engineMsg).no, // 缸体号
+					// 服务项目
+					serviceInfo: {
+						type: 1, //服务类型 暗转、回收、售后
+						price: data.supportAmount, // 服务金额
+						time: data.time, // 上门时间
+						name: data.supportName, // 服务名称
+					},
+					// 订单信息
+					orderInfo: {
+						orderNo: data.id, // 订单编号
+						createTime: data?.createOrderTime, // 下单时间
+						uodateTime: data?.acceptTime, // 接单时间
+					},
+				}
+			},
+			// 构造技术工安装服务单集师傅信息
+			computedInstallSevice(val) {
+				const data = val.data
+				let info = data.addressDetail ? JSON.parse(data.addressDetail) : ''
+				return {
+					storeName: data.garageInfo?.storeName, //修理厂姓名
+					phone: data.garageInfo?.userName, // 修理厂电话
+					imData: {
+						// 聊天室数据
+						shopUserId: data.garageInfo?.userId,
+						type: 0,
+						note: data.garageInfo?.storeName,
+						platformCode: 'garage',
+					},
+					address: info.address + info.addressDetail,
+				}
+			},
+			// 构造技术工回收服务单数据
+			computedRecycleSeviceData(val) {
+				const data = val.data
+				data.timeList.forEach((item) => {
+					if (item.timeName === '下单时间' || item.timeName === '创建时间') {
+						data.createOrderTime = item.createTime
+					}
+					if (item.timeName === '接单时间') {
+						data.acceptTime = item.createTime
+					}
+				})
+				if (data.homeStartTime && data.homeEndTime) {
+					data.time =
+						getApp().$vocenApi.VoUtils.timeFormat(data.homeStartTime, 'yyyy-mm-dd hh:MM') +
+						'-' +
+						getApp().$vocenApi.VoUtils.timeFormat(data.homeEndTime, 'hh:MM')
+				}
+				return {
+					// engineId: JSON.parse(data.engineMsg).no, // 缸体号
+					// 服务项目
+					serviceInfo: {
+						type: 2, //服务类型 暗转、回收、售后
+						price: data.supportAmount, // 服务金额
+						time: data.time, // 上门时间
+						name: data.supportName, // 服务名称
+					},
+					// 旧机信息
+					oldInfo: Object.values(JSON.parse(data.engineMsg).pic),
+					// 订单信息
+					orderInfo: {
+						orderNo: data.id, // 订单编号
+						createTime: data?.createOrderTime, // 下单时间
+						uodateTime: data?.acceptTime, // 接单时间
+					},
+				}
+			},
+			// 构造技术工回收服务单集师傅信息
+			computedRecycleSevice(val) {
+				const data = val.data
+				let info = data.addressDetail ? JSON.parse(data.addressDetail) : ''
+				return {
+					storeName: data.garageInfo?.storeName, //修理厂姓名
+					phone: data.garageInfo?.userName, // 修理厂电话
+					imData: {
+						// 聊天室数据
+						shopUserId: data.garageInfo?.userId,
+						type: 0,
+						note: data.garageInfo?.storeName,
+						platformCode: 'garage',
+					},
+					address: info.address + info.addressDetail,
+				}
+			},
+			// 打开第三方导航
+			openGPSApp() {
+				if (!this.info.garageInfo.latitude) {
+					uni.$u.toast('无修理厂位置信息')
+					return
+				}
+				uni.openLocation({
+					latitude: this.info.garageInfo.latitude, //纬度
+					longitude: this.info.garageInfo.longitude, //经度
+					success: (res) => {
+						console.log(res);
+					},
+				})
+			},
+			/**
+			 * 预览图片
+			 */
+			choseImg(src) {
+				uni.previewImage({
+					current: 0,
+					urls: [src],
+					indicator: 'none'
+				})
+			},
+			/**
+			 * 预览视频
+			 */
+			choseVideo(data) {
+				this.videoSrc = data.src
+				this.poster = data.poster
+				this.$refs.EraPreviewVideo.show(data.src)
+			},
+			/**
+			 * 音频播放
+			 */
+			choseAudio(data) {
+				if (this.audio) {
+					if (this.audioPlay) {
+						this.audio.pause()
+						this.audioPlay = false
+					} else {
+						this.audio.play()
+						this.audioPlay = true
+					}
+				} else {
+					const innerAudioContext = uni.createInnerAudioContext();
+					innerAudioContext.autoplay = true;
+					// TODO 播放音频地址
+					innerAudioContext.src = this.brokenInfo.descVioce.audio[0]
+					this.audio = innerAudioContext
+					this.audioPlay = true
+					innerAudioContext.onEnded(() => {
+						innerAudioContext.destroy()
+						this.audio = ''
+					})
+				}
+			},
+			// 跳转聊天页面
+			goImUrl() {
+				console.log(this.cardInfo)
+				const info = {
+					targetId: this.cardInfo.imData.shopUserId,
+					type: 0,
+					note: this.cardInfo.imData.shopName,
+					platformCode: this.cardInfo.imData.platformCode,
+				}
+				getApp().$storage.set('temp_im_room_info', info)
+				uni.navigateTo({
+					url: `/pagesSupplier/ImMessage/PersonalChat`
+				})
+			},
+			async toConcat(type = 1) {
+				const userInfo = getApp().$storage.get('userInfo')
+				let otherParams = {
+				    nickName: userInfo.userName,
+				    userId: userInfo.id,
+				  }
+				let url
+				console.log(type)
+				if (+type === 1) {
+				    url =
+				      'https://ykf-webchat.7moor.com/wapchat.html?accessId=b3c770c0-ab23-11ec-8fcc-d9e18082232d&fromUrl=http://平台&urlTitle=平台&language=ZHCN'
+				    // otherParams.agent = 8000
+				    otherParams.peerId = '10055349'
+				    otherParams.accessId = 'b3c770c0-ab23-11ec-8fcc-d9e18082232d'
+				  } else if (+type === 2) {
+				    url =
+				      'https://ykf-webchat.7moor.com/wapchat.html?accessId=e663dc50-4932-11ed-9746-c593049817ab&fromUrl=http://售后&urlTitle=售后&language=ZHCN'
+				    // otherParams.agent = 8001
+				    otherParams.peerId = '10057414'
+				    otherParams.accessId = 'e663dc50-4932-11ed-9746-c593049817ab'
+				  } else {
+				    url =
+				      'https://ykf-webchat.7moor.com/wapchat.html?accessId=0c936760-4933-11ed-9746-c593049817ab&fromUrl=http://投诉客服&urlTitle=投诉客服&language=ZHCN'
+				    // otherParams.agent = 8002
+				    otherParams.peerId = '10057415'
+				    otherParams.accessId = '0c936760-4933-11ed-9746-c593049817ab'
+				  }
+				await getApp().$VoHttp.apiExtraCustomerMoor().then((res) => {
+				    otherParams.userId = res.data
+				    url += '&clientId=' + userInfo.id + '&otherParams=' + JSON.stringify(otherParams)
+				    // linkToEasy('/pagesCommon/QiMoService/QiMoService?encode=1&url=' + url)
+					console.log(otherParams)
+					console.log(userInfo)
+					this.goService(otherParams,userInfo.id)
+				  })
+			},
+			async goService(data, userId) {
+				let param = {}
+				  param.userName = data.nickName
+				  param.userId = userId
+				  param.appkey = data.accessId
+				  param.peers = data.peerId
+				  // 跳转不同的客服
+				  param.mobile = '400-893-5518'
+				  console.log(param)
+				  vocenService.voQiMoServiceData(param)
+			},
+			/**
+			 * 复制
+			 */
+			copyThis(data) {
+				uni.setClipboardData({
+					data: data,
+				})
+			},
+			/**
+			 * 拨打电话
+			 */
+			async callPhone() {
+				const phone = this.cardInfo.phone
+				let a = true
+				if (uni.getSystemInfoSync().platform == 'ios') {
+					//ios不需要获取电话权限
+					// a = await permission.judgeIosPermission('contact')
+				} else {
+					a = await permission.requestAndroidPermission('android.permission.CALL_PHONE')
+					// 永久拒绝
+					if (a === -1) {
+						a = false
+					}
+				}
+				console.log('quanxian=====', a)
+				if (!a) {
+					uni.showModal({
+						title: '提示',
+						content: '请去设置打开电话权限',
+						success: function(res) {
+							if (res.confirm) {
+								permission.gotoAppPermissionSetting()
+							} else if (res.cancel) {
+								console.log('用户点击取消')
+							}
+						},
+					})
+					return
+				}
+				uni.makePhoneCall({
+					phoneNumber: String(phone),
+				})
+			},
+			backFn() {
+				clearInterval(this.timer)
+				this.timer = null
+				// uni.$emit('noAddCurrent', true)
+				uni.navigateBack()
+			},
+			/**
+			 * 设置拖动高度
+			 * @param {Object} val
+			 */
+			setScrollHeight(val) { // 实时返回的滑动组件高度
+				if (this.origin >= 6) return
+				this.currentHeight = val
+			},
+			/**
+			 * 设置可见滚动区域高度
+			 * @param {Object} val
+			 */
+			setScrollViewHeight(val) { //最大高度
+				if (this.origin >= 6) return
+				let border
+				if (uni.getSystemInfoSync().platform == "android") {
+					// 多个机型兼容
+					border = this.sys.safeAreaInsets.bottom * 2 + this.footerHeight
+				} else {
+					border = 36
+				}
+				this.scrollViewHeight = val - this.dragCardParams.Cheight / 2 -
+					(this.sys.safeAreaInsets.bottom + this.footerHeight + border)
+			},
+			tap(e) {
+				// console.log(e)
+			},
+			getstart(e) {
+				if (this.origin >= 6) return
+				var screenY
+				//#ifdef MP-WEIXIN
+				screenY = e.touches[0].clientY
+				//#endif
+				//#ifndef MP-WEIXIN
+				screenY = e.touches[0].screenY
+				//#endif
+				// console.log(screenY)
+				// 这里特殊处理 解决：在滑动框内如果存在滚动元素，则会出现滑动时滑动框和内部滚动同时滑的问题
+				if (this.touchHeight !== 0) {
+					if (screenY - this.fixboxtop > this.touchHeight) {
+						return false
+					}
+				}
+				this.isend = false
+				if (this.isfirst) {
+					this.isfirst = false
+					this.tapboxtop = screenY - this.fixboxtop
+				}
+				this.fixboxtop = screenY - this.tapboxtop
+				if (this.fixboxtop > this.firsttop) {
+					// 往下滑 不允许
+					this.fixboxtop = this.firsttop
+				} else {
+					// 往上滑
+					if (this.fixboxtop <= this.sys.windowHeight * (1 - this.dragCintentParams.height)) {
+						this.fixboxtop = this.sys.windowHeight * (1 - this.dragCintentParams.height)
+					}
+				}
+				this.setScrollHeight(this.sys.windowHeight - this.fixboxtop)
+
+			},
+			getend() {
+				if (this.origin >= 6) return
+				this.isend = true
+				this.isfirst = true
+				if (this.firsttop - this.fixboxtop <= this.phonetop) {
+					this.fixboxtop = this.firsttop
+				} else {
+					this.fixboxtop = this.sys.windowHeight * (1 - this.dragCintentParams.height)
+				}
+				this.setScrollHeight(this.sys.windowHeight - this.fixboxtop)
+			},
+			// 渲染并格式化drag内容
+			initDragPage() {
+				const query = uni.createSelectorQuery().in(this)
+				console.log('我要渲染了')
+				setTimeout(() => {
+					query.select('#drag_card').boundingClientRect((data) => {
+						this.dragCardParams.Cheight = data.height
+						// this.dragCintentParams.height = 1
+						// 	- (this.sys.statusBarHeight + this.sys.safeAreaInsets.bottom + 24)
+						// 	/ this.sys.windowHeight
+						this.dragCintentParams.height = 0.9 -
+							(this.sys.statusBarHeight + this.sys.safeAreaInsets.bottom + 24) /
+							this.sys.windowHeight
+					}).exec()
+					query.select('#footer').boundingClientRect(data => {
+						this.footerHeight = data.height
+						this.dragCardParams.height = (this.dragCardParams.Cheight + data
+								.height) /
+							this.sys.windowHeight
+					}).exec()
+					// query.select('#drag_content').boundingClientRect(data=>{
+					// 	console.log(data)
+					// 	this.sys.windowHeight -
+					//   this.dragContentParam.height = data.height
+					//   this.dragContentParam.offsetHeight = data.height / 2
+					// }).exec()
+				}, 100)
+				setTimeout(() => {
+					var defaultHeight = this.sys.windowHeight * (1 - this.dragCardParams.height)
+					this.firsttop = defaultHeight
+					this.phonetop =
+						(this.sys.windowHeight * this.dragCardParams.height - this.sys.windowHeight *
+							this
+							.dragCardParams.height) / 2
+					this.fixboxtop = defaultHeight
+					this.setScrollHeight(this.sys.windowHeight - this.fixboxtop)
+					this.setScrollViewHeight(this.sys.windowHeight * this.dragCintentParams.height)
+				}, 200)
+				// this.$nextTick(() => {
+
+				// })
+			},
+		},
+		async onShow() {
+			// this.getDetail()
+			if (this.origin < 4) {
+				await this.getUserLocation()
+				this.timer = setInterval(() => {
+					this.getUserLocation()
+				}, 31000)
+			} else {
+				uni.showLoading({
+					title: '页面加载中',
+					mask: true,
+				})
+				await this.getMarker()
+				await this.getDetail()
+			}
+		},
+		//监听页面加载，其参数为上个页面传递的数据，参数类型为 Object
+		async onLoad(options) {
+			uni.$on('updateTime', (res) => {
+				this.getDetail()
+			})
+			this.userInfo = this.$store.state['user'].userInfo || {}
+			const sys = uni.getSystemInfoSync()
+			this.sys = sys
+			let _this = this
+			console.log(options)
+			this.id = options.id
+			this.title = options.title
+			if (options.hideIcon) {
+				this.hideIcon = true
+			}
+			this.origin = +options.origin
+
+		},
+
+		//监听页面初次渲染完成。注意如果渲染速度快，会在页面进入动画完成前触发
+		onReady() {
+			this.map = plus.maps.create('map', {});
+		},
+		//监听页面隐藏
+		onHide() {
+			clearInterval(this.timer)
+			this.timer = null
+			// uni.$emit('noAddCurrent', true)
+		},
+		//监听页面卸载
+		onUnload() {
+			clearInterval(this.timer)
+			this.timer = null
+			// uni.$emit('noAddCurrent', true)
+		},
+		//监听用户下拉动作，一般用于下拉刷新
+		onPullDownRefresh() {},
+		//页面滚动到底部的事件（不是scroll-view滚到底）
+		onReachBottom() {},
+	}
+</script>
+<style scoped>
+	.line-10 {
+		lines: 10;
+		text-overflow: ellipsis;
+	}
+
+	.line-2 {
+		lines: 2;
+		text-overflow: ellipsis;
+	}
+
+	.videoWarp {
+		position: absolute;
+		left: 0;
+		top: 450rpx;
+		width: 750rpx;
+	}
+
+	/* 固定定位 */
+	.fixed {
+		position: fixed;
+	}
+
+	.icon-18 {
+		width: 18rpx;
+		height: 18rpx;
+	}
+
+	.icon-24 {
+		width: 24rpx;
+		height: 24rpx;
+	}
+
+	.icon-28 {
+		width: 28rpx;
+		height: 28rpx;
+	}
+
+	.icon-32 {
+		width: 32rpx;
+		height: 32rpx;
+	}
+
+	.icon-40 {
+		width: 40rpx;
+		height: 40rpx;
+	}
+
+	.icon-sign {
+		width: 104rpx;
+		height: 36rpx;
+	}
+
+	.full-w {
+		width: 750rpx;
+	}
+
+	.bg-w {
+		background-color: #ffffff;
+	}
+
+	.flex-justify-between {
+		justify-content: space-between;
+	}
+
+	.flex-justify-center {
+		justify-content: center;
+	}
+
+	.align-c {
+		align-items: center;
+	}
+
+	.row {
+		flex-direction: row;
+	}
+
+	.f-s-24 {
+		font-size: 24rpx;
+	}
+
+	.f-s-28 {
+		font-size: 28rpx;
+	}
+
+	.f-s-32 {
+		font-size: 32rpx;
+	}
+
+	.f-s-36 {
+		font-size: 36rpx;
+	}
+
+	.f-c-25 {
+		color: rgba(0, 0, 0, 0.25)
+	}
+
+	.f-c-45 {
+		color: rgba(0, 0, 0, 0.45)
+	}
+
+	.f-c-65 {
+		color: rgba(0, 0, 0, 0.65)
+	}
+
+	.f-c-85 {
+		color: rgba(0, 0, 0, 0.85)
+	}
+
+	.f-w-500 {
+		font-weight: 500;
+	}
+
+	.f-w-400 {
+		font-weight: 400;
+	}
+
+	.flex1 {
+		flex: 1;
+		background: transparent;
+	}
+
+	.m-r-16 {
+		margin-right: 16rpx;
+	}
+
+	.m-r-24 {
+		margin-right: 24rpx;
+	}
+
+	.m-r-32 {
+		margin-right: 32rpx;
+	}
+
+	.p-t-0 {
+		padding-top: 0;
+	}
+
+	.m-t-0 {
+		margin-top: 0;
+	}
+
+	.m-b-24 {
+		margin-bottom: 24rpx;
+	}
+
+	.border-r {
+		border-right: 1px solid #f7f7f8;
+	}
+
+	.tapBoxTouchLine {
+		margin-top: 20rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.line {
+		margin: 0px;
+		border-bottom: 8rpx solid transparent;
+		//border-bottom: 8rpx solid rgb(214, 215, 217);
+		width: 60rpx;
+		transform: scaleY(0.5);
+		//border-top-color: rgb(214, 215, 217);
+		//border-right-color: rgb(214, 215, 217);
+		//border-left-color: rgb(214, 215, 217);
+	}
+
+	.fixedbox {
+		position: fixed;
+		left: 0;
+	}
+
+	.fixedbox2 {
+		position: fixed;
+		left: 0;
+		transition-property: top;
+		transition-duration: 0.8s;
+	}
+
+	.map {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 750rpx;
+		height: 900rpx;
+		z-index: 10;
+	}
+
+	.noEngineerTip {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		background-color: #fff5e6;
+		padding: 20rpx 24rpx;
+	}
+
+	.tipTextBox {
+		flex: 1;
+		color: #ff9b05;
+		font-size: 24rpx;
+	}
+
+	.warringPng {
+		width: 40rpx;
+		height: 40rpx;
+		margin-right: 16rpx;
+	}
+
+	.closePng {
+		width: 32rpx;
+		height: 32rpx;
+		margin-right: 4rpx;
+	}
+
+	.title {
+		z-index: 100;
+		width: 750rpx;
+		position: fixed;
+		top: 0rpx;
+		left: 0rpx;
+		background-color: #ffffff;
+		line-height: 130rpx;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding-left: 20rpx;
+		padding-top: 20rpx;
+		padding-right: 36rpx;
+		padding-bottom: 20rpx;
+	}
+
+	.card {
+		padding: 16rpx;
+	}
+
+	.whiteBox {
+		background-color: #ffffff;
+		border-radius: 16rpx;
+		box-shadow: 2px 4px 16px rgba(170, 182, 200, 0.25);
+	}
+
+	.cardTitle {
+		padding: 24rpx;
+		padding-bottom: 16rpx;
+	}
+
+	.photo {
+		width: 68rpx;
+		height: 68rpx;
+		border-radius: 50%;
+		overflow: hidden;
+		margin-right: 16rpx;
+	}
+
+	.address {
+		font-size: 24rpx;
+		padding: 24rpx;
+		padding-top: 0;
+		color: rgba(0, 0, 0, 0.65);
+		border-bottom: 1px solid #f7f7f8;
+	}
+
+	.btnFnBar {
+		padding: 24rpx;
+	}
+
+	.detailGroup {
+		border-radius: 16rpx;
+		padding: 24rpx;
+	}
+
+	.wordSign {
+		width: 80rpx;
+		height: 36rpx;
+		margin-right: 16rpx;
+	}
+
+	.orderDetail {
+		padding-top: 0;
+	}
+
+	.orderInfo {
+		border-bottom: 1px solid #f7f7f8;
+		padding-top: 24rpx;
+	}
+
+	.voiceBox {
+		position: relative;
+		width: 560rpx;
+		height: 120rpx;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: 44rpx 36rpx;
+	}
+
+	.voiceBg {
+		position: absolute;
+		width: 520rpx;
+		height: 80rpx;
+		left: 20rpx;
+		top: 20rpx;
+	}
+
+	.voiceIcon {
+		width: 48rpx;
+		height: 48rpx;
+	}
+
+	.imgBox {
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+
+	.imgItemBox {
+		width: 212rpx;
+		height: 212rpx;
+		margin-top: 16rpx;
+	}
+
+	.imgItem {
+		width: 212rpx;
+		height: 212rpx;
+		border-radius: 8rpx;
+	}
+
+	.video-box {
+		width: 212rpx;
+		height: 212rpx;
+		margin-top: 16rpx;
+		position: relative;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.videoPoster {
+		width: 212rpx;
+		height: 212rpx;
+		border-radius: 8rpx;
+	}
+
+	.play {
+		position: absolute;
+		left: 46rpx;
+		top: 46rpx;
+		width: 120rpx;
+		height: 120rpx;
+	}
+
+	.infoTitle {
+		margin-bottom: 24rpx;
+	}
+
+	.cell {
+		margin-bottom: 20rpx;
+	}
+
+	.bigImg {
+		width: 440rpx;
+		height: 440rpx;
+		margin-bottom: 16rpx;
+		border-radius: 8rpx;
+	}
+
+	.bigImgBox {
+		margin-bottom: 24rpx;
+		width: 440rpx;
+	}
+
+	.normalImgGroup {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+
+	.normalImgBox {
+		width: 212rpx;
+		margin-bottom: 24rpx;
+	}
+
+	.normalImg {
+		width: 212rpx;
+		height: 212rpx;
+		border-radius: 8rpx;
+		margin-bottom: 16rpx;
+	}
+
+	.footer {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		background: #fff;
+	}
+
+	.footerBtnBar {
+		width: 750rpx;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+		padding: 24rpx 32rpx;
+	}
+
+	.footerItem {
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		border-radius: 120rpx;
+		padding: 22rpx 32rpx;
+	}
+
+	.footerItemAct {
+		border-color: #FF5319;
+		color: #FF5319;
+	}
+
+	.good-tips {
+		height: 36rpx;
+		line-height: 36rpx;
+		font-size: 24rpx;
+		color: #FF5319;
+		padding: 0 12rpx;
+		background: #FFECE5;
+		border-radius: 24rpx;
+	}
+</style>

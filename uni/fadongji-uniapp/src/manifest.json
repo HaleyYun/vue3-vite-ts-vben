@@ -1,0 +1,243 @@
+{
+    "name" : "发动集",
+    "appid" : "__UNI__E0BF801",
+    "description" : "",
+    "versionName" : "0.0.41",
+    "versionCode" : 1,
+    "transformPx" : false,
+    "app-plus" : {
+        "compatible" : {
+            "ignoreVersion" : true
+        },
+        // APP-VUE分包，可提升APP启动速度，2.7.12开始支持，兼容微信小程序分包方案，默认关闭
+        "optimization" : {
+            "subPackages" : true
+        },
+        "safearea" : {
+            "bottom" : {
+                "offset" : "none"
+            }
+        },
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
+        },
+        "usingComponents" : true,
+        "nvueCompiler" : "uni-app",
+        "compilerVersion" : 3,
+        "modules" : {
+            "Webview-x5" : {},
+            "OAuth" : {},
+            "VideoPlayer" : {},
+            "Maps" : {},
+            "Share" : {},
+            "Geolocation" : {}
+        },
+        "distribute" : {
+            "distribute" : {
+                "orientation" : [ "portrait-primary" ]
+            },
+            "android" : {
+                "permissions" : [
+                    "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_INPUT_METHOD\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+                ],
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a" ]
+            },
+            "ios" : {
+                "idfa" : false,
+				 "urlschemewhitelist": [
+				                    "baidumap",
+				                    "iosamap",
+				                    "qqmap",
+									"amap"
+				],
+                "capabilities" : {
+                    "entitlements" : {
+                        "com.apple.developer.associated-domains" : [
+                            "applinks:static-49055e15-b98c-409a-9872-39276f39ff75.bspapp.com",
+                            "applinks:static-87021750-8abf-4b3c-bbf3-c7af8008fe0d.bspapp.com"
+                        ]
+                    }
+                }
+            },
+            "sdkConfigs" : {
+                "ad" : {},
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "wxa557e24ecfd9cbaa",
+                        "appsecret" : "",
+                        "UniversalLinks" : "https://static-87021750-8abf-4b3c-bbf3-c7af8008fe0d.bspapp.com/uni-universallinks/__UNI__E0BF801/"
+                    }
+                },
+                "speech" : {},
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "881649d3bdfec2c0bb2d1f8171bb9f9e",
+                        "appkey_android" : "d37061ce4e0b0a28678b15fc3b6923ca"
+                    }
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wxa557e24ecfd9cbaa",
+                        "UniversalLinks" : "https://static-87021750-8abf-4b3c-bbf3-c7af8008fe0d.bspapp.com/uni-universallinks/__UNI__E0BF801/"
+                    }
+                },
+                "geolocation" : {
+                    "system" : {
+                        "__platform__" : [ "ios", "android" ]
+                    },
+                    "amap" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appkey_ios" : "881649d3bdfec2c0bb2d1f8171bb9f9e",
+                        "appkey_android" : "d37061ce4e0b0a28678b15fc3b6923ca"
+                    }
+                }
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                },
+                "ios" : {
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "ipad" : {
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    },
+                    "iphone" : {
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                    }
+                }
+            },
+            "splashscreen" : {
+                "iosStyle" : "common",
+                "useOriginalMsgbox" : true,
+                "androidStyle" : "common"
+            }
+        },
+        "nativePlugins" : {
+            "vocen-login" : {
+                "AppKey" : "",
+                "ShanYanAppId" : "",
+                "__plugin_info__" : {
+                    "name" : "VoOneKeyLoginPlugin",
+                    "description" : "VoOneKeyLoginPlugin",
+                    "platforms" : "Android,iOS",
+                    "url" : "",
+                    "android_package_name" : "",
+                    "ios_bundle_id" : "",
+                    "isCloud" : false,
+                    "bought" : -1,
+                    "pid" : "",
+                    "parameters" : {
+                        "AppKey" : {
+                            "des" : "闪验一键登录AppKey",
+                            "key" : "ShanYan:AppKey",
+                            "value" : ""
+                        },
+                        "ShanYanAppId" : {
+                            "des" : "闪验一键登录AppId",
+                            "key" : "app_id",
+                            "value" : ""
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "quickapp" : {},
+    "mp-weixin" : {
+        "appid" : "wxc256e348c4032ebd",
+        "setting" : {
+            "urlCheck" : false,
+            "es6" : false,
+            "minified" : false,
+            "postcss" : false
+        },
+        "optimization" : {
+            "subPackages" : true
+        },
+        "usingComponents" : true
+    },
+    "mp-alipay" : {
+        "usingComponents" : true,
+        "component2" : true
+    },
+    "mp-qq" : {
+        "optimization" : {
+            "subPackages" : true
+        },
+        "appid" : "15646153"
+    },
+    "mp-baidu" : {
+        "usingComponents" : true,
+        "appid" : "17597421"
+    },
+    "mp-toutiao" : {
+        "usingComponents" : true,
+        "appid" : "tt2bc55d78b4ff50bf"
+    },
+    "h5" : {
+        "template" : "template.h5.html",
+        "router" : {
+            "mode" : "history",
+            "base" : ""
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : false
+            }
+        },
+        "title" : "发动集",
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "2EGBZ-MP6KV-MZPPY-UEZQA-FCMLS-P3BMW"
+                }
+            }
+        },
+        "domain" : ""
+    },
+    "_spaceID" : "87021750-8abf-4b3c-bbf3-c7af8008fe0d"
+}

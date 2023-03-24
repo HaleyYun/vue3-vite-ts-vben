@@ -1,0 +1,58 @@
+<template>
+	<view class="wrap flex flex-column">
+		<vocen-qimoService ref="qimo" class="flex1" style="width: 750rpx;" :style="{height: height}" @voQiMoBack="voQiMoBack" />
+	</view>
+</template>
+
+<script>
+  export default {
+    name: 'QiMoService',
+	data(){
+		return {
+			height: 0,
+			paramsDict: {},
+		}
+	},
+    onLoad(options) {
+		console.log(options)
+		let param = JSON.parse(options.otherParams)
+		const sys = uni.$u.sys()
+		console.log(sys.windowHeight, 'ss')
+		this.height = sys.windowHeight 
+		this.paramsDict = param;
+		console.log('222222')
+    },
+	mounted() {
+		console.log('333333333333333333333')
+		this.goService(this.paramsDict)
+	},
+    methods: {
+		voQiMoBack(){
+			uni.navigateBack({
+				delta: 1,
+			})
+		},
+      /**
+       * 跳转七陌客服
+       */
+      goService(data) {
+        let param = {}
+        param.userName = data.nickName
+        param.userId = data.userId
+        param.mobile = '400-893-5518'
+        param.appkey = data.accessId
+        param.peers = data.peerId
+		console.log(param)
+        // #ifdef APP-PLUS
+		this.$refs.qimo.voQiMoServiceData(JSON.stringify(param))
+        // #endif
+      }
+    }
+  }
+</script>
+
+<style>
+	.wrap {
+		position: relative;
+	}
+</style>

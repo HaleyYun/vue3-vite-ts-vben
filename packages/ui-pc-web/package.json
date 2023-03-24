@@ -1,0 +1,52 @@
+{
+  "name": "@vocen/ui-pc-web",
+  "version": "0.0.0",
+  "description": "沃森应用开发-公共模块-pc组件库",
+  "files": [
+    "dist"
+  ],
+  "module": "lib/index.js",
+  "main": "lib/index.js",
+  "keywords": [
+    "vocen",
+    "component",
+    "pc"
+  ],
+  "scripts": {
+    "nodeBuild": "node scripts/autoPack.js",
+    "dev": "vite --host",
+    "start": "npm run dev",
+    "build": "npm run build:theme && npm run build:package && npm run build:package:dts",
+    "build:docs": "vite build",
+    "build:theme": "gulp build -f build/gulp.theme.default.js",
+    "build:package": "rollup -c build/rollup.config.js",
+    "build:package:dts": "rollup -c build/rollup.config.dts.js",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && pretty-quick --check --branch dev",
+    "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && pretty-quick --branch dev",
+    "test:unit": "jest -c=jest.config.js --detectOpenHandles",
+    "appRun": "cd app && npm run dev"
+  },
+  "dependencies": {
+    "@vocen/shared": "workspace:^0.1.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-scss": "^3.0.0",
+    "shelljs": "^0.8.5",
+    "wangeditor": "^4.7.12"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@vitejs/plugin-vue": "^1.6.1",
+    "@vue/compiler-sfc": "^3.2.6",
+    "@vue/shared": "^3.2.0",
+    "del": "^6.0.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.31.2",
+    "rollup-plugin-vue": "^6.0.0",
+    "sass": "^1.49.9",
+    "typescript": "^4.3.2",
+    "vite": "^2.5.4",
+    "vue-tsc": "^0.2.2"
+  },
+  "gitHead": "4a9c53a497ad31e90b11548884e79ac6eafbe97a"
+}

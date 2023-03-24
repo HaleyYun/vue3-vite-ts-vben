@@ -1,0 +1,776 @@
+<template>
+	<view class="comment-pop" v-if="visible">
+		<u-popup :show="visible" mode="bottom" round="8" :overlay="false" @close="close()">
+			<view class="pop">
+				<view class="pop-title">
+					<text class="title-text">共{{ commentTotal }}条评论</text>
+					<image class="pop-title__icon" src="/static/icons/close.png" @click="close()" />
+				</view>
+				<scroll-view class="pop-list" scroll-y="true" :style="scrollStyle">
+					<view class="pop-list__item" v-for="(item, index) in commentList" :key="index">
+						<view class="item-top">
+							<view class="user" @click.stop="toUserHome(item)">
+								<view class="relative">
+									<image class="user-photo" :src="item.userPhotoUrl || '/static/icons/me.png'" />
+									<image class="v-img" src="/static/icons/big_v.png" v-if="Number(item.checkStatus) === 4" />
+								</view>
+
+								<text class="user-info"> {{ item.userName }}</text>
+								<image v-if="item.userId === videoDetail.userId" class="autor-icon" src="/static/icons/autor.png" />
+								<image v-if="+item.isTop === 1" src="/static/created/circle/discover_comment_top.png" class="discover-top" />
+							</view>
+							<view class="top-icon" @click.stop="showActionPop(item)">
+								<image class="icon-image" src="/static/icons/more.png" />
+							</view>
+						</view>
+						<view class="item-text">
+							<text class="item-text__word">{{ item.texts }}</text>
+							<text v-if="item.comment.length > 30" class="link-text" @click.stop="expand(item, index)">
+								{{ item.isExpand ? '收起' : '全部' }}
+							</text>
+						</view>
+						<view class="p-l-92">
+							<view class="item-opreate">
+								<text class="item-opreate__time">{{ item.datetime }}</text>
+								<image class="item-opreate__icon icon-image" src="/static/icons/comment-pray.png"
+									@click="toAnswer(item)" />
+							
+								<image class="item-opreate__btn icon-image" v-if="item.isLike"
+									src="/static/icons/like-red.png" @click="giveLike(item, index)" />
+								<image class="item-opreate__btn icon-image" v-else src="/static/icons/like-pray.png"
+									@click="giveLike(item, index)" />
+								<text v-if="item.likeNum" class="item-opreate__num">{{item.likeNum}}</text>
+							</view>
+							<view class="child" v-if="item.communityCommentVOList && item.communityCommentVOList.length">
+								<view v-for="(child, childIndex) in item.communityCommentVOList" :key="child.id">
+									<view class="child-wrap"
+										v-if="item.isShowAll ? childIndex < item.communityCommentVOList.length : childIndex < 1">
+										<view class="child-title overflow-hidden">
+										<view class="flex1 flex-row text-nowrap breakAll">
+											<text class="child-title__name"> {{ child.userName }}</text>
+											<text class="child-title__text"> 回复</text>
+											<text class="child-title__name"> {{ child.antherUserName }} </text>
+										</view>
+							
+										</view>
+										<view class="item-text item-text-child">
+											<text class="item-text__word">{{ child.texts }}</text>
+											<text v-if="child.comment.length > 30" class="link-text right-pos"
+												@click.stop="expandChild(index, childIndex)">
+												{{ child.isExpand ? '收起' : '全部' }}
+											</text>
+										</view>
+										<view class="item-opreate no-padding">
+											<text class="item-opreate__time">{{ item.datetime }}</text>
+											<image class="item-opreate__icon icon-image"
+												src="/static/icons/comment-pray.png" @click="toAnswer(child)" />
+											<view class="height-view" @click.stop="giveLike(child, index, childIndex)">
+												<image class="item-opreate__btn icon-image" v-if="child.isLike"
+													src="/static/icons/like-red.png" />
+												<image class="item-opreate__btn icon-image" v-else
+													src="/static/icons/like-pray.png" />
+											</view>
+							
+											<text v-if="child.likeNum" class="item-opreate__num">{{child.likeNum}}</text>
+										</view>
+									</view>
+							
+								</view>
+							</view>
+							<view class="oprea-text" v-if="item.communityCommentVOList && item.communityCommentVOList.length > 1"
+								@click="showAllComment(index)">
+								<text class="oprea-word" v-if="item.isShowAll">收起</text>
+								<text class="oprea-word" v-else>展开其他{{ item.communityCommentVOList.length - 1 }}条回复</text>
+							</view>
+						</view>
+						<view class="pop-list__line">
+							<view class="line"></view>
+						</view>
+					</view>
+					
+				</scroll-view>
+				<view class="pop-btm flex flex-row flex-vertical-c" :style="inputStyle">
+					<!--使用前后插槽 nvue下需使用u--input，非nvue下需使用u-input -->
+					<!-- #ifndef APP-NVUE -->
+					<u-input class="pop-btm__input" :placeholder="placeholder" border="none" v-model="comment"
+						@confirm="releaseComment" placeholderStyle="color: rgba(0, 0, 0, 0.25);font-size: 28rpx;"
+						:focus="isFocus" :adjustPosition="false">
+						<!-- <view slot="suffix">
+							<image class="emo-icon" src="/static/icons/emoji.png" />
+						</view> -->
+					</u-input>
+					<!-- #endif -->
+					<!-- #ifdef APP-NVUE -->
+					<u--input class="pop-btm__input" :placeholder="placeholder" border="none" v-model="comment"
+						@confirm="releaseComment" placeholderStyle="color: rgba(0, 0, 0, 0.25);font-size: 28rpx;"
+						:focus="isFocus" :adjustPosition="false">
+						<!-- <view slot="suffix">
+							<image class="emo-icon" src="/static/icons/emoji.png" />
+						</view> -->
+					</u--input>
+					<!-- #endif -->
+					<text class="send-text"  @click="releaseComment(comment)">发送</text>
+				</view>
+			</view>
+		</u-popup>
+		<!-- 举报弹层 -->
+		<VoActionSheet class="action-sheet" v-show="showAction" :actions="actions" :show="showAction" cancelText="取消"
+			@select="actionSelect" @close="showAction = false" />
+	</view>
+
+
+</template>
+
+<script>
+	export default {
+		name: 'CommentPop',
+		props: {
+			// commentList: {
+			//   type: Array,
+			//   require: true,
+			// },
+		},
+		data() {
+			return {
+				commentList: [],
+				visible: false,
+				comment: '',
+				placeholder: '发条有爱评论～',
+				isFocus: false,
+				inputStyle: "bottom: 0",
+				scrollStyle: '',
+				showAction: false,
+				actions: [
+                          {
+                            name: '举报作者',
+                            color: 'rgba(0, 0, 0, 0.85)',
+                            fontSize: '14',
+                          },
+                          {
+                            name: '举报内容',
+                            color: 'rgba(0, 0, 0, 0.85)',
+                            fontSize: '14',
+                          },
+                          {
+                            name: '拉黑用户',
+                            color: 'rgba(0, 0, 0, 0.85)',
+                            fontSize: '14',
+                          },
+                        ],
+				videoDetail: '',
+				commentData: '',
+				safeAreaHeight: 0,
+				commentTotal: 0,
+				userinfo: '',
+			}
+		},
+		mounted() {
+			//安全区域处理
+			const res = uni.getSystemInfoSync()
+			// this.statusBarHeight = res.statusBarHeight
+			let safeAreaHeight = res.safeAreaInsets.bottom || 0
+			this.safeAreaHeight = safeAreaHeight
+			let btmHeight = 122 + (safeAreaHeight * 2)
+			this.scrollStyle = 'padding-bottom:' + btmHeight + 'rpx'
+			this.inputStyle = 'bottom: ' + safeAreaHeight + 'px'
+			//获取键盘高度，防止键盘顶起页面
+			uni.onKeyboardHeightChange((res) => {
+				console.log(res.height)
+				if (res.height > 100) {
+				    let boardHeight = res.height
+				    this.inputStyle = 'bottom: ' + boardHeight + 'px'
+				} else {
+				    let boardHeight = res.height + this.safeAreaHeight
+                	this.inputStyle = 'bottom: ' + boardHeight + 'px'
+				}
+			})
+		},
+		methods: {
+			init(record) {
+				let that = this
+				uni.getStorage({
+					key: 'userInfo',
+					success: function (res) {
+						that.userinfo = res.data
+						that.videoDetail = record
+						that.visible = true
+						that.getCommentList()
+					}
+				});
+
+
+			},
+			//跳转作者主页
+			toUserHome(item) {
+				getApp().$linkToEasy(
+				'/pagesAgent/PersonalHomepage/PersonalHomepage?userId=' +
+					item.userId +
+					'&platformCode=' +
+					item.platformCode,
+				)
+			},
+			getCommentList() {
+				console.log(this.userinfo)
+				uni.showLoading({
+					title: '正在加载',
+				})
+				//获取评论列表
+				getApp().$VoHttp
+					.apiCreateQuestionsCommentList({
+						businessType: 4,
+						contentId: this.videoDetail.id,
+						pageNo: 1,
+        				pageSize: 1000,
+        				userId: this.userinfo.id,
+					})
+					.then((res) => {
+						let data = res.data.records
+						this.commentTotal = res.data.total
+
+						let list = this.commentHandle(data)
+						list.forEach((item) => {
+						  if (item.communityCommentVOList && item.communityCommentVOList.length) {
+							item.communityCommentVOList = this.commentHandle(item.communityCommentVOList)
+						  }
+						})
+						// list = list.filter((item) => !item.parentId || item.parentId === '0')
+						// data.forEach((item) => {
+						// 	list.forEach((item2) => {
+						// 		if (item.parentId === item2.id) {
+						// 			item2.children.push(item)
+						// 		}
+						// 		item2.children.forEach((child) => {
+						// 			if (item.parentId === child.id) {
+						// 				item2.children.push(item)
+						// 			}
+						// 		})
+						// 	})
+						// })
+						// list.forEach(item => {
+						// 	if (item.children.length > 1) {
+						// 		item.isShowAll = false
+						// 	} else {
+						// 		item.isShowAll = true
+						// 	}
+						// })
+						this.commentList = list
+						uni.hideLoading()
+						console.log('commentlist', this.commentList)
+
+					}).catch(err => {
+						console.log('err', err)
+						uni.hideLoading()
+					})
+			},
+			//评论举报
+			showActionPop(obj) {
+				this.showAction = true
+				this.reportData = obj
+			},
+			actionSelect(e) {
+			if (e.name === '举报作者') {
+			uni.showLoading({
+            					title: '加载中',
+            				})
+              setTimeout(() => {
+                uni.hideLoading()
+                uni.$u.toast('举报成功')
+              }, 1500)
+              return
+            }
+            if (e.name === '拉黑用户') {
+            uni.showLoading({
+                        					title: '加载中',
+                        				})
+              setTimeout(() => {
+              uni.hideLoading()
+              uni.$u.toast('拉黑成功')
+              }, 1000)
+              return
+            }
+            if (e.name === '举报内容') {
+              getApp().$linkToEasy(
+              						'/pagesAgent/CreatedCenter/AnswerAll/CircleReport?data=' +
+              						JSON.stringify(this.reportData) + '&page=comment',
+              					)
+              return
+            }
+			},
+			commentHandle(arr) {
+				arr.forEach((item) => {
+					item.comment = JSON.parse(item.comment).json || item.comment
+					item.isLike = item.mySelfLikeNum === 1? true: false
+					//时间转换
+					item.datetime = getApp().$vocenApi.VoUtils.timeTransfer(item.createTime)
+					let txtCntIndex = item.comment.length
+					if (txtCntIndex > 30) {
+						item.isExpand = false
+						item.texts = item.comment.substr(0, 30) + '...'
+					} else {
+						item.isExpand = true
+						item.texts = item.comment
+					}
+				})
+				return arr
+			},
+			expand(data, index) {
+				let item = this.commentList[index]
+				if (item.isExpand) {
+					item.isExpand = false
+					item.texts = item.comment.substr(0, 30) + '...'
+				} else {
+					item.isExpand = true
+					item.texts = item.comment
+				}
+				this.$forceUpdate()
+			},
+			expandChild(index, childIndex) {
+				let item = this.commentList[index].children[childIndex]
+				if (item.isExpand) {
+					item.isExpand = false
+					item.texts = item.comment.substr(0, 30) + '...'
+				} else {
+					item.isExpand = true
+					item.texts = item.comment
+				}
+				this.$forceUpdate()
+			},
+			showAllComment(index) {
+				this.commentList[index].isShowAll = !this.commentList[index].isShowAll
+				this.$forceUpdate()
+			},
+			toAnswer(item) {
+				let author = item.userName
+				this.placeholder = '回复@' + author
+				this.isFocus = true
+				this.commentData = item
+			},
+			giveLike(item, index, childIndex) {
+				console.log('item11', item.id)
+				if (item.isLike) {
+					this.giveLikeCancel(item, index, childIndex)
+				} else {
+					this.giveLikeLight(item, index, childIndex)
+				}
+			},
+			//点赞
+			giveLikeLight(item, index, childIndex) {
+				getApp().$VoHttp
+					.apiCreateQuestionsCommentLike({
+						contentId: item.id,
+					})
+					.then((res) => {
+						if (res.code === '20001') {
+							// uni.$u.toast('点赞成功')
+							console.log('item22221', this.commentList)
+							if (childIndex >= 0) {
+								this.commentList.forEach(comment => {
+								    if (comment.communityCommentVOList && comment.communityCommentVOList.length > 0) {
+								    comment.communityCommentVOList.forEach(child => {
+                                    										if (child.id === item.id) {
+                                    											child.isLike = true
+                                    											child.likeNum++
+                                    										}
+                                    									})
+								    }
+								})
+
+							} else {
+								this.commentList[index].isLike = true
+								this.commentList[index].likeNum++
+								this.$forceUpdate()
+							}
+						} else {
+							uni.$u.toast(res.message)
+						}
+					})
+					.catch((err) => {
+						console.log('err', err)
+						uni.$u.toast('点赞失败')
+					})
+			},
+			//取消点赞
+			giveLikeCancel(item, index, childIndex) {
+				getApp().$VoHttp
+					.apiCreateQuestionsCommentCancelLike({
+						contentId: item.id,
+					})
+					.then((res) => {
+						if (res.code === '20001') {
+							// uni.$u.toast('取消成功')
+							if (childIndex >= 0) {
+								this.commentList.forEach(comment => {
+								if (comment.communityCommentVOList && comment.communityCommentVOList.length > 0) {
+                                								    comment.communityCommentVOList.forEach(child => {
+                                                                    										if (child.id === item.id) {
+                                                                    											child.isLike = false
+                                                                    											child.likeNum--
+                                                                    										}
+                                                                    									})
+                                								    }
+								})
+							} else {
+								this.commentList[index].isLike = false
+								this.commentList[index].likeNum--
+								this.$forceUpdate()
+							}
+						} else {
+							uni.$u.toast(res.message)
+						}
+					})
+					.catch((err) => {
+						console.log('err', err)
+						uni.$u.toast('取消失败')
+					})
+			},
+			close() {
+				this.visible = false
+				this.isFocus = false
+				this.$emit('close', this.commentTotal)
+			},
+			//发布评论
+			releaseComment(value) {
+				if (!value) {
+					return
+				}
+				//过滤空格
+				let valueNew = value.replace(/\s+/g, '')
+				if (!valueNew) {
+					return
+				}
+				let obj = {
+					json: valueNew
+				}
+				let comment = JSON.stringify(obj)
+				//如果是回复评论，调回复接口，否则调发评论接口
+				if (this.commentData.id) {
+					//回复评论
+					let params = {
+						antherUserId: this.commentData.userId,
+						// businessType: this.commentData.businessType,
+						comment: comment,
+						contentId: this.commentData.contentId,
+						parentId: this.commentData.level === 1 ? this.commentData.id : this.commentData.parentId,
+					}
+					getApp().$VoHttp
+						.apiCreateQuestionsCommentReplay(params)
+						.then((res) => {
+							if (res.code === '20001') {
+								uni.$u.toast('评论成功！')
+								this.resetInput()
+								//评论成功刷新评论列表
+								this.getCommentList()
+							} else {
+								uni.$u.toast(res.message)
+							}
+							this.isFocus = false
+						})
+						.catch((err) => {
+							console.log('err', err)
+							uni.$u.toast(err.message || '评论失败！')
+						})
+				} else {
+					//对视频内容评论
+					let params = {
+						antherUserId: this.videoDetail.userId,
+						businessType: this.videoDetail.businessType,
+						comment: comment,
+						contentId: this.videoDetail.id,
+					}
+					getApp().$VoHttp
+						.apiCreateQuestionsCommentSave(params)
+						.then((res) => {
+							if (res.code === '20001') {
+								uni.$u.toast('评论成功！')
+								this.resetInput()
+								//评论成功刷新评论列表
+								this.getCommentList()
+							} else {
+								uni.$u.toast(res.message)
+							}
+						})
+						.catch((err) => {
+							console.log('err', err)
+							uni.$u.toast(err.message ||'评论失败！')
+						})
+				}
+			},
+			//重置输入框
+			resetInput() {
+				this.comment = ''
+				this.commentData = ''
+				this.placeholder = '我来说两句'
+				this.isFocus = false
+				uni.hideKeyboard()
+				console.log('重置输入框')
+			},
+
+		},
+	}
+</script>
+
+<style>
+	.p-l-92 {
+		padding-left: 92rpx;
+	}
+	.comment-pop {
+		/* position: absolute;
+		bottom: 0; */
+		width: 750rpx;
+		/* background-color: #fff; */
+	}
+
+	.flex-row {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.icon-image {
+		width: 48rpx;
+		height: 48rpx;
+	}
+
+	.pop {
+		height: 1000rpx;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+	}
+
+	.pop-title {
+		padding-top: 24rpx;
+		padding-bottom: 24rpx;
+		position: relative;
+		text-align: center;
+		border-bottom: 1px solid #f7f7f8;
+	}
+
+	.title-text {
+		color: rgba(0, 0, 0, 0.85);
+		font-weight: bold;
+		font-size: 28rpx;
+		line-height: 42rpx;
+		text-align: center;
+	}
+
+	.pop-title__icon {
+		width: 48rpx;
+		height: 48rpx;
+		position: absolute;
+		top: 24rpx;
+		right: 32rpx;
+	}
+
+
+	.pop-list {
+		flex: 1;
+		overflow-y: auto;
+	}
+
+	.pop-list__item {}
+
+	.item-top {
+		display: flex;
+		flex-direction: row;
+		padding: 20rpx 32rpx 0 32rpx;
+	}
+
+	.user {
+		flex: 1;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.user-photo {
+		width: 48rpx;
+		height: 48rpx;
+	}
+
+	.user-info {
+		color: rgba(0, 0, 0, 0.65);
+		font-size: 24rpx;
+		line-height: 36rpx;
+		padding-right: 8rpx;
+		padding-left: 14rpx;
+	}
+
+	.autor-icon {
+		width: 60rpx;
+		height: 26rpx;
+	}
+
+
+	.item-text {
+		overflow: hidden;
+		position: relative;
+		word-break: break-all;
+		white-space: normal;
+		padding: 0 92rpx;
+		box-sizing: border-box;
+	}
+
+	.item-text__word {
+		font-size: 26rpx;
+		line-height: 39rpx;
+		color: rgba(0, 0, 0, 0.85);
+	}
+
+	.link-text {
+		position: absolute;
+		right: 96rpx;
+		bottom: 0;
+		color: #155bd4;
+		opacity: 0.6;
+		font-size: 30rpx;
+		line-height: 45rpx;
+	}
+
+
+	.item-opreate {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding-right: 32rpx;
+		box-sizing: border-box;
+		padding-left: 0;
+	}
+
+	.no-padding {
+		padding: 0;
+	}
+
+	.item-opreate__time {
+		flex: 1;
+		font-size: 20rpx;
+		line-height: 30rpx;
+		color: rgba(0, 0, 0, 0.45);
+	}
+
+	.item-opreate__icon {
+		margin-right: 32rpx;
+	}
+
+	.item-opreate__num {
+		font-size: 26rpx;
+		line-height: 39rpx;
+		color: rgba(0, 0, 0, 0.45);
+		padding-left: 6rpx;
+	}
+
+
+	.child {
+		margin: 0 32rpx;
+		box-sizing: border-box;
+		background-color: #f7f7f8;
+		border-radius: 16rpx;
+		margin-left: 0;
+	}
+
+	.child-wrap {
+		padding: 12rpx 16rpx;
+		box-sizing: border-box;
+		padding-left: 32rpx;
+	}
+
+	.item-text-child {
+		padding-left: 0;
+		padding-right: 16rpx;
+	}
+
+	.right-pos {
+		right: 0;
+	}
+
+
+	.child-title {
+		display: flex;
+		flex-direction: row;
+		padding-right: 16rpx;
+	}
+
+	.child-title__name {
+		line-height: 36rpx;
+		font-size: 24rpx;
+		color: rgba(0, 0, 0, 0.65);
+	}
+
+	.child-title__text {
+		line-height: 36rpx;
+		color: rgba(0, 0, 0, 0.85);
+		font-size: 24rpx;
+		padding: 0 8rpx;
+	}
+
+
+
+	.oprea-text {
+		padding: 8rpx 32rpx;
+	}
+
+	.oprea-word {
+		color: #155bd4;
+		line-height: 42rpx;
+		font-size: 28rpx;
+	}
+
+
+
+	.pop-btm {
+		padding: 18rpx 32rpx 18rpx 32rpx;
+		box-sizing: border-box;
+		border-top: 1px solid #f7f7f8;
+		width: 750rpx;
+		position: fixed;
+		background-color: #fff;
+	}
+
+	.pop-btm__input {
+		background: #f7f7f8;
+		border-radius: 16rpx;
+		padding: 14rpx 24rpx 14rpx 24rpx !important;
+	}
+
+	.emo-icon {
+		width: 48rpx;
+		height: 48rpx;
+	}
+
+	.height-view {
+		height: 48rpx;
+	}
+	.v-img {
+		width: 16rpx;
+        height: 16rpx;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+	.send-text {
+		width: 122rpx;
+        height: 64rpx;
+        line-height: 64rpx;
+        font-size: 24rpx;
+        text-align: center;
+        color: #FFF;
+        background: #FF5319;
+        border-radius: 30rpx;
+		margin-left: 32rpx;
+	}
+	.discover-top {
+        margin-left: 19rpx;
+        height: 32rpx;
+        width: 70rpx;
+    }
+	.pop-list__line {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 16rpx;
+	}
+	.line {
+		width: 686rpx;
+		height: 2rpx;
+		background: #F7F7F8;
+	}
+</style>
